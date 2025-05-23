@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useWallet } from "@/context/WalletContext";
 import CryptoPayment from "./CryptoPayment";
+import { toast } from "sonner";
 
 type JobCardProps = {
   id: number;
@@ -25,6 +26,43 @@ const JobCard = ({
 }: JobCardProps) => {
   const { account } = useWallet();
   const [showPayment, setShowPayment] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleApply = () => {
+    if (!account) {
+      toast.error("Please connect your wallet first");
+      return;
+    }
+    setShowPayment(true);
+  };
+
+  const handleReleasePayment = async () => {
+    if (!account) {
+      toast.error("Please connect your wallet first");
+      return;
+    }
+
+    setIsLoading(true);
+    
+    try {
+      // Simulate contract interaction
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      toast.success(`Payment of ${price} ETH released successfully`);
+      setIsCompleted(true);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Payment release error:", error);
+      toast.error("Failed to release payment");
+      setIsLoading(false);
+    }
+  };
+
+  const handlePaymentSuccess = () => {
+    setShowPayment(false);
+    toast.success("Application submitted successfully!");
+  };
 
   return (
     <div className="bg-secondary rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
@@ -55,15 +93,30 @@ const JobCard = ({
             <p className="text-white font-medium">{clientName}</p>
           </div>
           
-          {showPayment ? (
+          {isCompleted ? (
+            <div className="flex items-center text-green-400">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              Completed
+            </div>
+          ) : showPayment ? (
             <CryptoPayment 
               amount={price} 
-              onPayment={() => setShowPayment(false)}
+              onPayment={handlePaymentSuccess}
             />
+          ) : account && account.toLowerCase() === clientName.toLowerCase() ? (
+            <Button 
+              className="bg-accent-light text-primary hover:bg-accent hover:text-white"
+              onClick={handleReleasePayment}
+              disabled={isLoading}
+            >
+              {isLoading ? "Processing..." : "Release Payment"}
+            </Button>
           ) : (
             <Button 
               className="bg-accent-light text-primary hover:bg-accent hover:text-white"
-              onClick={() => setShowPayment(true)}
+              onClick={handleApply}
             >
               Apply Now
             </Button>

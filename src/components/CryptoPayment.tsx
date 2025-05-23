@@ -17,6 +17,7 @@ interface CryptoToken {
   icon: string;
   chainId: number;
   contractAddress?: string;
+  logoUrl?: string;
 }
 
 const tokens: CryptoToken[] = [
@@ -24,18 +25,21 @@ const tokens: CryptoToken[] = [
     name: 'Ethereum',
     symbol: 'ETH',
     icon: '🔹',
+    logoUrl: 'https://cryptologos.cc/logos/ethereum-eth-logo.png',
     chainId: 1,
   },
   {
     name: 'Polygon',
     symbol: 'MATIC',
     icon: '💠',
+    logoUrl: 'https://cryptologos.cc/logos/polygon-matic-logo.png',
     chainId: 137,
   },
   {
     name: 'USDT',
     symbol: 'USDT',
     icon: '💵',
+    logoUrl: 'https://cryptologos.cc/logos/tether-usdt-logo.png',
     chainId: 1,
     contractAddress: '0xdAC17F958D2ee523a2206206994597C13D831ec7'
   },
@@ -43,8 +47,16 @@ const tokens: CryptoToken[] = [
     name: 'USDC',
     symbol: 'USDC',
     icon: '💵',
+    logoUrl: 'https://cryptologos.cc/logos/usd-coin-usdc-logo.png',
     chainId: 1,
     contractAddress: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
+  },
+  {
+    name: 'BNB',
+    symbol: 'BNB',
+    icon: '🟡',
+    logoUrl: 'https://cryptologos.cc/logos/bnb-bnb-logo.png',
+    chainId: 56,
   },
 ];
 
@@ -57,6 +69,7 @@ interface CryptoPaymentProps {
 const CryptoPayment = ({ amount = "0", onPayment, className = "" }: CryptoPaymentProps) => {
   const [selectedToken, setSelectedToken] = useState<CryptoToken>(tokens[0]);
   const { account, connectWallet } = useWallet();
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const handlePayment = async () => {
     if (!account) {
@@ -64,14 +77,22 @@ const CryptoPayment = ({ amount = "0", onPayment, className = "" }: CryptoPaymen
       return;
     }
 
+    setIsProcessing(true);
+    
     try {
-      toast.success(`Payment of ${amount} ${selectedToken.symbol} initiated`);
+      // Simulate blockchain transaction
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      toast.success(`Payment of ${amount} ${selectedToken.symbol} completed!`);
+      
       if (onPayment) {
         onPayment(selectedToken);
       }
     } catch (error) {
       console.error("Payment error:", error);
       toast.error("Payment failed");
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -93,7 +114,11 @@ const CryptoPayment = ({ amount = "0", onPayment, className = "" }: CryptoPaymen
             {tokens.map((token) => (
               <SelectItem key={token.symbol} value={token.symbol}>
                 <div className="flex items-center gap-2">
-                  <span>{token.icon}</span>
+                  {token.logoUrl ? (
+                    <img src={token.logoUrl} alt={token.name} className="w-5 h-5 rounded-full" />
+                  ) : (
+                    <span>{token.icon}</span>
+                  )}
                   <span>{token.symbol} - {token.name}</span>
                 </div>
               </SelectItem>
@@ -105,10 +130,13 @@ const CryptoPayment = ({ amount = "0", onPayment, className = "" }: CryptoPaymen
       <Button 
         className="bg-accent-light text-primary hover:bg-accent hover:text-white"
         onClick={handlePayment}
+        disabled={isProcessing}
       >
         {!account 
           ? "Connect Wallet" 
-          : `Pay ${amount} ${selectedToken.symbol}`}
+          : isProcessing 
+            ? "Processing..." 
+            : `Pay ${amount} ${selectedToken.symbol}`}
       </Button>
     </div>
   );
