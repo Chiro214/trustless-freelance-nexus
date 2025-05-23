@@ -7,6 +7,7 @@ type WalletContextType = {
   chainId: number | null;
   connectWallet: () => Promise<void>;
   disconnectWallet: () => void;
+  switchNetwork: (chainId: number) => Promise<void>;
   isConnecting: boolean;
 };
 
@@ -96,6 +97,26 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   };
 
+  const switchNetwork = async (targetChainId: number) => {
+    if (!window.ethereum) {
+      toast.error("MetaMask not found");
+      return;
+    }
+
+    try {
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: `0x${targetChainId.toString(16)}` }],
+      });
+    } catch (error: any) {
+      if (error.code === 4902) {
+        toast.error("Network not found in wallet. Please add it manually.");
+      } else {
+        toast.error("Failed to switch network");
+      }
+    }
+  };
+
   const disconnectWallet = () => {
     setAccount(null);
     setChainId(null);
@@ -109,6 +130,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         chainId,
         connectWallet,
         disconnectWallet,
+        switchNetwork,
         isConnecting
       }}
     >

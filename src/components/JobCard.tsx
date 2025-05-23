@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useWallet } from "@/context/WalletContext";
@@ -28,6 +27,7 @@ const JobCard = ({
   const [showPayment, setShowPayment] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [applicationTxHash, setApplicationTxHash] = useState<string>("");
 
   const handleApply = () => {
     if (!account) {
@@ -46,7 +46,7 @@ const JobCard = ({
     setIsLoading(true);
     
     try {
-      // Simulate contract interaction
+      // Simulate contract interaction for escrow release
       await new Promise(resolve => setTimeout(resolve, 1500));
       
       toast.success(`Payment of ${price} ETH released successfully`);
@@ -59,9 +59,10 @@ const JobCard = ({
     }
   };
 
-  const handlePaymentSuccess = () => {
+  const handlePaymentSuccess = (token: any, txHash: string) => {
+    setApplicationTxHash(txHash);
     setShowPayment(false);
-    toast.success("Application submitted successfully!");
+    toast.success(`Application submitted with transaction: ${txHash.substring(0, 10)}...`);
   };
 
   return (
@@ -87,6 +88,22 @@ const JobCard = ({
           </div>
         </div>
         
+        {applicationTxHash && (
+          <div className="mb-4 p-3 bg-blue-900/20 border border-blue-700 rounded-lg">
+            <p className="text-blue-400 text-sm">
+              Application TX: 
+              <a 
+                href={`https://etherscan.io/tx/${applicationTxHash}`} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="ml-1 underline hover:text-blue-300"
+              >
+                {applicationTxHash.substring(0, 10)}...{applicationTxHash.substring(applicationTxHash.length - 8)}
+              </a>
+            </p>
+          </div>
+        )}
+        
         <div className="flex justify-between items-center border-t border-gray-700 pt-4">
           <div>
             <p className="text-gray-400 text-sm">Posted by:</p>
@@ -103,6 +120,7 @@ const JobCard = ({
           ) : showPayment ? (
             <CryptoPayment 
               amount={price} 
+              recipientAddress={clientName} // Using clientName as recipient address
               onPayment={handlePaymentSuccess}
             />
           ) : account && account.toLowerCase() === clientName.toLowerCase() ? (
