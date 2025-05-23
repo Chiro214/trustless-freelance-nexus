@@ -1,7 +1,12 @@
 
+import { useWallet } from "@/context/WalletContext";
 import { Button } from "@/components/ui/button";
+import WalletConnect from "./WalletConnect";
+import { Link } from "react-router-dom";
 
 const CallToAction = () => {
+  const { account } = useWallet();
+  
   return (
     <section className="py-20 bg-primary relative overflow-hidden px-4">
       {/* Background gradient */}
@@ -16,16 +21,17 @@ const CallToAction = () => {
             Join our decentralized platform today and experience the future of freelancing with blockchain technology.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
+            <WalletConnect 
               className="bg-accent-light text-primary hover:bg-accent hover:text-white text-lg px-8 py-6"
-            >
-              Connect Wallet
-            </Button>
+            />
             <Button 
               variant="outline" 
               className="border-accent-light text-accent-light hover:bg-accent-light hover:text-primary text-lg px-8 py-6"
+              asChild
             >
-              Post a Job
+              <Link to="/jobs">
+                {account ? "Post a Job" : "Browse Jobs"}
+              </Link>
             </Button>
           </div>
           <p className="text-gray-400 mt-8">

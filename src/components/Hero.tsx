@@ -1,7 +1,12 @@
 
 import { Button } from "@/components/ui/button";
+import WalletConnect from "./WalletConnect";
+import { Link } from "react-router-dom";
+import { useWallet } from "@/context/WalletContext";
 
 const Hero = () => {
+  const { account } = useWallet();
+
   return (
     <div className="bg-primary min-h-screen flex flex-col justify-center relative overflow-hidden pt-16">
       <div className="container mx-auto px-6 z-10">
@@ -17,16 +22,17 @@ const Hero = () => {
               No intermediaries, no fees, no trust issues.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start animate-fade-in" style={{ animationDelay: '0.2s' }}>
-              <Button 
+              <WalletConnect
                 className="bg-accent-light text-primary hover:bg-accent hover:text-white text-lg px-8 py-6"
-              >
-                Connect Wallet
-              </Button>
+              />
               <Button 
                 variant="outline" 
                 className="border-accent-light text-accent-light hover:bg-accent-light hover:text-primary text-lg px-8 py-6"
+                asChild
               >
-                Explore Jobs
+                <Link to="/jobs">
+                  Explore Jobs
+                </Link>
               </Button>
             </div>
           </div>

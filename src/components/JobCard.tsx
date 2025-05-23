@@ -1,5 +1,8 @@
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useWallet } from "@/context/WalletContext";
+import CryptoPayment from "./CryptoPayment";
 
 type JobCardProps = {
   id: number;
@@ -20,6 +23,9 @@ const JobCard = ({
   deadline,
   clientName
 }: JobCardProps) => {
+  const { account } = useWallet();
+  const [showPayment, setShowPayment] = useState(false);
+
   return (
     <div className="bg-secondary rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
       <div className="p-6">
@@ -35,7 +41,7 @@ const JobCard = ({
         <div className="flex justify-between items-center mb-5">
           <div>
             <span className="text-accent-light font-bold text-xl">{price}</span>
-            <span className="text-gray-400 text-sm ml-1">MATIC</span>
+            <span className="text-gray-400 text-sm ml-1">ETH</span>
           </div>
           <div className="text-right">
             <p className="text-gray-400 text-sm">Due by:</p>
@@ -48,9 +54,20 @@ const JobCard = ({
             <p className="text-gray-400 text-sm">Posted by:</p>
             <p className="text-white font-medium">{clientName}</p>
           </div>
-          <Button className="bg-accent-light text-primary hover:bg-accent hover:text-white">
-            Apply Now
-          </Button>
+          
+          {showPayment ? (
+            <CryptoPayment 
+              amount={price} 
+              onPayment={() => setShowPayment(false)}
+            />
+          ) : (
+            <Button 
+              className="bg-accent-light text-primary hover:bg-accent hover:text-white"
+              onClick={() => setShowPayment(true)}
+            >
+              Apply Now
+            </Button>
+          )}
         </div>
       </div>
     </div>

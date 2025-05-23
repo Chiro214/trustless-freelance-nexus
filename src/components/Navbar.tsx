@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { Link } from 'react-router-dom';
+import WalletConnect from './WalletConnect';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -18,7 +19,7 @@ const Navbar = () => {
           {/* Logo */}
           <div className="text-white text-xl font-bold">
             <Link to="/" className="flex items-center">
-              <span className="text-accent-light">De</span>FreeLance
+              <span className="text-accent-light">Block</span>Lance
             </Link>
           </div>
 
@@ -27,12 +28,10 @@ const Navbar = () => {
             <Link to="/jobs" className="text-white hover:text-accent-light transition-colors">Jobs</Link>
             <Link to="/how-it-works" className="text-white hover:text-accent-light transition-colors">How it Works</Link>
             <Link to="/about" className="text-white hover:text-accent-light transition-colors">About</Link>
-            <Button 
+            <WalletConnect
               variant="outline" 
               className="bg-transparent border border-accent-light text-accent-light hover:bg-accent-light hover:text-primary"
-            >
-              Connect Wallet
-            </Button>
+            />
           </div>
 
           {/* Mobile menu button */}
@@ -68,12 +67,10 @@ const Navbar = () => {
               >
                 About
               </Link>
-              <Button 
+              <WalletConnect
                 variant="outline" 
                 className="bg-transparent border border-accent-light text-accent-light hover:bg-accent-light hover:text-primary w-full"
-              >
-                Connect Wallet
-              </Button>
+              />
             </div>
           </div>
         )}
