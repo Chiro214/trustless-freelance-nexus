@@ -1,8 +1,10 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useWallet } from "@/context/WalletContext";
 import CryptoPayment from "./CryptoPayment";
 import { toast } from "sonner";
+import { ExternalLink } from "lucide-react";
 
 type JobCardProps = {
   id: number;
@@ -65,6 +67,12 @@ const JobCard = ({
     toast.success(`Application submitted with transaction: ${txHash.substring(0, 10)}...`);
   };
 
+  // Generate appropriate blockchain explorer URL based on transaction hash
+  const getExplorerUrl = (txHash: string) => {
+    // Logic can be enhanced to detect network and use appropriate explorer
+    return `https://etherscan.io/tx/${txHash}`;
+  };
+
   return (
     <div className="bg-secondary rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
       <div className="p-6">
@@ -90,16 +98,19 @@ const JobCard = ({
         
         {applicationTxHash && (
           <div className="mb-4 p-3 bg-blue-900/20 border border-blue-700 rounded-lg">
-            <p className="text-blue-400 text-sm">
-              Application TX: 
+            <div className="flex justify-between items-center">
+              <p className="text-blue-400 text-sm">Application Submitted</p>
               <a 
-                href={`https://etherscan.io/tx/${applicationTxHash}`} 
+                href={getExplorerUrl(applicationTxHash)} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="ml-1 underline hover:text-blue-300"
+                className="text-blue-400 hover:text-blue-300 text-xs flex items-center gap-1"
               >
-                {applicationTxHash.substring(0, 10)}...{applicationTxHash.substring(applicationTxHash.length - 8)}
+                View Transaction <ExternalLink size={12} />
               </a>
+            </div>
+            <p className="text-gray-300 text-xs mt-1 truncate">
+              {applicationTxHash}
             </p>
           </div>
         )}

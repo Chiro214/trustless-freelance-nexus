@@ -13,6 +13,9 @@ type WalletContextType = {
 
 const WalletContext = createContext<WalletContextType | null>(null);
 
+// LocalStorage keys for persistence
+const WALLET_CONNECTED_KEY = 'blocklance-wallet-connected';
+
 export const useWallet = () => {
   const context = useContext(WalletContext);
   if (!context) {
@@ -26,8 +29,10 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [chainId, setChainId] = useState<number | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
 
-  // Check if wallet is already connected on mount
+  // Check if wallet is already connected on mount and attempt reconnection
   useEffect(() => {
+    const wasConnected = localStorage.getItem(WALLET_CONNECTED_KEY) === 'true';
+    
     const checkConnection = async () => {
       if (window.ethereum) {
         try {
@@ -36,9 +41,16 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             setAccount(accounts[0]);
             const chainIdHex = await window.ethereum.request({ method: 'eth_chainId' });
             setChainId(parseInt(chainIdHex, 16));
+            localStorage.setItem(WALLET_CONNECTED_KEY, 'true');
+          } else if (wasConnected) {
+            // Try to reconnect if previously connected
+            connectWallet().catch(() => {
+              localStorage.removeItem(WALLET_CONNECTED_KEY);
+            });
           }
         } catch (error) {
           console.error('Error checking wallet connection:', error);
+          localStorage.removeItem(WALLET_CONNECTED_KEY);
         }
       }
     };
@@ -52,9 +64,11 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       const handleAccountsChanged = (accounts: string[]) => {
         if (accounts.length === 0) {
           setAccount(null);
+          localStorage.removeItem(WALLET_CONNECTED_KEY);
           toast("Wallet disconnected");
         } else if (accounts[0] !== account) {
           setAccount(accounts[0]);
+          localStorage.setItem(WALLET_CONNECTED_KEY, 'true');
           toast("Wallet connected: " + accounts[0].substring(0, 6) + "..." + accounts[0].substring(38));
         }
       };
@@ -88,10 +102,17 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       setAccount(accounts[0]);
       const chainIdHex = await window.ethereum.request({ method: 'eth_chainId' });
       setChainId(parseInt(chainIdHex, 16));
+      localStorage.setItem(WALLET_CONNECTED_KEY, 'true');
       toast.success("Wallet connected successfully!");
     } catch (error: any) {
       console.error('Error connecting wallet:', error);
-      toast.error(error?.message || "Failed to connect wallet");
+      localStorage.removeItem(WALLET_CONNECTED_KEY);
+      
+      if (error.code === 4001) {
+        toast.error("Connection rejected. Please approve the wallet connection.");
+      } else {
+        toast.error(error?.message || "Failed to connect wallet");
+      }
     } finally {
       setIsConnecting(false);
     }
@@ -108,6 +129,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: `0x${targetChainId.toString(16)}` }],
       });
+      toast.success(`Switched to network ID: ${targetChainId}`);
     } catch (error: any) {
       if (error.code === 4902) {
         toast.error("Network not found in wallet. Please add it manually.");
@@ -120,6 +142,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const disconnectWallet = () => {
     setAccount(null);
     setChainId(null);
+    localStorage.removeItem(WALLET_CONNECTED_KEY);
     toast.success("Wallet disconnected");
   };
 

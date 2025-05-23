@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search } from "lucide-react";
+import { Search, Filter } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import JobCard from "@/components/JobCard";
@@ -16,7 +16,7 @@ const allJobs = [
     price: "1.2",
     category: "Blockchain",
     deadline: "10 days",
-    clientName: "0x1a2...3b4c"
+    clientName: "0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b"
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ const allJobs = [
     price: "0.8",
     category: "Web Development",
     deadline: "7 days",
-    clientName: "0xdef...789a"
+    clientName: "0xdef789abcdef789abcdef789abcdef789abcdef7"
   },
   {
     id: 3,
@@ -34,7 +34,7 @@ const allJobs = [
     price: "0.3",
     category: "Content",
     deadline: "5 days",
-    clientName: "0xbcd...456e"
+    clientName: "0xbcd456efbcd456efbcd456efbcd456efbcd456ef"
   },
   {
     id: 4,
@@ -43,7 +43,7 @@ const allJobs = [
     price: "2.5",
     category: "Security",
     deadline: "14 days",
-    clientName: "0x567...8def"
+    clientName: "0x5678def5678def5678def5678def5678def5678d"
   },
   {
     id: 5,
@@ -52,7 +52,7 @@ const allJobs = [
     price: "1.0",
     category: "Design",
     deadline: "20 days",
-    clientName: "0xabc...9876"
+    clientName: "0xabc9876abc9876abc9876abc9876abc9876abc987"
   },
   {
     id: 6,
@@ -61,7 +61,7 @@ const allJobs = [
     price: "3.2",
     category: "Economics",
     deadline: "30 days",
-    clientName: "0x123...4567"
+    clientName: "0x1234567812345678123456781234567812345678"
   }
 ];
 
@@ -79,6 +79,12 @@ const Jobs = () => {
     return matchesSearch && matchesCategory;
   });
 
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Search is already reactive with the onChange handler
+    // This is just to handle form submission
+  };
+
   return (
     <div className="min-h-screen bg-primary">
       <Navbar />
@@ -93,9 +99,9 @@ const Jobs = () => {
           </div>
           
           <div className="bg-secondary rounded-xl p-6 mb-10">
-            <div className="flex flex-col md:flex-row gap-4">
+            <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4">
               <div className="relative flex-grow">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
                 <Input 
                   type="text"
                   placeholder="Search for jobs..."
@@ -104,10 +110,10 @@ const Jobs = () => {
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
-              <Button className="bg-accent-light text-primary hover:bg-accent hover:text-white">
+              <Button type="submit" className="bg-accent-light text-primary hover:bg-accent hover:text-white">
                 Search
               </Button>
-            </div>
+            </form>
             
             <div className="mt-4 flex flex-wrap gap-2">
               {categories.map(category => (
@@ -135,6 +141,16 @@ const Jobs = () => {
             ) : (
               <div className="col-span-full text-center py-10">
                 <p className="text-xl text-gray-400">No jobs found matching your criteria.</p>
+                <Button 
+                  variant="outline"
+                  className="mt-4 border-gray-600 text-gray-300 hover:bg-gray-700"
+                  onClick={() => {
+                    setSearchTerm("");
+                    setSelectedCategory("All");
+                  }}
+                >
+                  Reset Filters
+                </Button>
               </div>
             )}
           </div>

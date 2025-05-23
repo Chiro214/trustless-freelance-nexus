@@ -7,6 +7,7 @@ import JobsSection from "@/components/JobsSection";
 import CryptoSponsors from "@/components/CryptoSponsors";
 import CallToAction from "@/components/CallToAction";
 import Footer from "@/components/Footer";
+import { Suspense } from "react";
 
 const Index = () => {
   return (
@@ -14,7 +15,9 @@ const Index = () => {
       <Navbar />
       <Hero />
       <Features />
-      <JobsSection />
+      <Suspense fallback={<div className="h-96 flex items-center justify-center text-white">Loading jobs...</div>}>
+        <JobsSection />
+      </Suspense>
       <CryptoSponsors />
       <Partners />
       <CallToAction />
