@@ -48,10 +48,9 @@ const JobCard = ({
     setIsLoading(true);
     
     try {
-      // Simulate contract interaction for escrow release
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      toast.success(`Payment of ${price} ETH released successfully on BlockLance`);
+      toast.success(`Payment of $${price} released successfully on BlockLance`);
       setIsCompleted(true);
       setIsLoading(false);
     } catch (error) {
@@ -68,13 +67,10 @@ const JobCard = ({
     toast.success(`Application submitted on BlockLance with transaction: ${shortTxHash}`);
   };
 
-  // Generate appropriate blockchain explorer URL based on transaction hash
   const getExplorerUrl = (txHash: string) => {
-    // Logic can be enhanced to detect network and use appropriate explorer
     return `https://etherscan.io/tx/${txHash}`;
   };
 
-  // Display shortened client address
   const displayClientName = clientName.startsWith('0x') 
     ? `${clientName.substring(0, 6)}...${clientName.substring(clientName.length - 4)}`
     : clientName;
@@ -93,8 +89,8 @@ const JobCard = ({
         
         <div className="flex justify-between items-center mb-5">
           <div>
-            <span className="text-accent-light font-bold text-xl">{price}</span>
-            <span className="text-gray-400 text-sm ml-1">ETH</span>
+            <span className="text-accent-light font-bold text-xl">${price}</span>
+            <span className="text-gray-400 text-sm ml-1">USD</span>
           </div>
           <div className="text-right">
             <p className="text-gray-400 text-sm">Due by:</p>
@@ -136,8 +132,8 @@ const JobCard = ({
             </div>
           ) : showPayment ? (
             <CryptoPayment 
-              amount={price} 
-              recipientAddress={clientName} // Using clientName as recipient address
+              usdAmount={price}
+              recipientAddress={clientName}
               onPayment={handlePaymentSuccess}
             />
           ) : account && account.toLowerCase() === clientName.toLowerCase() ? (

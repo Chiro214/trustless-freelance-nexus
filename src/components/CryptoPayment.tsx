@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -21,7 +21,8 @@ interface CryptoToken {
   contractAddress?: string;
   logoUrl?: string;
   decimals: number;
-  explorerUrl: string; // Added explorer URL for each network
+  explorerUrl: string;
+  coingeckoId: string; // Added for price fetching
 }
 
 const tokens: CryptoToken[] = [
@@ -32,7 +33,8 @@ const tokens: CryptoToken[] = [
     logoUrl: 'https://cryptologos.cc/logos/ethereum-eth-logo.png',
     chainId: 1,
     decimals: 18,
-    explorerUrl: 'https://etherscan.io'
+    explorerUrl: 'https://etherscan.io',
+    coingeckoId: 'ethereum'
   },
   {
     name: 'Polygon',
@@ -41,7 +43,8 @@ const tokens: CryptoToken[] = [
     logoUrl: 'https://cryptologos.cc/logos/polygon-matic-logo.png',
     chainId: 137,
     decimals: 18,
-    explorerUrl: 'https://polygonscan.com'
+    explorerUrl: 'https://polygonscan.com',
+    coingeckoId: 'matic-network'
   },
   {
     name: 'USDT',
@@ -51,7 +54,8 @@ const tokens: CryptoToken[] = [
     chainId: 1,
     contractAddress: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
     decimals: 6,
-    explorerUrl: 'https://etherscan.io'
+    explorerUrl: 'https://etherscan.io',
+    coingeckoId: 'tether'
   },
   {
     name: 'USDC',
@@ -61,7 +65,8 @@ const tokens: CryptoToken[] = [
     chainId: 1,
     contractAddress: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
     decimals: 6,
-    explorerUrl: 'https://etherscan.io'
+    explorerUrl: 'https://etherscan.io',
+    coingeckoId: 'usd-coin'
   },
   {
     name: 'BNB',
@@ -70,18 +75,18 @@ const tokens: CryptoToken[] = [
     logoUrl: 'https://cryptologos.cc/logos/bnb-bnb-logo.png',
     chainId: 56,
     decimals: 18,
-    explorerUrl: 'https://bscscan.com'
+    explorerUrl: 'https://bscscan.com',
+    coingeckoId: 'binancecoin'
   },
 ];
 
 interface CryptoPaymentProps {
-  amount?: string;
+  usdAmount?: string; // Changed to USD amount as base
   recipientAddress?: string;
   onPayment?: (token: CryptoToken, txHash: string) => void;
   className?: string;
 }
 
-// Network names mapping
 const networkNames: Record<number, string> = {
   1: 'Ethereum Mainnet',
   137: 'Polygon Mainnet',
@@ -89,8 +94,8 @@ const networkNames: Record<number, string> = {
 };
 
 const CryptoPayment = ({ 
-  amount = "0", 
-  recipientAddress = "0x742d35Cc6634C0532925a3b8D8cF93a8a8c0C6e5", // Default recipient
+  usdAmount = "100", // Default USD amount
+  recipientAddress = "0x742d35Cc6634C0532925a3b8D8cF93a8a8c0C6e5",
   onPayment, 
   className = "" 
 }: CryptoPaymentProps) => {
@@ -99,6 +104,47 @@ const CryptoPayment = ({
   const [isProcessing, setIsProcessing] = useState(false);
   const [transactionHash, setTransactionHash] = useState<string>("");
   const [transactionStatus, setTransactionStatus] = useState<'pending' | 'confirmed' | 'failed' | null>(null);
+  const [tokenPrices, setTokenPrices] = useState<Record<string, number>>({});
+  const [isLoadingPrice, setIsLoadingPrice] = useState(false);
+  const [calculatedAmount, setCalculatedAmount] = useState<string>("0");
+
+  // Fetch token prices from CoinGecko
+  const fetchTokenPrices = async () => {
+    setIsLoadingPrice(true);
+    try {
+      const coinIds = tokens.map(token => token.coingeckoId).join(',');
+      const response = await fetch(
+        `https://api.coingecko.com/api/v3/simple/price?ids=${coinIds}&vs_currencies=usd`
+      );
+      const data = await response.json();
+      setTokenPrices(data);
+    } catch (error) {
+      console.error('Error fetching token prices:', error);
+      toast.error('Failed to fetch current token prices');
+    } finally {
+      setIsLoadingPrice(false);
+    }
+  };
+
+  // Calculate token amount based on USD value
+  const calculateTokenAmount = (usdValue: string, tokenPrice: number) => {
+    if (!tokenPrice || !usdValue) return "0";
+    const amount = parseFloat(usdValue) / tokenPrice;
+    return amount.toFixed(6);
+  };
+
+  // Update calculated amount when token or prices change
+  useEffect(() => {
+    if (tokenPrices[selectedToken.coingeckoId]) {
+      const amount = calculateTokenAmount(usdAmount, tokenPrices[selectedToken.coingeckoId].usd);
+      setCalculatedAmount(amount);
+    }
+  }, [selectedToken, tokenPrices, usdAmount]);
+
+  // Fetch prices on component mount
+  useEffect(() => {
+    fetchTokenPrices();
+  }, []);
 
   const handleNativeTokenPayment = async (provider: ethers.BrowserProvider, amount: string, recipientAddress: string) => {
     const signer = await provider.getSigner();
@@ -120,7 +166,6 @@ const CryptoPayment = ({
     const signer = await provider.getSigner();
     const amountInUnits = ethers.parseUnits(amount, token.decimals);
     
-    // ERC20 ABI for transfer function
     const erc20ABI = [
       "function transfer(address to, uint256 amount) returns (bool)",
       "function balanceOf(address owner) view returns (uint256)",
@@ -153,15 +198,12 @@ const CryptoPayment = ({
       const provider = new ethers.BrowserProvider(window.ethereum);
       const network = await provider.getNetwork();
       
-      // Check if we're on the correct network
       if (Number(network.chainId) !== selectedToken.chainId) {
         toast.info(`Switching to ${networkNames[selectedToken.chainId] || `Network ${selectedToken.chainId}`}...`);
         await switchNetwork(selectedToken.chainId);
         
-        // Delay to allow network switch to complete
         await new Promise(resolve => setTimeout(resolve, 1000));
         
-        // Check network again
         const updatedNetwork = await provider.getNetwork();
         if (Number(updatedNetwork.chainId) !== selectedToken.chainId) {
           throw new Error(`Please switch to ${networkNames[selectedToken.chainId] || `Network ${selectedToken.chainId}`} manually`);
@@ -171,23 +213,20 @@ const CryptoPayment = ({
       let txHash: string;
 
       if (selectedToken.contractAddress) {
-        // ERC20 token payment
-        txHash = await handleERC20Payment(provider, selectedToken, amount, recipientAddress);
+        txHash = await handleERC20Payment(provider, selectedToken, calculatedAmount, recipientAddress);
       } else {
-        // Native token payment (ETH, MATIC, BNB)
-        txHash = await handleNativeTokenPayment(provider, amount, recipientAddress);
+        txHash = await handleNativeTokenPayment(provider, calculatedAmount, recipientAddress);
       }
 
       setTransactionHash(txHash);
       setTransactionStatus('pending');
       toast.success(`Transaction submitted! Hash: ${txHash.substring(0, 10)}...`);
       
-      // Wait for transaction confirmation
       const receipt = await provider.waitForTransaction(txHash);
       
       if (receipt?.status === 1) {
         setTransactionStatus('confirmed');
-        toast.success(`Payment of ${amount} ${selectedToken.symbol} completed!`);
+        toast.success(`Payment of ${calculatedAmount} ${selectedToken.symbol} completed!`);
         
         if (onPayment) {
           onPayment(selectedToken, txHash);
@@ -237,11 +276,41 @@ const CryptoPayment = ({
                     <span>{token.icon}</span>
                   )}
                   <span>{token.symbol} - {token.name}</span>
+                  {tokenPrices[token.coingeckoId] && (
+                    <span className="text-xs text-gray-400 ml-2">
+                      ${tokenPrices[token.coingeckoId].usd}
+                    </span>
+                  )}
                 </div>
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
+      </div>
+
+      <div className="bg-gray-800/50 p-3 rounded-lg">
+        <div className="flex justify-between items-center">
+          <span className="text-sm text-gray-400">USD Amount:</span>
+          <span className="text-white font-medium">${usdAmount}</span>
+        </div>
+        <div className="flex justify-between items-center mt-1">
+          <span className="text-sm text-gray-400">Token Amount:</span>
+          <span className="text-accent-light font-medium">
+            {isLoadingPrice ? (
+              "Loading..."
+            ) : (
+              `${calculatedAmount} ${selectedToken.symbol}`
+            )}
+          </span>
+        </div>
+        {tokenPrices[selectedToken.coingeckoId] && (
+          <div className="flex justify-between items-center mt-1">
+            <span className="text-xs text-gray-500">Current Price:</span>
+            <span className="text-xs text-gray-400">
+              ${tokenPrices[selectedToken.coingeckoId].usd}
+            </span>
+          </div>
+        )}
       </div>
 
       {transactionHash && (
@@ -284,13 +353,15 @@ const CryptoPayment = ({
       <Button 
         className="bg-accent-light text-primary hover:bg-accent hover:text-white"
         onClick={handlePayment}
-        disabled={isProcessing}
+        disabled={isProcessing || isLoadingPrice}
       >
         {!account 
           ? "Connect Wallet" 
           : isProcessing 
             ? "Processing Transaction..." 
-            : `Pay ${amount} ${selectedToken.symbol}`}
+            : isLoadingPrice
+              ? "Loading Prices..."
+              : `Pay ${calculatedAmount} ${selectedToken.symbol} ($${usdAmount})`}
       </Button>
     </div>
   );
