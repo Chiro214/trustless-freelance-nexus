@@ -65,17 +65,18 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         if (accounts.length === 0) {
           setAccount(null);
           localStorage.removeItem(WALLET_CONNECTED_KEY);
-          toast("Wallet disconnected");
+          toast("Wallet disconnected from BlockLance");
         } else if (accounts[0] !== account) {
           setAccount(accounts[0]);
           localStorage.setItem(WALLET_CONNECTED_KEY, 'true');
-          toast("Wallet connected: " + accounts[0].substring(0, 6) + "..." + accounts[0].substring(38));
+          const shortAddress = `${accounts[0].substring(0, 4)}...${accounts[0].substring(accounts[0].length - 4)}`;
+          toast("Wallet connected to BlockLance: " + shortAddress);
         }
       };
 
       const handleChainChanged = (chainIdHex: string) => {
         setChainId(parseInt(chainIdHex, 16));
-        toast("Network changed");
+        toast("Network changed on BlockLance");
       };
 
       window.ethereum.on('accountsChanged', handleAccountsChanged);
@@ -92,7 +93,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const connectWallet = async () => {
     if (!window.ethereum) {
-      toast.error("MetaMask not found. Please install MetaMask first.");
+      toast.error("MetaMask not found. Please install MetaMask to use BlockLance.");
       return;
     }
 
@@ -103,15 +104,15 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       const chainIdHex = await window.ethereum.request({ method: 'eth_chainId' });
       setChainId(parseInt(chainIdHex, 16));
       localStorage.setItem(WALLET_CONNECTED_KEY, 'true');
-      toast.success("Wallet connected successfully!");
+      toast.success("Wallet connected to BlockLance successfully!");
     } catch (error: any) {
       console.error('Error connecting wallet:', error);
       localStorage.removeItem(WALLET_CONNECTED_KEY);
       
       if (error.code === 4001) {
-        toast.error("Connection rejected. Please approve the wallet connection.");
+        toast.error("Connection rejected. Please approve the wallet connection to use BlockLance.");
       } else {
-        toast.error(error?.message || "Failed to connect wallet");
+        toast.error(error?.message || "Failed to connect wallet to BlockLance");
       }
     } finally {
       setIsConnecting(false);
@@ -129,7 +130,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: `0x${targetChainId.toString(16)}` }],
       });
-      toast.success(`Switched to network ID: ${targetChainId}`);
+      toast.success(`Network switched successfully on BlockLance`);
     } catch (error: any) {
       if (error.code === 4902) {
         toast.error("Network not found in wallet. Please add it manually.");
@@ -143,7 +144,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     setAccount(null);
     setChainId(null);
     localStorage.removeItem(WALLET_CONNECTED_KEY);
-    toast.success("Wallet disconnected");
+    toast.success("Wallet disconnected from BlockLance");
   };
 
   return (

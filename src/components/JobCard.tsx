@@ -33,7 +33,7 @@ const JobCard = ({
 
   const handleApply = () => {
     if (!account) {
-      toast.error("Please connect your wallet first");
+      toast.error("Please connect your wallet to apply on BlockLance");
       return;
     }
     setShowPayment(true);
@@ -41,7 +41,7 @@ const JobCard = ({
 
   const handleReleasePayment = async () => {
     if (!account) {
-      toast.error("Please connect your wallet first");
+      toast.error("Please connect your wallet to release payment on BlockLance");
       return;
     }
 
@@ -51,12 +51,12 @@ const JobCard = ({
       // Simulate contract interaction for escrow release
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      toast.success(`Payment of ${price} ETH released successfully`);
+      toast.success(`Payment of ${price} ETH released successfully on BlockLance`);
       setIsCompleted(true);
       setIsLoading(false);
     } catch (error) {
       console.error("Payment release error:", error);
-      toast.error("Failed to release payment");
+      toast.error("Failed to release payment on BlockLance");
       setIsLoading(false);
     }
   };
@@ -64,7 +64,8 @@ const JobCard = ({
   const handlePaymentSuccess = (token: any, txHash: string) => {
     setApplicationTxHash(txHash);
     setShowPayment(false);
-    toast.success(`Application submitted with transaction: ${txHash.substring(0, 10)}...`);
+    const shortTxHash = `${txHash.substring(0, 6)}...${txHash.substring(txHash.length - 4)}`;
+    toast.success(`Application submitted on BlockLance with transaction: ${shortTxHash}`);
   };
 
   // Generate appropriate blockchain explorer URL based on transaction hash
@@ -72,6 +73,11 @@ const JobCard = ({
     // Logic can be enhanced to detect network and use appropriate explorer
     return `https://etherscan.io/tx/${txHash}`;
   };
+
+  // Display shortened client address
+  const displayClientName = clientName.startsWith('0x') 
+    ? `${clientName.substring(0, 6)}...${clientName.substring(clientName.length - 4)}`
+    : clientName;
 
   return (
     <div className="bg-secondary rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
@@ -118,7 +124,7 @@ const JobCard = ({
         <div className="flex justify-between items-center border-t border-gray-700 pt-4">
           <div>
             <p className="text-gray-400 text-sm">Posted by:</p>
-            <p className="text-white font-medium">{clientName}</p>
+            <p className="text-white font-medium">{displayClientName}</p>
           </div>
           
           {isCompleted ? (

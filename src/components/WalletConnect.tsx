@@ -20,7 +20,7 @@ const WalletConnect = ({ variant = "default", className = "" }: WalletConnectPro
   };
   
   const displayAddress = account 
-    ? `${account.substring(0, 6)}...${account.substring(account.length - 4)}`
+    ? `${account.substring(0, 4)}...${account.substring(account.length - 4)}`
     : "Connect Wallet";
 
   // Map chainIds to network names
