@@ -2,9 +2,10 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useWallet } from "@/context/WalletContext";
+import { useJobs } from "@/context/JobsContext";
 import CryptoPayment from "./CryptoPayment";
 import { toast } from "sonner";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Users, CheckCircle } from "lucide-react";
 
 type JobCardProps = {
   id: number;
@@ -26,14 +27,25 @@ const JobCard = ({
   clientName
 }: JobCardProps) => {
   const { account } = useWallet();
+  const { addApplication, completeJob, getJobApplications, isJobApplied } = useJobs();
   const [showPayment, setShowPayment] = useState(false);
-  const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [applicationTxHash, setApplicationTxHash] = useState<string>("");
+
+  const jobApplications = getJobApplications(id);
+  const isAppliedByUser = account ? isJobApplied(id, account) : false;
+  const userApplication = jobApplications.find(app => 
+    account && app.applicantAddress.toLowerCase() === account.toLowerCase()
+  );
+  const isCompleted = userApplication?.status === 'completed';
+  const isClientView = account && account.toLowerCase() === clientName.toLowerCase();
 
   const handleApply = () => {
     if (!account) {
       toast.error("Please connect your wallet to apply on BlockLance");
+      return;
+    }
+    if (isAppliedByUser) {
+      toast.info("You have already applied for this job");
       return;
     }
     setShowPayment(true);
@@ -50,8 +62,8 @@ const JobCard = ({
     try {
       await new Promise(resolve => setTimeout(resolve, 1500));
       
+      completeJob(id);
       toast.success(`Payment of $${price} released successfully on BlockLance`);
-      setIsCompleted(true);
       setIsLoading(false);
     } catch (error) {
       console.error("Payment release error:", error);
@@ -61,10 +73,12 @@ const JobCard = ({
   };
 
   const handlePaymentSuccess = (token: any, txHash: string) => {
-    setApplicationTxHash(txHash);
-    setShowPayment(false);
-    const shortTxHash = `${txHash.substring(0, 6)}...${txHash.substring(txHash.length - 4)}`;
-    toast.success(`Application submitted on BlockLance with transaction: ${shortTxHash}`);
+    if (account) {
+      addApplication(id, account, txHash);
+      setShowPayment(false);
+      const shortTxHash = `${txHash.substring(0, 6)}...${txHash.substring(txHash.length - 4)}`;
+      toast.success(`Application submitted on BlockLance with transaction: ${shortTxHash}`);
+    }
   };
 
   const getExplorerUrl = (txHash: string) => {
@@ -74,6 +88,26 @@ const JobCard = ({
   const displayClientName = clientName.startsWith('0x') 
     ? `${clientName.substring(0, 6)}...${clientName.substring(clientName.length - 4)}`
     : clientName;
+
+  const getApplicationStatusBadge = () => {
+    if (isCompleted) {
+      return (
+        <div className="flex items-center gap-1 text-green-400 text-sm">
+          <CheckCircle size={16} />
+          Completed
+        </div>
+      );
+    }
+    if (isAppliedByUser) {
+      return (
+        <div className="flex items-center gap-1 text-blue-400 text-sm">
+          <CheckCircle size={16} />
+          Applied
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
     <div className="bg-secondary rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
@@ -87,7 +121,7 @@ const JobCard = ({
         
         <p className="text-gray-300 mb-4 line-clamp-3">{description}</p>
         
-        <div className="flex justify-between items-center mb-5">
+        <div className="flex justify-between items-center mb-4">
           <div>
             <span className="text-accent-light font-bold text-xl">${price}</span>
             <span className="text-gray-400 text-sm ml-1">USD</span>
@@ -97,13 +131,24 @@ const JobCard = ({
             <p className="text-white font-medium">{deadline}</p>
           </div>
         </div>
+
+        {/* Applications counter and status */}
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center gap-2 text-gray-400 text-sm">
+            <Users size={16} />
+            <span>{jobApplications.length} application{jobApplications.length !== 1 ? 's' : ''}</span>
+          </div>
+          {getApplicationStatusBadge()}
+        </div>
         
-        {applicationTxHash && (
+        {userApplication && (
           <div className="mb-4 p-3 bg-blue-900/20 border border-blue-700 rounded-lg">
             <div className="flex justify-between items-center">
-              <p className="text-blue-400 text-sm">Application Submitted</p>
+              <p className="text-blue-400 text-sm">
+                {isCompleted ? 'Job Completed' : 'Application Submitted'}
+              </p>
               <a 
-                href={getExplorerUrl(applicationTxHash)} 
+                href={getExplorerUrl(userApplication.txHash)} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-blue-400 hover:text-blue-300 text-xs flex items-center gap-1"
@@ -112,7 +157,7 @@ const JobCard = ({
               </a>
             </div>
             <p className="text-gray-300 text-xs mt-1 truncate">
-              {applicationTxHash}
+              {userApplication.txHash}
             </p>
           </div>
         )}
@@ -123,20 +168,13 @@ const JobCard = ({
             <p className="text-white font-medium">{displayClientName}</p>
           </div>
           
-          {isCompleted ? (
-            <div className="flex items-center text-green-400">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-              Completed
-            </div>
-          ) : showPayment ? (
+          {showPayment ? (
             <CryptoPayment 
               usdAmount={price}
               recipientAddress={clientName}
               onPayment={handlePaymentSuccess}
             />
-          ) : account && account.toLowerCase() === clientName.toLowerCase() ? (
+          ) : isClientView && jobApplications.length > 0 && !isCompleted ? (
             <Button 
               className="bg-accent-light text-primary hover:bg-accent hover:text-white"
               onClick={handleReleasePayment}
@@ -144,10 +182,21 @@ const JobCard = ({
             >
               {isLoading ? "Processing..." : "Release Payment"}
             </Button>
+          ) : isCompleted ? (
+            <div className="flex items-center text-green-400">
+              <CheckCircle className="h-5 w-5 mr-1" />
+              Completed
+            </div>
+          ) : isAppliedByUser ? (
+            <div className="flex items-center text-blue-400">
+              <CheckCircle className="h-5 w-5 mr-1" />
+              Applied
+            </div>
           ) : (
             <Button 
               className="bg-accent-light text-primary hover:bg-accent hover:text-white"
               onClick={handleApply}
+              disabled={!account}
             >
               Apply Now
             </Button>

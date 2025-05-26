@@ -1,5 +1,6 @@
 
 import { Button } from "@/components/ui/button";
+import { useJobs } from "@/context/JobsContext";
 import JobCard from "./JobCard";
 
 const sampleJobs = [
@@ -33,12 +34,33 @@ const sampleJobs = [
 ];
 
 const JobsSection = () => {
+  const { applications } = useJobs();
+  
+  const totalApplications = applications.length;
+  const completedJobs = applications.filter(app => app.status === 'completed').length;
+
   return (
     <section className="py-20 bg-gray-900 px-4">
       <div className="container mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Latest <span className="text-accent-light">Jobs</span></h2>
           <p className="text-gray-300 max-w-2xl mx-auto">Browse through the latest blockchain and Web3 opportunities posted by clients.</p>
+          
+          {/* Stats */}
+          <div className="flex justify-center gap-8 mt-8">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-accent-light">{totalApplications}</div>
+              <div className="text-gray-400 text-sm">Total Applications</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-green-400">{completedJobs}</div>
+              <div className="text-gray-400 text-sm">Completed Jobs</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-blue-400">{sampleJobs.length}</div>
+              <div className="text-gray-400 text-sm">Active Jobs</div>
+            </div>
+          </div>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
