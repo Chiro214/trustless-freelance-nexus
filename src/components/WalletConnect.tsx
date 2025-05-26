@@ -29,11 +29,14 @@ const WalletConnect = ({ variant = "default", className = "" }: WalletConnectPro
   const displayAddress = (address: string) => 
     `${address.substring(0, 4)}...${address.substring(address.length - 4)}`;
 
-  // Map chainIds to network names (excluding mainnet)
+  // Map chainIds to network names (including local networks)
   const getNetworkName = () => {
     if (!chainId) return null;
     
     const networks: Record<number, string> = {
+      1337: "Ganache", // Ganache default
+      5777: "Ganache", // Alternative Ganache 
+      31337: "Hardhat", // Hardhat default
       11155111: "Sepolia", // Ethereum testnet
       137: "MATIC",
       80001: "Mumbai", // Polygon testnet

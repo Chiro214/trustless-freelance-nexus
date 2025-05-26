@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from "sonner";
 
@@ -19,8 +18,11 @@ const WalletContext = createContext<WalletContextType | null>(null);
 const WALLET_CONNECTED_KEY = 'blocklance-wallet-connected';
 const SELECTED_ACCOUNT_KEY = 'blocklance-selected-account';
 
-// Networks to avoid (mainnet)
-const FORBIDDEN_NETWORKS = [1]; // Ethereum mainnet
+// Networks to avoid (mainnet only, allow local development networks)
+const FORBIDDEN_NETWORKS = [1]; // Only Ethereum mainnet
+
+// Local development networks (Ganache, Hardhat, etc.)
+const LOCAL_NETWORKS = [1337, 5777, 31337]; // Common local network chain IDs
 
 export const useWallet = () => {
   const context = useContext(WalletContext);
@@ -36,9 +38,14 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [chainId, setChainId] = useState<number | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
 
-  // Check if current network is forbidden
+  // Check if current network is forbidden (only mainnet, allow local networks)
   const isNetworkForbidden = (networkId: number) => {
     return FORBIDDEN_NETWORKS.includes(networkId);
+  };
+
+  // Check if network is a local development network
+  const isLocalNetwork = (networkId: number) => {
+    return LOCAL_NETWORKS.includes(networkId);
   };
 
   // Check if wallet is already connected on mount and attempt reconnection
@@ -60,6 +67,11 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             if (isNetworkForbidden(currentChainId)) {
               toast.error("Please switch away from mainnet to use BlockLance");
               return;
+            }
+            
+            // Check if network is a local development network
+            if (isLocalNetwork(currentChainId)) {
+              toast.success("Local development network connected to BlockLance");
             }
             
             // Set account (use saved account if available and in list, otherwise first account)
@@ -115,9 +127,11 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         setChainId(newChainId);
         
         if (isNetworkForbidden(newChainId)) {
-          toast.error("Mainnet detected! Please switch to a testnet to use BlockLance");
+          toast.error("Mainnet detected! Please switch to a testnet or local network to use BlockLance");
           // Auto-disconnect from mainnet
           disconnectWallet();
+        } else if (isLocalNetwork(newChainId)) {
+          toast.success("Local development network connected to BlockLance");
         } else {
           toast("Network changed on BlockLance");
         }
@@ -147,7 +161,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       const chainIdHex = await window.ethereum.request({ method: 'eth_chainId' });
       const currentChainId = parseInt(chainIdHex, 16);
       
-      // Check if network is forbidden
+      // Check if network is forbidden (only mainnet)
       if (isNetworkForbidden(currentChainId)) {
         toast.error("Please switch away from mainnet to use BlockLance");
         setIsConnecting(false);
@@ -159,7 +173,12 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       setChainId(currentChainId);
       localStorage.setItem(WALLET_CONNECTED_KEY, 'true');
       localStorage.setItem(SELECTED_ACCOUNT_KEY, accounts[0]);
-      toast.success(`Wallet connected to BlockLance successfully! Found ${accounts.length} account(s).`);
+      
+      if (isLocalNetwork(currentChainId)) {
+        toast.success(`Connected to local development network! Found ${accounts.length} account(s).`);
+      } else {
+        toast.success(`Wallet connected to BlockLance successfully! Found ${accounts.length} account(s).`);
+      }
     } catch (error: any) {
       console.error('Error connecting wallet:', error);
       localStorage.removeItem(WALLET_CONNECTED_KEY);
@@ -183,7 +202,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
     // Prevent switching to forbidden networks
     if (isNetworkForbidden(targetChainId)) {
-      toast.error("Cannot switch to mainnet. BlockLance only supports testnets.");
+      toast.error("Cannot switch to mainnet. BlockLance only supports testnets and local networks.");
       return;
     }
 

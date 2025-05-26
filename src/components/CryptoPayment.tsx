@@ -24,59 +24,51 @@ interface CryptoToken {
   coingeckoId: string;
 }
 
+// Local development networks (Ganache, Hardhat, etc.)
+const LOCAL_NETWORKS = [1337, 5777, 31337];
+
 const tokens: CryptoToken[] = [
+  // Local development ETH (for Ganache/Hardhat)
   {
-    name: 'Ethereum',
+    name: 'Local Ethereum',
     symbol: 'ETH',
-    icon: '🔹',
+    icon: '🔷',
     logoUrl: 'https://cryptologos.cc/logos/ethereum-eth-logo.png',
-    chainId: 1,
+    chainId: 1337, // Ganache default
     decimals: 18,
-    explorerUrl: 'https://etherscan.io',
+    explorerUrl: 'http://localhost:7545', // Ganache GUI explorer
     coingeckoId: 'ethereum'
   },
   {
-    name: 'Polygon',
+    name: 'Local Ethereum',
+    symbol: 'ETH',
+    icon: '🔷',
+    logoUrl: 'https://cryptologos.cc/logos/ethereum-eth-logo.png',
+    chainId: 5777, // Alternative Ganache port
+    decimals: 18,
+    explorerUrl: 'http://localhost:8545', 
+    coingeckoId: 'ethereum'
+  },
+  {
+    name: 'Ethereum Sepolia',
+    symbol: 'ETH',
+    icon: '🔹',
+    logoUrl: 'https://cryptologos.cc/logos/ethereum-eth-logo.png',
+    chainId: 11155111,
+    decimals: 18,
+    explorerUrl: 'https://sepolia.etherscan.io',
+    coingeckoId: 'ethereum'
+  },
+  {
+    name: 'Polygon Mumbai',
     symbol: 'MATIC',
     icon: '💠',
     logoUrl: 'https://cryptologos.cc/logos/polygon-matic-logo.png',
-    chainId: 137,
+    chainId: 80001,
     decimals: 18,
-    explorerUrl: 'https://polygonscan.com',
+    explorerUrl: 'https://mumbai.polygonscan.com',
     coingeckoId: 'matic-network'
-  },
-  {
-    name: 'USDT',
-    symbol: 'USDT',
-    icon: '💵',
-    logoUrl: 'https://cryptologos.cc/logos/tether-usdt-logo.png',
-    chainId: 1,
-    contractAddress: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-    decimals: 6,
-    explorerUrl: 'https://etherscan.io',
-    coingeckoId: 'tether'
-  },
-  {
-    name: 'USDC',
-    symbol: 'USDC',
-    icon: '💵',
-    logoUrl: 'https://cryptologos.cc/logos/usd-coin-usdc-logo.png',
-    chainId: 1,
-    contractAddress: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
-    decimals: 6,
-    explorerUrl: 'https://etherscan.io',
-    coingeckoId: 'usd-coin'
-  },
-  {
-    name: 'BNB',
-    symbol: 'BNB',
-    icon: '🟡',
-    logoUrl: 'https://cryptologos.cc/logos/bnb-bnb-logo.png',
-    chainId: 56,
-    decimals: 18,
-    explorerUrl: 'https://bscscan.com',
-    coingeckoId: 'binancecoin'
-  },
+  }
 ];
 
 interface TokenPrice {
@@ -91,9 +83,11 @@ interface CryptoPaymentProps {
 }
 
 const networkNames: Record<number, string> = {
-  1: 'Ethereum Mainnet',
-  137: 'Polygon Mainnet',
-  56: 'BNB Smart Chain',
+  1337: 'Ganache Local',
+  5777: 'Ganache Local', 
+  31337: 'Hardhat Local',
+  11155111: 'Ethereum Sepolia',
+  80001: 'Polygon Mumbai',
 };
 
 const CryptoPayment = ({ 
@@ -111,8 +105,38 @@ const CryptoPayment = ({
   const [isLoadingPrice, setIsLoadingPrice] = useState(false);
   const [calculatedAmount, setCalculatedAmount] = useState<string>("0");
 
-  // Fetch token prices from CoinGecko
+  // Check if current network is local
+  const isLocalNetwork = (networkId: number) => {
+    return LOCAL_NETWORKS.includes(networkId);
+  };
+
+  // Get available tokens for current network
+  const getAvailableTokens = () => {
+    if (!chainId) return tokens;
+    return tokens.filter(token => token.chainId === chainId);
+  };
+
+  // Update selected token when network changes
+  useEffect(() => {
+    if (chainId) {
+      const availableTokens = getAvailableTokens();
+      if (availableTokens.length > 0 && !availableTokens.some(t => t.symbol === selectedToken.symbol && t.chainId === chainId)) {
+        setSelectedToken(availableTokens[0]);
+      }
+    }
+  }, [chainId]);
+
+  // Fetch token prices from CoinGecko (skip for local networks)
   const fetchTokenPrices = async () => {
+    if (chainId && isLocalNetwork(chainId)) {
+      // For local networks, use mock prices
+      setTokenPrices({
+        'ethereum': { usd: 2000 }, // Mock ETH price
+        'matic-network': { usd: 0.8 } // Mock MATIC price
+      });
+      return;
+    }
+
     setIsLoadingPrice(true);
     try {
       const coinIds = tokens.map(token => token.coingeckoId).join(',');
@@ -123,7 +147,14 @@ const CryptoPayment = ({
       setTokenPrices(data);
     } catch (error) {
       console.error('Error fetching token prices:', error);
-      toast.error('Failed to fetch current token prices');
+      // Use fallback prices for local development
+      setTokenPrices({
+        'ethereum': { usd: 2000 },
+        'matic-network': { usd: 0.8 }
+      });
+      if (!chainId || !isLocalNetwork(chainId)) {
+        toast.error('Failed to fetch current token prices, using fallback values');
+      }
     } finally {
       setIsLoadingPrice(false);
     }
@@ -147,7 +178,7 @@ const CryptoPayment = ({
   // Fetch prices on component mount
   useEffect(() => {
     fetchTokenPrices();
-  }, []);
+  }, [chainId]);
 
   const handleNativeTokenPayment = async (provider: ethers.BrowserProvider, amount: string, recipientAddress: string) => {
     const signer = await provider.getSigner();
@@ -181,6 +212,10 @@ const CryptoPayment = ({
   };
 
   const getExplorerUrl = (token: CryptoToken, txHash: string) => {
+    if (chainId && isLocalNetwork(chainId)) {
+      // For local networks, just return the transaction hash (no explorer)
+      return `#${txHash}`;
+    }
     return `${token.explorerUrl}/tx/${txHash}`;
   };
 
@@ -200,16 +235,23 @@ const CryptoPayment = ({
     try {
       const provider = new ethers.BrowserProvider(window.ethereum);
       const network = await provider.getNetwork();
+      const currentChainId = Number(network.chainId);
       
-      if (Number(network.chainId) !== selectedToken.chainId) {
-        toast.info(`Switching to ${networkNames[selectedToken.chainId] || `Network ${selectedToken.chainId}`}...`);
-        await switchNetwork(selectedToken.chainId);
-        
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        const updatedNetwork = await provider.getNetwork();
-        if (Number(updatedNetwork.chainId) !== selectedToken.chainId) {
-          throw new Error(`Please switch to ${networkNames[selectedToken.chainId] || `Network ${selectedToken.chainId}`} manually`);
+      // Check if we need to switch networks (only if not on local network)
+      if (currentChainId !== selectedToken.chainId) {
+        if (isLocalNetwork(currentChainId) && isLocalNetwork(selectedToken.chainId)) {
+          // If both are local networks, proceed without switching
+          console.log('Both networks are local, proceeding with current network');
+        } else if (!isLocalNetwork(currentChainId)) {
+          toast.info(`Switching to ${networkNames[selectedToken.chainId] || `Network ${selectedToken.chainId}`}...`);
+          await switchNetwork(selectedToken.chainId);
+          
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          
+          const updatedNetwork = await provider.getNetwork();
+          if (Number(updatedNetwork.chainId) !== selectedToken.chainId) {
+            throw new Error(`Please switch to ${networkNames[selectedToken.chainId] || `Network ${selectedToken.chainId}`} manually`);
+          }
         }
       }
 
@@ -223,7 +265,12 @@ const CryptoPayment = ({
 
       setTransactionHash(txHash);
       setTransactionStatus('pending');
-      toast.success(`Transaction submitted! Hash: ${txHash.substring(0, 10)}...`);
+      
+      if (chainId && isLocalNetwork(chainId)) {
+        toast.success(`Transaction submitted on local network! Hash: ${txHash.substring(0, 10)}...`);
+      } else {
+        toast.success(`Transaction submitted! Hash: ${txHash.substring(0, 10)}...`);
+      }
       
       const receipt = await provider.waitForTransaction(txHash);
       
@@ -255,6 +302,8 @@ const CryptoPayment = ({
     }
   };
 
+  const availableTokens = getAvailableTokens();
+
   return (
     <div className={`flex flex-col gap-4 ${className}`}>
       <div className="flex flex-col gap-2">
@@ -262,7 +311,7 @@ const CryptoPayment = ({
         <Select
           value={selectedToken.symbol}
           onValueChange={(value) => {
-            const token = tokens.find(t => t.symbol === value);
+            const token = availableTokens.find(t => t.symbol === value);
             if (token) setSelectedToken(token);
           }}
         >
@@ -270,8 +319,8 @@ const CryptoPayment = ({
             <SelectValue placeholder="Select token" />
           </SelectTrigger>
           <SelectContent className="bg-gray-800 border-gray-700">
-            {tokens.map((token) => (
-              <SelectItem key={token.symbol} value={token.symbol}>
+            {availableTokens.map((token) => (
+              <SelectItem key={`${token.symbol}-${token.chainId}`} value={token.symbol}>
                 <div className="flex items-center gap-2">
                   {token.logoUrl ? (
                     <img src={token.logoUrl} alt={token.name} className="w-5 h-5 rounded-full" />
@@ -282,6 +331,9 @@ const CryptoPayment = ({
                   {tokenPrices[token.coingeckoId] && (
                     <span className="text-xs text-gray-400 ml-2">
                       ${tokenPrices[token.coingeckoId].usd}
+                      {chainId && isLocalNetwork(chainId) && (
+                        <span className="text-xs text-blue-400 ml-1">(Mock)</span>
+                      )}
                     </span>
                   )}
                 </div>
@@ -290,6 +342,17 @@ const CryptoPayment = ({
           </SelectContent>
         </Select>
       </div>
+
+      {chainId && isLocalNetwork(chainId) && (
+        <div className="bg-blue-900/20 border border-blue-700 rounded-lg p-3">
+          <p className="text-blue-400 text-sm">
+            🧪 Local Development Network Detected ({networkNames[chainId]})
+          </p>
+          <p className="text-blue-300 text-xs mt-1">
+            Using mock prices for testing. Make sure you have sufficient test ETH in your account.
+          </p>
+        </div>
+      )}
 
       <div className="bg-gray-800/50 p-3 rounded-lg">
         <div className="flex justify-between items-center">
@@ -338,14 +401,16 @@ const CryptoPayment = ({
                   ? 'Transaction Failed'
                   : 'Transaction Pending'}
             </p>
-            <a 
-              href={getExplorerUrl(selectedToken, transactionHash)} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white text-xs flex items-center gap-1"
-            >
-              View <ExternalLink size={12} />
-            </a>
+            {!(chainId && isLocalNetwork(chainId)) && (
+              <a 
+                href={getExplorerUrl(selectedToken, transactionHash)} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-white text-xs flex items-center gap-1"
+              >
+                View <ExternalLink size={12} />
+              </a>
+            )}
           </div>
           <p className="text-gray-300 text-xs mt-1 truncate">
             {transactionHash}
@@ -356,7 +421,7 @@ const CryptoPayment = ({
       <Button 
         className="bg-accent-light text-primary hover:bg-accent hover:text-white"
         onClick={handlePayment}
-        disabled={isProcessing || isLoadingPrice}
+        disabled={isProcessing || isLoadingPrice || availableTokens.length === 0}
       >
         {!account 
           ? "Connect Wallet" 
@@ -364,7 +429,9 @@ const CryptoPayment = ({
             ? "Processing Transaction..." 
             : isLoadingPrice
               ? "Loading Prices..."
-              : `Pay ${calculatedAmount} ${selectedToken.symbol} ($${usdAmount})`}
+              : availableTokens.length === 0
+                ? "No tokens available for this network"
+                : `Pay ${calculatedAmount} ${selectedToken.symbol} ($${usdAmount})`}
       </Button>
     </div>
   );
