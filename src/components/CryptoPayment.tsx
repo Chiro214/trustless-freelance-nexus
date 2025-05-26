@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,7 +21,7 @@ interface CryptoToken {
   logoUrl?: string;
   decimals: number;
   explorerUrl: string;
-  coingeckoId: string; // Added for price fetching
+  coingeckoId: string;
 }
 
 const tokens: CryptoToken[] = [
@@ -80,6 +79,10 @@ const tokens: CryptoToken[] = [
   },
 ];
 
+interface TokenPrice {
+  usd: number;
+}
+
 interface CryptoPaymentProps {
   usdAmount?: string; // Changed to USD amount as base
   recipientAddress?: string;
@@ -104,7 +107,7 @@ const CryptoPayment = ({
   const [isProcessing, setIsProcessing] = useState(false);
   const [transactionHash, setTransactionHash] = useState<string>("");
   const [transactionStatus, setTransactionStatus] = useState<'pending' | 'confirmed' | 'failed' | null>(null);
-  const [tokenPrices, setTokenPrices] = useState<Record<string, number>>({});
+  const [tokenPrices, setTokenPrices] = useState<Record<string, TokenPrice>>({});
   const [isLoadingPrice, setIsLoadingPrice] = useState(false);
   const [calculatedAmount, setCalculatedAmount] = useState<string>("0");
 
