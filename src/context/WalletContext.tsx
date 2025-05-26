@@ -4,10 +4,12 @@ import { toast } from "sonner";
 
 type WalletContextType = {
   account: string | null;
+  allAccounts: string[];
   chainId: number | null;
   connectWallet: () => Promise<void>;
   disconnectWallet: () => void;
   switchNetwork: (chainId: number) => Promise<void>;
+  switchAccount: (account: string) => void;
   isConnecting: boolean;
 };
 
@@ -15,6 +17,10 @@ const WalletContext = createContext<WalletContextType | null>(null);
 
 // LocalStorage keys for persistence
 const WALLET_CONNECTED_KEY = 'blocklance-wallet-connected';
+const SELECTED_ACCOUNT_KEY = 'blocklance-selected-account';
+
+// Networks to avoid (mainnet)
+const FORBIDDEN_NETWORKS = [1]; // Ethereum mainnet
 
 export const useWallet = () => {
   const context = useContext(WalletContext);
@@ -26,31 +32,52 @@ export const useWallet = () => {
 
 export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [account, setAccount] = useState<string | null>(null);
+  const [allAccounts, setAllAccounts] = useState<string[]>([]);
   const [chainId, setChainId] = useState<number | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
+
+  // Check if current network is forbidden
+  const isNetworkForbidden = (networkId: number) => {
+    return FORBIDDEN_NETWORKS.includes(networkId);
+  };
 
   // Check if wallet is already connected on mount and attempt reconnection
   useEffect(() => {
     const wasConnected = localStorage.getItem(WALLET_CONNECTED_KEY) === 'true';
+    const savedAccount = localStorage.getItem(SELECTED_ACCOUNT_KEY);
     
     const checkConnection = async () => {
       if (window.ethereum) {
         try {
           const accounts = await window.ethereum.request({ method: 'eth_accounts' });
           if (accounts.length > 0) {
-            setAccount(accounts[0]);
+            setAllAccounts(accounts);
             const chainIdHex = await window.ethereum.request({ method: 'eth_chainId' });
-            setChainId(parseInt(chainIdHex, 16));
+            const currentChainId = parseInt(chainIdHex, 16);
+            setChainId(currentChainId);
+            
+            // Check if network is forbidden
+            if (isNetworkForbidden(currentChainId)) {
+              toast.error("Please switch away from mainnet to use BlockLance");
+              return;
+            }
+            
+            // Set account (use saved account if available and in list, otherwise first account)
+            const accountToUse = savedAccount && accounts.includes(savedAccount) ? savedAccount : accounts[0];
+            setAccount(accountToUse);
             localStorage.setItem(WALLET_CONNECTED_KEY, 'true');
+            localStorage.setItem(SELECTED_ACCOUNT_KEY, accountToUse);
           } else if (wasConnected) {
             // Try to reconnect if previously connected
             connectWallet().catch(() => {
               localStorage.removeItem(WALLET_CONNECTED_KEY);
+              localStorage.removeItem(SELECTED_ACCOUNT_KEY);
             });
           }
         } catch (error) {
           console.error('Error checking wallet connection:', error);
           localStorage.removeItem(WALLET_CONNECTED_KEY);
+          localStorage.removeItem(SELECTED_ACCOUNT_KEY);
         }
       }
     };
@@ -64,19 +91,36 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       const handleAccountsChanged = (accounts: string[]) => {
         if (accounts.length === 0) {
           setAccount(null);
+          setAllAccounts([]);
           localStorage.removeItem(WALLET_CONNECTED_KEY);
+          localStorage.removeItem(SELECTED_ACCOUNT_KEY);
           toast("Wallet disconnected from BlockLance");
-        } else if (accounts[0] !== account) {
-          setAccount(accounts[0]);
-          localStorage.setItem(WALLET_CONNECTED_KEY, 'true');
-          const shortAddress = `${accounts[0].substring(0, 4)}...${accounts[0].substring(accounts[0].length - 4)}`;
-          toast("Wallet connected to BlockLance: " + shortAddress);
+        } else {
+          setAllAccounts(accounts);
+          const savedAccount = localStorage.getItem(SELECTED_ACCOUNT_KEY);
+          const accountToUse = savedAccount && accounts.includes(savedAccount) ? savedAccount : accounts[0];
+          
+          if (accountToUse !== account) {
+            setAccount(accountToUse);
+            localStorage.setItem(WALLET_CONNECTED_KEY, 'true');
+            localStorage.setItem(SELECTED_ACCOUNT_KEY, accountToUse);
+            const shortAddress = `${accountToUse.substring(0, 4)}...${accountToUse.substring(accountToUse.length - 4)}`;
+            toast("Wallet account changed: " + shortAddress);
+          }
         }
       };
 
       const handleChainChanged = (chainIdHex: string) => {
-        setChainId(parseInt(chainIdHex, 16));
-        toast("Network changed on BlockLance");
+        const newChainId = parseInt(chainIdHex, 16);
+        setChainId(newChainId);
+        
+        if (isNetworkForbidden(newChainId)) {
+          toast.error("Mainnet detected! Please switch to a testnet to use BlockLance");
+          // Auto-disconnect from mainnet
+          disconnectWallet();
+        } else {
+          toast("Network changed on BlockLance");
+        }
       };
 
       window.ethereum.on('accountsChanged', handleAccountsChanged);
@@ -100,14 +144,26 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     setIsConnecting(true);
     try {
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-      setAccount(accounts[0]);
       const chainIdHex = await window.ethereum.request({ method: 'eth_chainId' });
-      setChainId(parseInt(chainIdHex, 16));
+      const currentChainId = parseInt(chainIdHex, 16);
+      
+      // Check if network is forbidden
+      if (isNetworkForbidden(currentChainId)) {
+        toast.error("Please switch away from mainnet to use BlockLance");
+        setIsConnecting(false);
+        return;
+      }
+      
+      setAllAccounts(accounts);
+      setAccount(accounts[0]);
+      setChainId(currentChainId);
       localStorage.setItem(WALLET_CONNECTED_KEY, 'true');
-      toast.success("Wallet connected to BlockLance successfully!");
+      localStorage.setItem(SELECTED_ACCOUNT_KEY, accounts[0]);
+      toast.success(`Wallet connected to BlockLance successfully! Found ${accounts.length} account(s).`);
     } catch (error: any) {
       console.error('Error connecting wallet:', error);
       localStorage.removeItem(WALLET_CONNECTED_KEY);
+      localStorage.removeItem(SELECTED_ACCOUNT_KEY);
       
       if (error.code === 4001) {
         toast.error("Connection rejected. Please approve the wallet connection to use BlockLance.");
@@ -122,6 +178,12 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const switchNetwork = async (targetChainId: number) => {
     if (!window.ethereum) {
       toast.error("MetaMask not found");
+      return;
+    }
+
+    // Prevent switching to forbidden networks
+    if (isNetworkForbidden(targetChainId)) {
+      toast.error("Cannot switch to mainnet. BlockLance only supports testnets.");
       return;
     }
 
@@ -140,10 +202,21 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   };
 
+  const switchAccount = (newAccount: string) => {
+    if (allAccounts.includes(newAccount)) {
+      setAccount(newAccount);
+      localStorage.setItem(SELECTED_ACCOUNT_KEY, newAccount);
+      const shortAddress = `${newAccount.substring(0, 4)}...${newAccount.substring(newAccount.length - 4)}`;
+      toast.success(`Switched to account: ${shortAddress}`);
+    }
+  };
+
   const disconnectWallet = () => {
     setAccount(null);
+    setAllAccounts([]);
     setChainId(null);
     localStorage.removeItem(WALLET_CONNECTED_KEY);
+    localStorage.removeItem(SELECTED_ACCOUNT_KEY);
     toast.success("Wallet disconnected from BlockLance");
   };
 
@@ -151,10 +224,12 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     <WalletContext.Provider
       value={{
         account,
+        allAccounts,
         chainId,
         connectWallet,
         disconnectWallet,
         switchNetwork,
+        switchAccount,
         isConnecting
       }}
     >
