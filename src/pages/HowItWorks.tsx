@@ -7,27 +7,32 @@ const steps = [
   {
     number: "01",
     title: "Connect Your Wallet",
-    description: "Start by connecting your Web3 wallet like MetaMask or WalletConnect. This serves as your identity on the platform."
+    description: "Start by connecting your Web3 wallet like MetaMask or WalletConnect. This serves as your identity on the platform.",
+    image: "https://images.unsplash.com/photo-1618044733300-9472054094ee?w=400&h=300&fit=crop"
   },
   {
     number: "02",
     title: "Post or Find Jobs",
-    description: "Clients can post jobs with detailed requirements and budget. Freelancers can browse and apply to jobs that match their skills."
+    description: "Clients can post jobs with detailed requirements and budget. Freelancers can browse and apply to jobs that match their skills.",
+    image: "https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=400&h=300&fit=crop"
   },
   {
     number: "03",
     title: "Escrow Funds",
-    description: "When a freelancer is selected, the client deposits funds into a smart contract escrow that automatically executes based on predefined conditions."
+    description: "When a freelancer is selected, the client deposits funds into a smart contract escrow that automatically executes based on predefined conditions.",
+    image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=300&fit=crop"
   },
   {
     number: "04",
     title: "Complete the Work",
-    description: "Freelancers work on the project according to the agreed terms and submit deliverables through the platform."
+    description: "Freelancers work on the project according to the agreed terms and submit deliverables through the platform.",
+    image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=300&fit=crop"
   },
   {
     number: "05",
     title: "Release Payment",
-    description: "Upon successful completion and client approval, the smart contract automatically releases payment to the freelancer."
+    description: "Upon successful completion and client approval, the smart contract automatically releases payment to the freelancer.",
+    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&h=300&fit=crop"
   }
 ];
 
@@ -39,13 +44,13 @@ const HowItWorks = () => {
       <div className="pt-24 pb-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">How <span className="text-accent-light">DeFreeLance</span> Works</h1>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">How <span className="text-accent-light">BlockLance</span> Works</h1>
             <p className="text-gray-300 max-w-2xl mx-auto">
               Our platform uses blockchain technology to create a transparent and trustless environment for freelancers and clients.
             </p>
           </div>
           
-          <div className="relative max-w-4xl mx-auto">
+          <div className="relative max-w-6xl mx-auto">
             {/* Timeline line */}
             <div className="absolute left-0 md:left-1/2 top-0 h-full w-0.5 bg-accent-light bg-opacity-30 transform md:translate-x-0"></div>
             
@@ -60,8 +65,15 @@ const HowItWorks = () => {
                   
                   {/* Content layout changes based on odd/even index */}
                   <div className={`md:w-1/2 ${index % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12 md:order-1'}`}>
-                    <h3 className="text-2xl font-bold text-white mb-4">{step.title}</h3>
-                    <p className="text-gray-300">{step.description}</p>
+                    <div className={`bg-secondary rounded-xl p-6 ${index % 2 === 0 ? 'ml-auto' : 'mr-auto'} max-w-md`}>
+                      <img 
+                        src={step.image} 
+                        alt={step.title}
+                        className="w-full h-48 object-cover rounded-lg mb-4"
+                      />
+                      <h3 className="text-2xl font-bold text-white mb-4">{step.title}</h3>
+                      <p className="text-gray-300">{step.description}</p>
+                    </div>
                   </div>
                   
                   {/* Step number circle - positioned in the middle for desktop */}
