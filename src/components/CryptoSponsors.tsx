@@ -4,27 +4,27 @@ import { useEffect, useState, useRef } from 'react';
 const cryptoGiants = [
   {
     name: "Coinbase",
-    logo: "https://images.ctfassets.net/q5ulk4bp65r7/3TBS4oVkD1ghowTqVQJlqj/2dfd4ea3b623a7c0d8deb2ff445dee9e/Consumer_Wordmark.svg"
+    logo: "https://logos-world.net/wp-content/uploads/2021/02/Coinbase-Logo.png"
   },
   {
     name: "Binance",
-    logo: "https://cryptologos.cc/logos/bnb-bnb-logo.png"
-  },
-  {
-    name: "FTX",
-    logo: "https://seeklogo.com/images/F/ftx-logo-45715F8DE1-seeklogo.com.png"
-  },
-  {
-    name: "Kraken",
-    logo: "https://seeklogo.com/images/K/kraken-logo-01DDAF7CDA-seeklogo.com.png"
-  },
-  {
-    name: "Crypto.com",
-    logo: "https://seeklogo.com/images/C/crypto-com-logo-B4F8ED8F16-seeklogo.com.png"
+    logo: "https://cryptologos.cc/logos/binance-coin-bnb-logo.png"
   },
   {
     name: "Uniswap",
     logo: "https://cryptologos.cc/logos/uniswap-uni-logo.png"
+  },
+  {
+    name: "Kraken",
+    logo: "https://cdn.worldvectorlogo.com/logos/kraken-1.svg"
+  },
+  {
+    name: "Crypto.com",
+    logo: "https://cryptologos.cc/logos/cronos-cro-logo.png"
+  },
+  {
+    name: "1inch",
+    logo: "https://cryptologos.cc/logos/1inch-1inch-logo.png"
   },
   {
     name: "Aave",
@@ -62,22 +62,25 @@ const CryptoSponsors = () => {
   return (
     <section 
       ref={scrollRef}
-      className="bg-primary py-16 px-4 relative overflow-hidden"
+      className="bg-gradient-to-br from-primary via-secondary to-primary py-24 px-4 relative overflow-hidden"
     >
-      {/* Animated background elements */}
+      {/* Modern animated background */}
       <div className="absolute inset-0">
-        <div className="absolute top-10 left-10 w-8 h-8 bg-accent/10 rotate-45 animate-spin" style={{ animationDuration: '15s' }}></div>
-        <div className="absolute bottom-10 right-10 w-6 h-6 bg-accent-light/10 animate-bounce" style={{ animationDelay: '3s' }}></div>
-        <div className="absolute top-1/3 right-1/4 w-4 h-4 bg-accent/20 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-accent-light/10 to-transparent rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-accent/10 to-transparent rounded-full blur-2xl animate-pulse" style={{ animationDelay: '3s' }}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-gradient-to-r from-accent-light/5 to-accent/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }}></div>
       </div>
 
       <div className="container mx-auto relative z-10">
-        <h2 className={`text-3xl md:text-4xl font-bold text-center mb-4 text-white transition-opacity duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-          Trusted by <span className="text-accent-light">Crypto Giants</span>
-        </h2>
-        <p className={`text-center text-gray-300 mb-12 max-w-2xl mx-auto transition-opacity duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-          Leading cryptocurrency exchanges and DeFi protocols trust BlockLance for their freelance talent needs
-        </p>
+        <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
+            Trusted by <span className="bg-gradient-to-r from-accent-light to-accent bg-clip-text text-transparent">Crypto Giants</span>
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-accent-light to-accent mx-auto rounded-full mb-6"></div>
+          <p className="text-gray-300 text-lg max-w-3xl mx-auto mb-8">
+            Leading cryptocurrency exchanges and DeFi protocols trust BlockLance for their freelance talent needs
+          </p>
+        </div>
         
         <div className={`grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           {cryptoGiants.map((company, index) => (
@@ -86,29 +89,45 @@ const CryptoSponsors = () => {
               className="group relative flex flex-col items-center"
               style={{ 
                 transitionDelay: `${index * 150}ms`,
-                animation: isVisible ? `fade-in 0.6s ease-out ${index * 0.15}s forwards` : 'none',
+                animation: isVisible ? `fade-in 0.7s ease-out ${index * 0.15}s forwards` : 'none',
                 opacity: 0
               }}
             >
-              {/* Hover glow effect */}
-              <div className="absolute inset-0 bg-accent/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 scale-150"></div>
-              
-              <div className="relative bg-secondary/50 backdrop-blur-sm rounded-2xl p-6 border border-accent/10 hover:border-accent-light/30 transition-all duration-500 hover:scale-105 w-full h-24 flex items-center justify-center">
+              {/* Trendy glassmorphism card */}
+              <div className="relative bg-white/5 backdrop-blur-2xl rounded-3xl p-8 border border-white/10 hover:border-accent-light/50 transition-all duration-700 hover:scale-110 hover:-translate-y-3 w-full h-32 flex items-center justify-center group-hover:bg-white/10 shadow-xl hover:shadow-2xl hover:shadow-accent-light/20">
+                {/* Animated gradient border */}
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-accent-light via-accent to-accent-light opacity-0 group-hover:opacity-20 transition-opacity duration-700 blur-sm animate-pulse"></div>
+                
+                {/* Floating particles effect */}
+                <div className="absolute top-2 right-2 w-2 h-2 bg-accent-light rounded-full opacity-0 group-hover:opacity-60 transition-opacity duration-500 animate-ping"></div>
+                <div className="absolute bottom-2 left-2 w-1.5 h-1.5 bg-accent rounded-full opacity-0 group-hover:opacity-40 transition-opacity duration-700 animate-ping" style={{ animationDelay: '0.5s' }}></div>
+                
                 <img 
                   src={company.logo} 
                   alt={`${company.name} logo`} 
-                  className="max-h-10 max-w-full object-contain filter grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
+                  className="max-h-14 max-w-full object-contain filter brightness-90 contrast-110 hover:brightness-110 hover:contrast-125 transition-all duration-700 hover:scale-105 relative z-10"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const fallback = document.createElement('div');
+                    fallback.className = 'w-14 h-14 bg-gradient-to-br from-accent-light to-accent rounded-xl flex items-center justify-center text-white font-bold text-lg';
+                    fallback.textContent = company.name.charAt(0);
+                    target.parentNode?.appendChild(fallback);
+                  }}
                 />
               </div>
-              <p className="mt-4 text-center text-sm text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 font-medium">{company.name}</p>
+              
+              <p className="mt-5 text-center text-sm font-semibold text-gray-400 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:text-accent-light transform group-hover:-translate-y-1">{company.name}</p>
             </div>
           ))}
         </div>
 
-        <div className={`text-center mt-12 transition-opacity duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-          <p className="text-gray-400 text-sm">
-            Join the leading crypto companies already using BlockLance for their development needs
-          </p>
+        <div className={`text-center mt-16 transition-opacity duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+          <div className="inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium rounded-full group bg-gradient-to-r from-accent-light via-accent to-accent-light">
+            <span className="px-8 py-4 transition-all ease-in duration-75 bg-primary rounded-full group-hover:bg-opacity-0 text-white font-medium">
+              Join the leading crypto companies already using BlockLance
+            </span>
+          </div>
         </div>
       </div>
     </section>
