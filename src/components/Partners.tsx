@@ -16,15 +16,23 @@ const partners = [
   },
   {
     name: "Alchemy",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/0/05/Alchemy_Logo.png"
+    logo: "https://docs.alchemy.com/img/logo.svg"
   },
   {
     name: "Ethereum",
     logo: "https://cryptologos.cc/logos/ethereum-eth-logo.png"
   },
   {
-    name: "Binance Smart Chain",
-    logo: "https://cryptologos.cc/logos/bnb-bnb-logo.png"
+    name: "Arbitrum",
+    logo: "https://cryptologos.cc/logos/arbitrum-arb-logo.png"
+  },
+  {
+    name: "Optimism",
+    logo: "https://cryptologos.cc/logos/optimism-ethereum-op-logo.png"
+  },
+  {
+    name: "Solana",
+    logo: "https://cryptologos.cc/logos/solana-sol-logo.png"
   }
 ];
 
@@ -68,11 +76,11 @@ const Partners = () => {
           Powered by <span className="text-accent-light">Blockchain Infrastructure</span>
         </h2>
         
-        <div className={`flex flex-wrap justify-center items-center gap-10 md:gap-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className={`grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           {partners.map((partner, index) => (
             <div 
               key={partner.name}
-              className="group relative"
+              className="group relative flex flex-col items-center"
               style={{ 
                 transitionDelay: `${index * 100}ms`,
                 animation: isVisible ? `fade-in 0.5s ease-out ${index * 0.1}s forwards` : 'none',
@@ -82,11 +90,11 @@ const Partners = () => {
               {/* Glow effect */}
               <div className="absolute inset-0 bg-accent-light/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-150"></div>
               
-              <div className="relative bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-accent/20 hover:border-accent-light/40 transition-all duration-300">
+              <div className="relative bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-accent/20 hover:border-accent-light/40 transition-all duration-300 w-full h-24 flex items-center justify-center">
                 <img 
                   src={partner.logo} 
                   alt={`${partner.name} logo`} 
-                  className="h-12 md:h-16 object-contain filter grayscale hover:grayscale-0 transition-all duration-300 hover:scale-110"
+                  className="max-h-12 max-w-full object-contain filter grayscale hover:grayscale-0 transition-all duration-300 hover:scale-110"
                 />
               </div>
               <p className="mt-3 text-center text-sm text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">{partner.name}</p>
