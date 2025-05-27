@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import WalletConnect from "./WalletConnect";
 import { Link } from "react-router-dom";
 import { useWallet } from "@/context/WalletContext";
+import { Shield, Users, Zap, Globe } from "lucide-react";
 
 const Hero = () => {
   const { account } = useWallet();
@@ -69,15 +70,28 @@ const Hero = () => {
             </div>
           </div>
           <div className="md:w-1/2 h-[300px] md:h-[450px] animate-fade-in" style={{ animationDelay: '0.3s' }}>
-            {/* Placeholder for Spline 3D scene - in production, replace with actual Spline iframe */}
-            <div className="w-full h-full bg-secondary rounded-xl overflow-hidden relative">
-              <iframe
-                src="https://my.spline.design/untitled-76d4d9a5201d3c45548c867d4779f960/" 
-                className="w-full h-full border-none"
-                title="Blockchain freelance platform visualization"
-                frameBorder="0"
-              />
-              {/* Additional crypto floating elements over the iframe */}
+            {/* Blockchain Visualization */}
+            <div className="w-full h-full bg-secondary rounded-xl overflow-hidden relative p-8">
+              <div className="grid grid-cols-2 gap-6 h-full">
+                {/* Feature Cards */}
+                <div className="bg-primary p-4 rounded-lg flex flex-col items-center justify-center text-white">
+                  <Shield className="h-8 w-8 text-accent-light mb-2" />
+                  <span className="text-sm font-semibold">Secure Escrow</span>
+                </div>
+                <div className="bg-primary p-4 rounded-lg flex flex-col items-center justify-center text-white">
+                  <Users className="h-8 w-8 text-accent-light mb-2" />
+                  <span className="text-sm font-semibold">Zero Middlemen</span>
+                </div>
+                <div className="bg-primary p-4 rounded-lg flex flex-col items-center justify-center text-white">
+                  <Zap className="h-8 w-8 text-accent-light mb-2" />
+                  <span className="text-sm font-semibold">Smart Contracts</span>
+                </div>
+                <div className="bg-primary p-4 rounded-lg flex flex-col items-center justify-center text-white">
+                  <Globe className="h-8 w-8 text-accent-light mb-2" />
+                  <span className="text-sm font-semibold">Multi-Chain</span>
+                </div>
+              </div>
+              {/* Floating crypto elements over the visualization */}
               <div className="absolute top-4 right-4 w-8 h-8 bg-gradient-to-r from-green-400 to-blue-500 rounded-full opacity-30 animate-spin" style={{ animationDuration: '6s' }}></div>
             </div>
           </div>
