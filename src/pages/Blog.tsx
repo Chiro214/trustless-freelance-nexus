@@ -9,7 +9,7 @@ const Blog = () => {
     {
       title: "The Future of Freelancing is Decentralized",
       excerpt: "Exploring how blockchain technology is revolutionizing the gig economy",
-      author: "BlockLance Team",
+      author: "DeFreelance Team",
       date: "May 15, 2024",
       readTime: "5 min read",
       category: "Industry Insights"
@@ -31,7 +31,7 @@ const Blog = () => {
       category: "Guide"
     },
     {
-      title: "Why Choose BlockLance Over Traditional Platforms",
+      title: "Why Choose DeFreelance Over Traditional Platforms",
       excerpt: "Comparing the benefits of decentralized vs centralized freelancing",
       author: "Marketing Team",
       date: "April 30, 2024",
@@ -66,7 +66,7 @@ const Blog = () => {
               <span className="text-accent-light">Blog</span>
             </h1>
             <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-              Insights, updates, and guides from the BlockLance community
+              Insights, updates, and guides from the DeFreelance community
             </p>
           </div>
 

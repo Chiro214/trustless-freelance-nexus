@@ -20,9 +20,9 @@ const Navbar = () => {
           <div className="text-white text-xl font-bold">
             <Link to="/" className="flex items-center">
               <div className="w-8 h-8 bg-gradient-to-r from-accent to-accent-light rounded-lg flex items-center justify-center mr-3">
-                <span className="text-primary font-bold text-sm">BL</span>
+                <span className="text-primary font-bold text-sm">DF</span>
               </div>
-              <span className="text-accent-light">Block</span>Lance
+              <span className="text-accent-light">De</span>Freelance
             </Link>
           </div>
 

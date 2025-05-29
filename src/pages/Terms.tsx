@@ -21,7 +21,7 @@ const Terms = () => {
             <section>
               <h2 className="text-2xl font-bold text-white mb-4">1. Acceptance of Terms</h2>
               <p className="text-gray-300 leading-relaxed">
-                By accessing and using BlockLance, you accept and agree to be bound by the terms and provision of this agreement. 
+                By accessing and using DeFreelance, you accept and agree to be bound by the terms and provision of this agreement. 
                 If you do not agree to abide by the above, please do not use this service.
               </p>
             </section>
@@ -29,7 +29,7 @@ const Terms = () => {
             <section>
               <h2 className="text-2xl font-bold text-white mb-4">2. Platform Description</h2>
               <p className="text-gray-300 leading-relaxed">
-                BlockLance is a decentralized freelancing platform that connects clients with freelancers using blockchain technology. 
+                DeFreelance is a decentralized freelancing platform that connects clients with freelancers using blockchain technology. 
                 All transactions are secured through smart contracts to ensure transparency and fair payment.
               </p>
             </section>
@@ -56,7 +56,7 @@ const Terms = () => {
             <section>
               <h2 className="text-2xl font-bold text-white mb-4">5. Limitation of Liability</h2>
               <p className="text-gray-300 leading-relaxed">
-                BlockLance provides the platform "as is" and makes no warranties regarding the service. 
+                DeFreelance provides the platform "as is" and makes no warranties regarding the service. 
                 We are not liable for any direct, indirect, incidental, or consequential damages arising from your use of the platform.
               </p>
             </section>

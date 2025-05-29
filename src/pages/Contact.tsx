@@ -74,8 +74,8 @@ const Contact = () => {
                     <h3 className="text-white font-semibold">Email Support</h3>
                   </div>
                   <p className="text-gray-300 mb-2">For general inquiries and support</p>
-                  <a href="mailto:support@blocklance.com" className="text-accent-light hover:underline">
-                    support@blocklance.com
+                  <a href="mailto:support@defreelance.com" className="text-accent-light hover:underline">
+                    support@defreelance.com
                   </a>
                 </CardContent>
               </Card>
@@ -87,8 +87,8 @@ const Contact = () => {
                     <h3 className="text-white font-semibold">Live Chat</h3>
                   </div>
                   <p className="text-gray-300 mb-2">Join our Discord community</p>
-                  <a href="https://discord.gg/blocklance" target="_blank" rel="noopener noreferrer" className="text-accent-light hover:underline">
-                    discord.gg/blocklance
+                  <a href="https://discord.gg/defreelance" target="_blank" rel="noopener noreferrer" className="text-accent-light hover:underline">
+                    discord.gg/defreelance
                   </a>
                 </CardContent>
               </Card>
@@ -97,10 +97,10 @@ const Contact = () => {
                 <CardContent className="p-6">
                   <h3 className="text-white font-semibold mb-4">Follow Us</h3>
                   <div className="flex space-x-4">
-                    <a href="https://twitter.com/blocklance" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-accent-light">
+                    <a href="https://twitter.com/defreelance" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-accent-light">
                       <Twitter className="w-6 h-6" />
                     </a>
-                    <a href="https://github.com/blocklance" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-accent-light">
+                    <a href="https://github.com/defreelance" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-accent-light">
                       <Github className="w-6 h-6" />
                     </a>
                   </div>

@@ -21,7 +21,7 @@ const Privacy = () => {
             <section>
               <h2 className="text-2xl font-bold text-white mb-4">1. Information We Collect</h2>
               <p className="text-gray-300 leading-relaxed mb-4">
-                BlockLance collects minimal information necessary to provide our services:
+                DeFreelance collects minimal information necessary to provide our services:
               </p>
               <ul className="text-gray-300 space-y-2 ml-6 list-disc">
                 <li>Wallet addresses for blockchain transactions</li>
@@ -80,7 +80,7 @@ const Privacy = () => {
             <section>
               <h2 className="text-2xl font-bold text-white mb-4">7. Contact Us</h2>
               <p className="text-gray-300 leading-relaxed">
-                If you have questions about this Privacy Policy, please contact us at privacy@blocklance.com
+                If you have questions about this Privacy Policy, please contact us at privacy@defreelance.com
               </p>
             </section>
           </div>

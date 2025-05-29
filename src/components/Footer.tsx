@@ -10,7 +10,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           <div>
             <h3 className="text-xl font-bold mb-4">
-              <span className="text-accent-light">Block</span>Lance
+              <span className="text-accent-light">De</span>Freelance
             </h3>
             <p className="text-gray-300">
               A decentralized freelancing platform leveraging blockchain technology for secure, 
@@ -34,7 +34,7 @@ const Footer = () => {
               <li><Link to="/faq" className="text-gray-300 hover:text-accent-light transition-colors">FAQ</Link></li>
               <li><Link to="/tutorials" className="text-gray-300 hover:text-accent-light transition-colors">Tutorials</Link></li>
               <li><Link to="/blog" className="text-gray-300 hover:text-accent-light transition-colors">Blog</Link></li>
-              <li><a href="https://docs.blocklance.com" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-accent-light transition-colors">Documentation</a></li>
+              <li><a href="https://docs.defreelance.com" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-accent-light transition-colors">Documentation</a></li>
             </ul>
           </div>
           
@@ -42,9 +42,9 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4 text-accent-light">Connect</h4>
             <ul className="space-y-2">
               <li><Link to="/contact" className="text-gray-300 hover:text-accent-light transition-colors">Contact Us</Link></li>
-              <li><a href="https://twitter.com/blocklance" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-accent-light transition-colors">Twitter</a></li>
-              <li><a href="https://discord.gg/blocklance" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-accent-light transition-colors">Discord</a></li>
-              <li><a href="https://github.com/blocklance" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-accent-light transition-colors">GitHub</a></li>
+              <li><a href="https://twitter.com/defreelance" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-accent-light transition-colors">Twitter</a></li>
+              <li><a href="https://discord.gg/defreelance" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-accent-light transition-colors">Discord</a></li>
+              <li><a href="https://github.com/defreelance" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-accent-light transition-colors">GitHub</a></li>
             </ul>
           </div>
         </div>
@@ -52,7 +52,7 @@ const Footer = () => {
         <div className="border-t border-gray-700 pt-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm mb-4 md:mb-0">
-              © {currentYear} BlockLance. All rights reserved.
+              © {currentYear} DeFreelance. All rights reserved.
             </p>
             <div className="flex space-x-6">
               <Link to="/terms" className="text-gray-400 hover:text-accent-light text-sm transition-colors">Terms of Service</Link>

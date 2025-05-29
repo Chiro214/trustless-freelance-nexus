@@ -7,7 +7,7 @@ import { Play } from "lucide-react";
 const Tutorials = () => {
   const tutorials = [
     {
-      title: "Getting Started with BlockLance",
+      title: "Getting Started with DeFreelance",
       description: "Learn how to create your account and set up your profile",
       duration: "5 min",
       difficulty: "Beginner"
@@ -54,7 +54,7 @@ const Tutorials = () => {
               <span className="text-accent-light">Tutorials</span>
             </h1>
             <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-              Learn how to make the most of BlockLance with our comprehensive tutorials
+              Learn how to make the most of DeFreelance with our comprehensive tutorials
             </p>
           </div>
 

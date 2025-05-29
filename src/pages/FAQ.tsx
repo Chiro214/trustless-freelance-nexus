@@ -6,8 +6,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 const FAQ = () => {
   const faqs = [
     {
-      question: "What is BlockLance?",
-      answer: "BlockLance is a decentralized freelancing platform that uses blockchain technology to ensure secure, transparent transactions between clients and freelancers."
+      question: "What is DeFreelance?",
+      answer: "DeFreelance is a decentralized freelancing platform that uses blockchain technology to ensure secure, transparent transactions between clients and freelancers."
     },
     {
       question: "How do payments work?",
@@ -37,7 +37,7 @@ const FAQ = () => {
               Frequently Asked <span className="text-accent-light">Questions</span>
             </h1>
             <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-              Find answers to common questions about BlockLance
+              Find answers to common questions about DeFreelance
             </p>
           </div>
 
