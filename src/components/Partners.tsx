@@ -4,49 +4,49 @@ import { useEffect, useState, useRef } from 'react';
 const partners = [
   {
     name: "Polygon",
-    logo: "https://cryptologos.cc/logos/polygon-matic-logo.png?size=200",
+    logo: "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/color/matic.svg",
     fallback: "⬟",
     color: "from-purple-500 to-pink-500"
   },
   {
     name: "Chainlink",
-    logo: "https://cryptologos.cc/logos/chainlink-link-logo.png?size=200",
+    logo: "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/color/link.svg",
     fallback: "🔗",
     color: "from-blue-500 to-cyan-500"
   },
   {
     name: "IPFS",
-    logo: "https://ipfs.tech/ipfs-logo.svg",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/1/18/Ipfs-logo-1024-ice-text.png",
     fallback: "📁",
     color: "from-teal-500 to-green-500"
   },
   {
     name: "Alchemy",
-    logo: "https://docs.alchemy.com/img/alchemy_logo.svg",
+    logo: "https://www.alchemy.com/hubfs/alchemy-logo-blue.svg",
     fallback: "⚗️",
     color: "from-indigo-500 to-purple-500"
   },
   {
     name: "Ethereum",
-    logo: "https://ethereum.org/static/6b935ac0e6194247347855dc3d328e83/6ed5f/eth-diamond-black.png",
+    logo: "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/color/eth.svg",
     fallback: "Ξ",
     color: "from-blue-400 to-purple-500"
   },
   {
     name: "Arbitrum",
-    logo: "https://arbitrum.foundation/logo.svg",
+    logo: "https://bridge.arbitrum.io/logo.png",
     fallback: "🏛️",
     color: "from-blue-500 to-cyan-400"
   },
   {
     name: "Optimism",
-    logo: "https://assets.coingecko.com/coins/images/25244/large/Optimism.png",
+    logo: "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/color/op.svg",
     fallback: "⚡",
     color: "from-red-500 to-pink-500"
   },
   {
     name: "Solana",
-    logo: "https://cryptologos.cc/logos/solana-sol-logo.png?size=200",
+    logo: "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/color/sol.svg",
     fallback: "◎",
     color: "from-purple-400 to-pink-400"
   }
@@ -115,18 +115,18 @@ const Partners = () => {
                 opacity: 0
               }}
             >
-              <div className="relative bg-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/10 hover:border-accent-light/40 transition-all duration-500 hover:scale-105 hover:-translate-y-2 w-full h-32 flex items-center justify-center group-hover:bg-white/10">
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-accent-light/20 to-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm"></div>
+              <div className="relative bg-white/10 backdrop-blur-xl rounded-3xl p-6 border border-white/20 hover:border-accent-light/50 transition-all duration-500 hover:scale-105 hover:-translate-y-2 w-full h-32 flex items-center justify-center group-hover:bg-white/15 shadow-lg">
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-accent-light/10 to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 
                 {imageErrors[partner.name] ? (
-                  <div className={`w-16 h-16 bg-gradient-to-br ${partner.color} rounded-xl flex items-center justify-center text-white font-bold text-2xl relative z-10`}>
+                  <div className={`w-16 h-16 bg-gradient-to-br ${partner.color} rounded-xl flex items-center justify-center text-white font-bold text-2xl relative z-10 shadow-lg`}>
                     {partner.fallback}
                   </div>
                 ) : (
                   <img 
                     src={partner.logo} 
                     alt={`${partner.name} logo`} 
-                    className="max-h-16 max-w-full object-contain filter brightness-90 contrast-110 hover:brightness-110 hover:contrast-125 transition-all duration-500 hover:scale-110 relative z-10"
+                    className="max-h-12 max-w-full object-contain filter brightness-100 hover:brightness-110 transition-all duration-500 hover:scale-110 relative z-10"
                     onError={() => handleImageError(partner.name)}
                     loading="lazy"
                   />
