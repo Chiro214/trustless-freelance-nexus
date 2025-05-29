@@ -4,41 +4,58 @@ import { useEffect, useState, useRef } from 'react';
 const cryptoGiants = [
   {
     name: "Coinbase",
-    logo: "https://logos-world.net/wp-content/uploads/2021/02/Coinbase-Logo.png"
+    logo: "https://assets.coinbase.com/assets/coinbase-coin.png",
+    fallback: "CB",
+    color: "from-blue-500 to-indigo-600"
   },
   {
     name: "Binance",
-    logo: "https://cryptologos.cc/logos/binance-coin-bnb-logo.png"
+    logo: "https://public.bnbstatic.com/image/cms/blog/20200923/c2c0c0d5-2ea9-4b7b-8cb1-3b5297e5056a.png",
+    fallback: "BNB",
+    color: "from-yellow-400 to-orange-500"
   },
   {
     name: "Uniswap",
-    logo: "https://cryptologos.cc/logos/uniswap-uni-logo.png"
+    logo: "https://cryptologos.cc/logos/uniswap-uni-logo.png?size=200",
+    fallback: "🦄",
+    color: "from-pink-500 to-purple-600"
   },
   {
     name: "Kraken",
-    logo: "https://cdn.worldvectorlogo.com/logos/kraken-1.svg"
+    logo: "https://assets.coingecko.com/markets/images/130/small/kraken.jpg",
+    fallback: "🐙",
+    color: "from-purple-600 to-indigo-700"
   },
   {
     name: "Crypto.com",
-    logo: "https://cryptologos.cc/logos/cronos-cro-logo.png"
+    logo: "https://crypto.com/favicon.ico",
+    fallback: "CRO",
+    color: "from-blue-600 to-purple-700"
   },
   {
     name: "1inch",
-    logo: "https://cryptologos.cc/logos/1inch-1inch-logo.png"
+    logo: "https://cryptologos.cc/logos/1inch-1inch-logo.png?size=200",
+    fallback: "1️⃣",
+    color: "from-red-500 to-pink-600"
   },
   {
     name: "Aave",
-    logo: "https://cryptologos.cc/logos/aave-aave-logo.png"
+    logo: "https://cryptologos.cc/logos/aave-aave-logo.png?size=200",
+    fallback: "👻",
+    color: "from-purple-500 to-pink-500"
   },
   {
     name: "Compound",
-    logo: "https://cryptologos.cc/logos/compound-comp-logo.png"
+    logo: "https://cryptologos.cc/logos/compound-comp-logo.png?size=200",
+    fallback: "💰",
+    color: "from-green-500 to-teal-600"
   }
 ];
 
 const CryptoSponsors = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [imageErrors, setImageErrors] = useState<{[key: string]: boolean}>({});
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -58,6 +75,10 @@ const CryptoSponsors = () => {
       }
     };
   }, []);
+
+  const handleImageError = (companyName: string) => {
+    setImageErrors(prev => ({ ...prev, [companyName]: true }));
+  };
 
   return (
     <section 
@@ -93,28 +114,25 @@ const CryptoSponsors = () => {
                 opacity: 0
               }}
             >
-              {/* Trendy glassmorphism card */}
               <div className="relative bg-white/5 backdrop-blur-2xl rounded-3xl p-8 border border-white/10 hover:border-accent-light/50 transition-all duration-700 hover:scale-110 hover:-translate-y-3 w-full h-32 flex items-center justify-center group-hover:bg-white/10 shadow-xl hover:shadow-2xl hover:shadow-accent-light/20">
-                {/* Animated gradient border */}
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-accent-light via-accent to-accent-light opacity-0 group-hover:opacity-20 transition-opacity duration-700 blur-sm animate-pulse"></div>
                 
-                {/* Floating particles effect */}
                 <div className="absolute top-2 right-2 w-2 h-2 bg-accent-light rounded-full opacity-0 group-hover:opacity-60 transition-opacity duration-500 animate-ping"></div>
                 <div className="absolute bottom-2 left-2 w-1.5 h-1.5 bg-accent rounded-full opacity-0 group-hover:opacity-40 transition-opacity duration-700 animate-ping" style={{ animationDelay: '0.5s' }}></div>
                 
-                <img 
-                  src={company.logo} 
-                  alt={`${company.name} logo`} 
-                  className="max-h-14 max-w-full object-contain filter brightness-90 contrast-110 hover:brightness-110 hover:contrast-125 transition-all duration-700 hover:scale-105 relative z-10"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.style.display = 'none';
-                    const fallback = document.createElement('div');
-                    fallback.className = 'w-14 h-14 bg-gradient-to-br from-accent-light to-accent rounded-xl flex items-center justify-center text-white font-bold text-lg';
-                    fallback.textContent = company.name.charAt(0);
-                    target.parentNode?.appendChild(fallback);
-                  }}
-                />
+                {imageErrors[company.name] ? (
+                  <div className={`w-14 h-14 bg-gradient-to-br ${company.color} rounded-xl flex items-center justify-center text-white font-bold text-lg relative z-10`}>
+                    {company.fallback}
+                  </div>
+                ) : (
+                  <img 
+                    src={company.logo} 
+                    alt={`${company.name} logo`} 
+                    className="max-h-14 max-w-full object-contain filter brightness-90 contrast-110 hover:brightness-110 hover:contrast-125 transition-all duration-700 hover:scale-105 relative z-10"
+                    onError={() => handleImageError(company.name)}
+                    loading="lazy"
+                  />
+                )}
               </div>
               
               <p className="mt-5 text-center text-sm font-semibold text-gray-400 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:text-accent-light transform group-hover:-translate-y-1">{company.name}</p>
