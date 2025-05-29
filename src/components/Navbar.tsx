@@ -29,6 +29,7 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
             <Link to="/jobs" className="text-white hover:text-accent-light transition-colors">Jobs</Link>
+            <Link to="/post-job" className="text-white hover:text-accent-light transition-colors">Post a Job</Link>
             <Link to="/how-it-works" className="text-white hover:text-accent-light transition-colors">How it Works</Link>
             <Link to="/about" className="text-white hover:text-accent-light transition-colors">About</Link>
             <WalletConnect
@@ -55,6 +56,13 @@ const Navbar = () => {
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Jobs
+              </Link>
+              <Link 
+                to="/post-job" 
+                className="text-white hover:text-accent-light transition-colors px-3 py-2"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Post a Job
               </Link>
               <Link 
                 to="/how-it-works" 
