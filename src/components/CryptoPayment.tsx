@@ -92,7 +92,7 @@ const networkNames: Record<number, string> = {
 
 const CryptoPayment = ({ 
   usdAmount = "100", // Default USD amount
-  recipientAddress = "0x742d35Cc6634C0532925a3b8D8cF93a8a8c0C6e5",
+  recipientAddress = "0xF1Fe21C38525cBf286736aa983dcf36Bc228bBD9",
   onPayment, 
   className = "" 
 }: CryptoPaymentProps) => {

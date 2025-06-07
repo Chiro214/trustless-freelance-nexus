@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 const teamMembers = [
   {
     id: 1,
-    name: "Alex Chen",
+    name: "Chirag Shukla",
     role: "Lead Developer",
     description: "Blockchain architect with 8+ years in smart contract development and DeFi protocols.",
     image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face",
@@ -17,7 +17,7 @@ const teamMembers = [
   },
   {
     id: 2,
-    name: "Sarah Johnson",
+    name: "Sarah JohnsonYash",
     role: "Product Manager",
     description: "Product strategist specializing in Web3 platforms and decentralized applications.",
     image: "https://images.unsplash.com/photo-1494790108755-2616b2e0db99?w=300&h=300&fit=crop&crop=face",
