@@ -9,13 +9,28 @@ type JobApplication = {
   status: 'applied' | 'completed';
 };
 
+type PostedJob = {
+  id: number;
+  title: string;
+  description: string;
+  budget: string;
+  category: string;
+  deadline: string;
+  clientAddress: string;
+  timestamp: Date;
+  status: 'active' | 'completed' | 'cancelled';
+};
+
 type JobsContextType = {
   applications: JobApplication[];
+  postedJobs: PostedJob[];
   addApplication: (jobId: number, applicantAddress: string, txHash: string) => void;
+  addPostedJob: (job: Omit<PostedJob, 'id' | 'timestamp' | 'status'>) => void;
   completeJob: (jobId: number) => void;
   getJobApplications: (jobId: number) => JobApplication[];
   getUserApplications: (userAddress: string) => JobApplication[];
   isJobApplied: (jobId: number, userAddress: string) => boolean;
+  getAllJobs: () => PostedJob[];
 };
 
 const JobsContext = createContext<JobsContextType | null>(null);
@@ -30,6 +45,7 @@ export const useJobs = () => {
 
 export const JobsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [applications, setApplications] = useState<JobApplication[]>([]);
+  const [postedJobs, setPostedJobs] = useState<PostedJob[]>([]);
 
   const addApplication = (jobId: number, applicantAddress: string, txHash: string) => {
     const newApplication: JobApplication = {
@@ -42,10 +58,25 @@ export const JobsProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setApplications(prev => [...prev, newApplication]);
   };
 
+  const addPostedJob = (job: Omit<PostedJob, 'id' | 'timestamp' | 'status'>) => {
+    const newJob: PostedJob = {
+      ...job,
+      id: Date.now(),
+      timestamp: new Date(),
+      status: 'active'
+    };
+    setPostedJobs(prev => [...prev, newJob]);
+  };
+
   const completeJob = (jobId: number) => {
     setApplications(prev => 
       prev.map(app => 
         app.jobId === jobId ? { ...app, status: 'completed' } : app
+      )
+    );
+    setPostedJobs(prev =>
+      prev.map(job =>
+        job.id === jobId ? { ...job, status: 'completed' } : job
       )
     );
   };
@@ -64,14 +95,21 @@ export const JobsProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     );
   };
 
+  const getAllJobs = () => {
+    return postedJobs;
+  };
+
   return (
     <JobsContext.Provider value={{
       applications,
+      postedJobs,
       addApplication,
+      addPostedJob,
       completeJob,
       getJobApplications,
       getUserApplications,
-      isJobApplied
+      isJobApplied,
+      getAllJobs
     }}>
       {children}
     </JobsContext.Provider>

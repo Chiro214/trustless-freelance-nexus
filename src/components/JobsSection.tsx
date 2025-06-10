@@ -34,10 +34,12 @@ const sampleJobs = [
 ];
 
 const JobsSection = () => {
-  const { applications } = useJobs();
+  const { applications, getAllJobs } = useJobs();
+  const postedJobs = getAllJobs();
   
   const totalApplications = applications.length;
   const completedJobs = applications.filter(app => app.status === 'completed').length;
+  const totalActiveJobs = sampleJobs.length + postedJobs.filter(job => job.status === 'active').length;
 
   return (
     <section className="py-20 bg-gray-900 px-4">
@@ -57,7 +59,7 @@ const JobsSection = () => {
               <div className="text-gray-400 text-sm">Completed Jobs</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-blue-400">{sampleJobs.length}</div>
+              <div className="text-2xl font-bold text-blue-400">{totalActiveJobs}</div>
               <div className="text-gray-400 text-sm">Active Jobs</div>
             </div>
           </div>
@@ -73,6 +75,7 @@ const JobsSection = () => {
           <Button 
             variant="outline" 
             className="border-accent-light text-accent-light hover:bg-accent-light hover:text-primary"
+            onClick={() => window.location.href = '/jobs'}
           >
             View All Jobs
           </Button>

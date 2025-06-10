@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useWallet } from "@/context/WalletContext";
+import { useJobs } from "@/context/JobsContext";
 
 const jobSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -27,6 +27,7 @@ type JobFormData = z.infer<typeof jobSchema>;
 
 const PostJob = () => {
   const { account } = useWallet();
+  const { addPostedJob } = useJobs();
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -53,16 +54,17 @@ const PostJob = () => {
       // Simulate blockchain transaction
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Store job data (in a real app, this would be stored on blockchain or database)
-      const jobData = {
-        ...data,
-        id: Date.now(),
-        clientAddress: account,
-        timestamp: new Date(),
-        status: 'active'
-      };
+      // Add job to context
+      addPostedJob({
+        title: data.title,
+        category: data.category,
+        budget: data.budget,
+        description: data.description,
+        deadline: data.deadline,
+        clientAddress: account
+      });
 
-      console.log('Job posted:', jobData);
+      console.log('Job posted successfully');
       
       toast.success("Job posted successfully! Redirecting to jobs page...");
       

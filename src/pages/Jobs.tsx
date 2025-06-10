@@ -2,13 +2,14 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, Filter } from "lucide-react";
+import { Search } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import JobCard from "@/components/JobCard";
+import { useJobs } from "@/context/JobsContext";
 
 // Sample jobs data
-const allJobs = [
+const sampleJobs = [
   {
     id: 1,
     title: "Smart Contract Developer",
@@ -35,41 +36,31 @@ const allJobs = [
     category: "Content",
     deadline: "5 days",
     clientName: "0xbcd456efbcd456efbcd456efbcd456efbcd456ef"
-  },
-  {
-    id: 4,
-    title: "Blockchain Security Auditor",
-    description: "Audit smart contract code for vulnerabilities and security issues. Experience with security analysis tools required.",
-    price: "2.5",
-    category: "Security",
-    deadline: "14 days",
-    clientName: "0x5678def5678def5678def5678def5678def5678d"
-  },
-  {
-    id: 5,
-    title: "NFT Artist",
-    description: "Create a collection of 10 unique NFT artworks for a new crypto gaming project. Must have previous NFT experience.",
-    price: "1.0",
-    category: "Design",
-    deadline: "20 days",
-    clientName: "0xabc9876abc9876abc9876abc9876abc9876abc987"
-  },
-  {
-    id: 6,
-    title: "Token Economics Designer",
-    description: "Design token economics and incentive structures for a new DeFi platform. Prior experience with tokenomics required.",
-    price: "3.2",
-    category: "Economics",
-    deadline: "30 days",
-    clientName: "0x1234567812345678123456781234567812345678"
   }
 ];
 
-const categories = ["All", "Blockchain", "Web Development", "Content", "Security", "Design", "Economics"];
+const categories = ["All", "Blockchain", "Web Development", "Content", "Security", "Design", "Economics", "Development", "Marketing", "Writing"];
 
 const Jobs = () => {
+  const { getAllJobs } = useJobs();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  
+  const postedJobs = getAllJobs();
+  
+  // Combine sample jobs with posted jobs
+  const allJobs = [
+    ...sampleJobs,
+    ...postedJobs.map(job => ({
+      id: job.id,
+      title: job.title,
+      description: job.description,
+      price: job.budget,
+      category: job.category.charAt(0).toUpperCase() + job.category.slice(1),
+      deadline: job.deadline,
+      clientName: job.clientAddress
+    }))
+  ];
   
   const filteredJobs = allJobs.filter(job => {
     const matchesSearch = job.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -82,7 +73,6 @@ const Jobs = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     // Search is already reactive with the onChange handler
-    // This is just to handle form submission
   };
 
   return (
