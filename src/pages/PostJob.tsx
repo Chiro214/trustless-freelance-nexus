@@ -1,4 +1,10 @@
 
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -6,8 +12,72 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { useWallet } from "@/context/WalletContext";
+
+const jobSchema = z.object({
+  title: z.string().min(3, "Title must be at least 3 characters"),
+  category: z.string().min(1, "Please select a category"),
+  budget: z.string().min(1, "Budget is required").refine((val) => !isNaN(Number(val)) && Number(val) > 0, "Budget must be a positive number"),
+  description: z.string().min(20, "Description must be at least 20 characters"),
+  deadline: z.string().min(1, "Deadline is required")
+});
+
+type JobFormData = z.infer<typeof jobSchema>;
 
 const PostJob = () => {
+  const { account } = useWallet();
+  const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const form = useForm<JobFormData>({
+    resolver: zodResolver(jobSchema),
+    defaultValues: {
+      title: "",
+      category: "",
+      budget: "",
+      description: "",
+      deadline: ""
+    }
+  });
+
+  const onSubmit = async (data: JobFormData) => {
+    if (!account) {
+      toast.error("Please connect your wallet to post a job");
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    try {
+      // Simulate blockchain transaction
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Store job data (in a real app, this would be stored on blockchain or database)
+      const jobData = {
+        ...data,
+        id: Date.now(),
+        clientAddress: account,
+        timestamp: new Date(),
+        status: 'active'
+      };
+
+      console.log('Job posted:', jobData);
+      
+      toast.success("Job posted successfully! Redirecting to jobs page...");
+      
+      setTimeout(() => {
+        navigate('/jobs');
+      }, 1500);
+
+    } catch (error) {
+      console.error('Error posting job:', error);
+      toast.error("Failed to post job. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="bg-primary min-h-screen">
       <Navbar />
@@ -29,43 +99,126 @@ const PostJob = () => {
                 Provide detailed information about your project
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div>
-                <label className="block text-white mb-2">Job Title</label>
-                <Input placeholder="Enter job title" className="bg-white/10 border-white/20 text-white" />
-              </div>
+            <CardContent>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="title"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-white">Job Title</FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="Enter job title" 
+                            className="bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-              <div>
-                <label className="block text-white mb-2">Category</label>
-                <Select>
-                  <SelectTrigger className="bg-white/10 border-white/20 text-white">
-                    <SelectValue placeholder="Select category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="development">Development</SelectItem>
-                    <SelectItem value="design">Design</SelectItem>
-                    <SelectItem value="marketing">Marketing</SelectItem>
-                    <SelectItem value="writing">Writing</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+                  <FormField
+                    control={form.control}
+                    name="category"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-white">Category</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                              <SelectValue placeholder="Select category" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="development">Development</SelectItem>
+                            <SelectItem value="design">Design</SelectItem>
+                            <SelectItem value="marketing">Marketing</SelectItem>
+                            <SelectItem value="writing">Writing</SelectItem>
+                            <SelectItem value="blockchain">Blockchain</SelectItem>
+                            <SelectItem value="content">Content</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-              <div>
-                <label className="block text-white mb-2">Budget (ETH)</label>
-                <Input placeholder="0.5" type="number" className="bg-white/10 border-white/20 text-white" />
-              </div>
+                  <FormField
+                    control={form.control}
+                    name="budget"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-white">Budget (ETH)</FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="0.5" 
+                            type="number" 
+                            step="0.01"
+                            className="bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-              <div>
-                <label className="block text-white mb-2">Description</label>
-                <Textarea 
-                  placeholder="Describe your project requirements..."
-                  className="bg-white/10 border-white/20 text-white min-h-[120px]"
-                />
-              </div>
+                  <FormField
+                    control={form.control}
+                    name="deadline"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-white">Deadline</FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="e.g., 7 days, 2 weeks" 
+                            className="bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-              <Button className="w-full bg-accent hover:bg-accent-light text-primary font-semibold py-3">
-                Post Job
-              </Button>
+                  <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-white">Description</FormLabel>
+                        <FormControl>
+                          <Textarea 
+                            placeholder="Describe your project requirements..."
+                            className="bg-white/10 border-white/20 text-white min-h-[120px] placeholder:text-gray-400"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {!account && (
+                    <div className="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-4">
+                      <p className="text-yellow-300 text-sm">
+                        Please connect your wallet to post a job
+                      </p>
+                    </div>
+                  )}
+
+                  <Button 
+                    type="submit"
+                    disabled={!account || isSubmitting}
+                    className="w-full bg-accent hover:bg-accent-light text-primary font-semibold py-3"
+                  >
+                    {isSubmitting ? "Posting Job..." : "Post Job"}
+                  </Button>
+                </form>
+              </Form>
             </CardContent>
           </Card>
         </div>
