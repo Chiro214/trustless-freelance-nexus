@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -6,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, MessageCircle, Github, Twitter } from "lucide-react";
-import { toast } from "sonner";
+import { useCreativeToast } from "@/hooks/use-creative-toast";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -17,6 +18,7 @@ const Contact = () => {
     message: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { showToast } = useCreativeToast();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -30,12 +32,20 @@ const Contact = () => {
     e.preventDefault();
     
     if (!formData.firstName || !formData.lastName || !formData.email || !formData.subject || !formData.message) {
-      toast.error("Please fill in all fields");
+      showToast({
+        type: 'error',
+        title: 'Missing Information',
+        description: 'Please fill in all fields'
+      });
       return;
     }
 
     if (!formData.email.includes("@")) {
-      toast.error("Please enter a valid email address");
+      showToast({
+        type: 'error',
+        title: 'Invalid Email',
+        description: 'Please enter a valid email address'
+      });
       return;
     }
 
@@ -51,7 +61,11 @@ const Contact = () => {
         recipientEmail: "chiragshukla236@gmail.com"
       });
 
-      toast.success("Message sent successfully! We'll get back to you soon.");
+      showToast({
+        type: 'success',
+        title: 'Message Sent! 🚀',
+        description: "We'll get back to you soon!"
+      });
       
       // Reset form
       setFormData({
@@ -63,7 +77,11 @@ const Contact = () => {
       });
     } catch (error) {
       console.error("Error sending message:", error);
-      toast.error("Failed to send message. Please try again.");
+      showToast({
+        type: 'error',
+        title: 'Send Failed',
+        description: 'Please try again'
+      });
     } finally {
       setIsSubmitting(false);
     }

@@ -22,7 +22,7 @@ const Navbar = () => {
               <div className="w-8 h-8 bg-gradient-to-r from-accent to-accent-light rounded-lg flex items-center justify-center mr-3">
                 <span className="text-primary font-bold text-sm">DF</span>
               </div>
-              <span className="text-accent-light">De</span>Freelance
+              <span className="text-accent-light">De</span>freelance
             </Link>
           </div>
 

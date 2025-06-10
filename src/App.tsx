@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { WalletProvider } from "./context/WalletContext";
 import { JobsProvider } from "./context/JobsContext";
+import HelpAssistant from "./components/HelpAssistant";
 import Index from "./pages/Index";
 import Jobs from "./pages/Jobs";
 import PostJob from "./pages/PostJob";
@@ -26,7 +27,7 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
-      <Sonner />
+      <Sonner position="top-center" />
       <WalletProvider>
         <JobsProvider>
           <BrowserRouter>
@@ -46,6 +47,7 @@ const App = () => (
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
+            <HelpAssistant />
           </BrowserRouter>
         </JobsProvider>
       </WalletProvider>

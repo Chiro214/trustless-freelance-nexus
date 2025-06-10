@@ -1,230 +1,241 @@
+
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { DollarSign, Calendar, Tag } from "lucide-react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useWallet } from "@/context/WalletContext";
 import { useJobs } from "@/context/JobsContext";
-
-const jobSchema = z.object({
-  title: z.string().min(3, "Title must be at least 3 characters"),
-  category: z.string().min(1, "Please select a category"),
-  budget: z.string().min(1, "Budget is required").refine((val) => !isNaN(Number(val)) && Number(val) > 0, "Budget must be a positive number"),
-  description: z.string().min(20, "Description must be at least 20 characters"),
-  deadline: z.string().min(1, "Deadline is required")
-});
-
-type JobFormData = z.infer<typeof jobSchema>;
+import { useCreativeToast } from "@/hooks/use-creative-toast";
 
 const PostJob = () => {
   const { account } = useWallet();
   const { addPostedJob } = useJobs();
-  const navigate = useNavigate();
+  const { showToast } = useCreativeToast();
+  
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    category: "",
+    budget: "",
+    deadline: ""
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const form = useForm<JobFormData>({
-    resolver: zodResolver(jobSchema),
-    defaultValues: {
-      title: "",
-      category: "",
-      budget: "",
-      description: "",
-      deadline: ""
-    }
-  });
+  const categories = [
+    "blockchain",
+    "web-development", 
+    "mobile-development",
+    "design",
+    "content-writing",
+    "marketing",
+    "data-analysis",
+    "cybersecurity"
+  ];
 
-  const onSubmit = async (data: JobFormData) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSelectChange = (name: string, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
     if (!account) {
-      toast.error("Please connect your wallet to post a job");
+      showToast({
+        type: 'warning',
+        title: 'Wallet Required',
+        description: 'Please connect your wallet to post a job'
+      });
+      return;
+    }
+
+    if (!formData.title || !formData.description || !formData.category || !formData.budget || !formData.deadline) {
+      showToast({
+        type: 'error',
+        title: 'Missing Information',
+        description: 'Please fill in all fields'
+      });
+      return;
+    }
+
+    if (isNaN(Number(formData.budget)) || Number(formData.budget) <= 0) {
+      showToast({
+        type: 'error',
+        title: 'Invalid Budget',
+        description: 'Please enter a valid budget amount'
+      });
       return;
     }
 
     setIsSubmitting(true);
-    
+
     try {
       // Simulate blockchain transaction
       await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Add job to context
+
       addPostedJob({
-        title: data.title,
-        category: data.category,
-        budget: data.budget,
-        description: data.description,
-        deadline: data.deadline,
+        title: formData.title,
+        description: formData.description,
+        category: formData.category,
+        budget: formData.budget + " ETH",
+        deadline: formData.deadline,
         clientAddress: account
       });
 
-      console.log('Job posted successfully');
-      
-      toast.success("Job posted successfully! Redirecting to jobs page...");
-      
-      setTimeout(() => {
-        navigate('/jobs');
-      }, 1500);
+      showToast({
+        type: 'success',
+        title: 'Job Posted Successfully! 🎉',
+        description: 'Your job is now live and visible to freelancers'
+      });
+
+      // Reset form
+      setFormData({
+        title: "",
+        description: "",
+        category: "",
+        budget: "",
+        deadline: ""
+      });
 
     } catch (error) {
-      console.error('Error posting job:', error);
-      toast.error("Failed to post job. Please try again.");
+      console.error("Error posting job:", error);
+      showToast({
+        type: 'error',
+        title: 'Posting Failed',
+        description: 'Please try again'
+      });
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="bg-primary min-h-screen">
+    <div className="min-h-screen bg-primary">
       <Navbar />
-      <div className="pt-20 pb-12 px-4">
+      
+      <div className="pt-24 pb-20 px-4">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Post a <span className="text-accent-light">Job</span>
-            </h1>
-            <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-              Find the perfect freelancer for your project using blockchain-powered hiring
+            <h1 className="text-4xl font-bold text-white mb-4">Post a <span className="text-accent-light">Job</span></h1>
+            <p className="text-gray-300 max-w-2xl mx-auto">
+              Create a new job posting and connect with talented freelancers on the blockchain.
             </p>
           </div>
-
+          
           <Card className="bg-white/10 backdrop-blur-lg border-white/20">
             <CardHeader>
               <CardTitle className="text-white">Job Details</CardTitle>
-              <CardDescription className="text-gray-300">
-                Provide detailed information about your project
-              </CardDescription>
             </CardHeader>
             <CardContent>
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  <FormField
-                    control={form.control}
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label className="block text-white mb-2 font-medium">Job Title</label>
+                  <Input
                     name="title"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-white">Job Title</FormLabel>
-                        <FormControl>
-                          <Input 
-                            placeholder="Enter job title" 
-                            className="bg-white/10 border-white/20 text-white placeholder:text-gray-400"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                    placeholder="e.g., Smart Contract Developer"
+                    className="bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+                    value={formData.title}
+                    onChange={handleInputChange}
+                    required
                   />
+                </div>
 
-                  <FormField
-                    control={form.control}
-                    name="category"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-white">Category</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger className="bg-white/10 border-white/20 text-white">
-                              <SelectValue placeholder="Select category" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="development">Development</SelectItem>
-                            <SelectItem value="design">Design</SelectItem>
-                            <SelectItem value="marketing">Marketing</SelectItem>
-                            <SelectItem value="writing">Writing</SelectItem>
-                            <SelectItem value="blockchain">Blockchain</SelectItem>
-                            <SelectItem value="content">Content</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="budget"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-white">Budget (ETH)</FormLabel>
-                        <FormControl>
-                          <Input 
-                            placeholder="0.5" 
-                            type="number" 
-                            step="0.01"
-                            className="bg-white/10 border-white/20 text-white placeholder:text-gray-400"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="deadline"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-white">Deadline</FormLabel>
-                        <FormControl>
-                          <Input 
-                            placeholder="e.g., 7 days, 2 weeks" 
-                            className="bg-white/10 border-white/20 text-white placeholder:text-gray-400"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
+                <div>
+                  <label className="block text-white mb-2 font-medium">Description</label>
+                  <Textarea
                     name="description"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-white">Description</FormLabel>
-                        <FormControl>
-                          <Textarea 
-                            placeholder="Describe your project requirements..."
-                            className="bg-white/10 border-white/20 text-white min-h-[120px] placeholder:text-gray-400"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                    placeholder="Describe the job requirements, skills needed, and project details..."
+                    className="bg-white/10 border-white/20 text-white min-h-[120px] placeholder:text-gray-400"
+                    value={formData.description}
+                    onChange={handleInputChange}
+                    required
                   />
+                </div>
 
-                  {!account && (
-                    <div className="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-4">
-                      <p className="text-yellow-300 text-sm">
-                        Please connect your wallet to post a job
-                      </p>
-                    </div>
-                  )}
+                <div className="grid md:grid-cols-3 gap-6">
+                  <div>
+                    <label className="block text-white mb-2 font-medium">
+                      <Tag className="w-4 h-4 inline mr-1" />
+                      Category
+                    </label>
+                    <Select value={formData.category} onValueChange={(value) => handleSelectChange('category', value)}>
+                      <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                        <SelectValue placeholder="Select category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {categories.map(category => (
+                          <SelectItem key={category} value={category}>
+                            {category.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-                  <Button 
+                  <div>
+                    <label className="block text-white mb-2 font-medium">
+                      <DollarSign className="w-4 h-4 inline mr-1" />
+                      Budget (ETH)
+                    </label>
+                    <Input
+                      name="budget"
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      placeholder="1.5"
+                      className="bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+                      value={formData.budget}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-white mb-2 font-medium">
+                      <Calendar className="w-4 h-4 inline mr-1" />
+                      Deadline
+                    </label>
+                    <Input
+                      name="deadline"
+                      placeholder="e.g., 7 days"
+                      className="bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+                      value={formData.deadline}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="pt-6">
+                  <Button
                     type="submit"
-                    disabled={!account || isSubmitting}
-                    className="w-full bg-accent hover:bg-accent-light text-primary font-semibold py-3"
+                    disabled={isSubmitting || !account}
+                    className="w-full bg-accent hover:bg-accent-light text-primary font-semibold py-6 text-lg"
                   >
-                    {isSubmitting ? "Posting Job..." : "Post Job"}
+                    {isSubmitting ? "Posting Job..." : !account ? "Connect Wallet to Post" : "Post Job"}
                   </Button>
-                </form>
-              </Form>
+                </div>
+              </form>
             </CardContent>
           </Card>
         </div>
       </div>
+      
       <Footer />
     </div>
   );
