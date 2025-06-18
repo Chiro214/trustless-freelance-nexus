@@ -9,7 +9,259 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      jobs: {
+        Row: {
+          budget: number
+          category: string
+          client_id: string
+          created_at: string | null
+          deadline: string
+          description: string
+          id: string
+          skills_required: string[] | null
+          status: Database["public"]["Enums"]["job_status"] | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          budget: number
+          category: string
+          client_id: string
+          created_at?: string | null
+          deadline: string
+          description: string
+          id?: string
+          skills_required?: string[] | null
+          status?: Database["public"]["Enums"]["job_status"] | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          budget?: number
+          category?: string
+          client_id?: string
+          created_at?: string | null
+          deadline?: string
+          description?: string
+          id?: string
+          skills_required?: string[] | null
+          status?: Database["public"]["Enums"]["job_status"] | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "jobs_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          bio: string | null
+          created_at: string | null
+          full_name: string | null
+          hourly_rate: number | null
+          id: string
+          profile_image_url: string | null
+          skills: string[] | null
+          updated_at: string | null
+          user_role: Database["public"]["Enums"]["user_role"] | null
+          username: string | null
+          wallet_address: string | null
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string | null
+          full_name?: string | null
+          hourly_rate?: number | null
+          id: string
+          profile_image_url?: string | null
+          skills?: string[] | null
+          updated_at?: string | null
+          user_role?: Database["public"]["Enums"]["user_role"] | null
+          username?: string | null
+          wallet_address?: string | null
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string | null
+          full_name?: string | null
+          hourly_rate?: number | null
+          id?: string
+          profile_image_url?: string | null
+          skills?: string[] | null
+          updated_at?: string | null
+          user_role?: Database["public"]["Enums"]["user_role"] | null
+          username?: string | null
+          wallet_address?: string | null
+        }
+        Relationships: []
+      }
+      proposals: {
+        Row: {
+          cover_letter: string
+          created_at: string | null
+          estimated_duration: string | null
+          freelancer_id: string
+          id: string
+          job_id: string
+          proposed_rate: number
+          status: Database["public"]["Enums"]["proposal_status"] | null
+          updated_at: string | null
+        }
+        Insert: {
+          cover_letter: string
+          created_at?: string | null
+          estimated_duration?: string | null
+          freelancer_id: string
+          id?: string
+          job_id: string
+          proposed_rate: number
+          status?: Database["public"]["Enums"]["proposal_status"] | null
+          updated_at?: string | null
+        }
+        Update: {
+          cover_letter?: string
+          created_at?: string | null
+          estimated_duration?: string | null
+          freelancer_id?: string
+          id?: string
+          job_id?: string
+          proposed_rate?: number
+          status?: Database["public"]["Enums"]["proposal_status"] | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "proposals_freelancer_id_fkey"
+            columns: ["freelancer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "proposals_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "jobs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reviews: {
+        Row: {
+          comment: string | null
+          created_at: string | null
+          id: string
+          job_id: string
+          rating: number | null
+          reviewee_id: string
+          reviewer_id: string
+        }
+        Insert: {
+          comment?: string | null
+          created_at?: string | null
+          id?: string
+          job_id: string
+          rating?: number | null
+          reviewee_id: string
+          reviewer_id: string
+        }
+        Update: {
+          comment?: string | null
+          created_at?: string | null
+          id?: string
+          job_id?: string
+          rating?: number | null
+          reviewee_id?: string
+          reviewer_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "jobs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_reviewee_id_fkey"
+            columns: ["reviewee_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_reviewer_id_fkey"
+            columns: ["reviewer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      transactions: {
+        Row: {
+          amount: number
+          created_at: string | null
+          from_user_id: string
+          id: string
+          job_id: string
+          status: Database["public"]["Enums"]["transaction_status"] | null
+          to_user_id: string
+          transaction_hash: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          from_user_id: string
+          id?: string
+          job_id: string
+          status?: Database["public"]["Enums"]["transaction_status"] | null
+          to_user_id: string
+          transaction_hash?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          from_user_id?: string
+          id?: string
+          job_id?: string
+          status?: Database["public"]["Enums"]["transaction_status"] | null
+          to_user_id?: string
+          transaction_hash?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_from_user_id_fkey"
+            columns: ["from_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transactions_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "jobs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transactions_to_user_id_fkey"
+            columns: ["to_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -18,7 +270,10 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      job_status: "active" | "in_progress" | "completed" | "cancelled"
+      proposal_status: "pending" | "accepted" | "rejected"
+      transaction_status: "pending" | "completed" | "failed" | "refunded"
+      user_role: "freelancer" | "client" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -133,6 +388,11 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      job_status: ["active", "in_progress", "completed", "cancelled"],
+      proposal_status: ["pending", "accepted", "rejected"],
+      transaction_status: ["pending", "completed", "failed", "refunded"],
+      user_role: ["freelancer", "client", "admin"],
+    },
   },
 } as const
