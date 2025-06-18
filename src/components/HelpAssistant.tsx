@@ -156,7 +156,15 @@ const HelpAssistant = () => {
         <Card className="w-96 bg-gradient-to-br from-white/95 via-white/98 to-white/95 backdrop-blur-lg shadow-2xl border-0 overflow-hidden ring-1 ring-white/50">
           <CardHeader className="bg-gradient-to-r from-orange-400 via-yellow-400 to-amber-500 text-white pb-6 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
-            <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.05\"%3E%3Ccircle cx=\"30\" cy=\"30\" r=\"2\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30"></div>
+            <div className="absolute inset-0 opacity-30">
+              <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                <g fill="none" fillRule="evenodd">
+                  <g fill="#ffffff" fillOpacity="0.05">
+                    <circle cx="30" cy="30" r="2"/>
+                  </g>
+                </g>
+              </svg>
+            </div>
             <div className="relative flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm ring-2 ring-white/30">
@@ -196,7 +204,7 @@ const HelpAssistant = () => {
                 <Sparkles className="w-4 h-4 text-blue-500 animate-pulse" />
                 <span className="font-bold text-gray-800 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Hello there! 👋</span>
               </div>
-              <p className="text-gray-600">Let me know if you need any help navigating DeFreelance. I'm here to assist you!</p>
+              <p className="text-gray-600">Let me know if you need any help navigating DeFreelance. I&apos;m here to assist you!</p>
             </div>
             
             <div className="space-y-3">
