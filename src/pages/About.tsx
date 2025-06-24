@@ -1,8 +1,8 @@
-
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Partners from "@/components/Partners";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const teamMembers = [
   {
@@ -48,6 +48,17 @@ const teamMembers = [
 ];
 
 const About = () => {
+  const navigate = useNavigate();
+
+  const handleStartUsingBlockLance = () => {
+    navigate('/jobs');
+  };
+
+  const handleJoinCommunity = () => {
+    // Open Discord or community link
+    window.open('https://discord.gg/blocklance', '_blank');
+  };
+
   return (
     <div className="min-h-screen bg-primary">
       <Navbar />
@@ -165,10 +176,17 @@ const About = () => {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-white mb-8">Join Our Journey</h2>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button className="bg-accent-light text-primary hover:bg-accent hover:text-white">
+              <Button 
+                className="bg-accent-light text-primary hover:bg-accent hover:text-white"
+                onClick={handleStartUsingBlockLance}
+              >
                 Start Using BlockLance
               </Button>
-              <Button variant="outline" className="border-accent-light text-accent-light hover:bg-accent-light hover:text-primary">
+              <Button 
+                variant="outline" 
+                className="border-accent-light text-accent-light hover:bg-accent-light hover:text-primary"
+                onClick={handleJoinCommunity}
+              >
                 Join Our Community
               </Button>
             </div>

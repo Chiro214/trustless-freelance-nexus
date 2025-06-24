@@ -1,162 +1,137 @@
 
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, User, LogOut, Sparkles } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useAuth } from "@/hooks/useAuth";
+import { Menu, X, Wallet } from "lucide-react";
+import WalletConnect from "./WalletConnect";
+import { useWallet } from "@/context/WalletContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, signOut, isAuthenticated } = useAuth();
+  const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { account } = useWallet();
 
-  const handleSignOut = async () => {
-    await signOut();
-    navigate('/');
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-  const navigation = [
-    { name: "Find Work", href: "/jobs" },
-    { name: "Post Job", href: "/post-job" },
-    { name: "How it Works", href: "/how-it-works" },
-    { name: "About", href: "/about" },
+  const navItems = [
+    { name: "Home", path: "/" },
+    { name: "Jobs", path: "/jobs" },
+    { name: "How It Works", path: "/how-it-works" },
+    { name: "About", path: "/about" },
+    { name: "Contact", path: "/contact" },
   ];
 
+  const handleNavigation = (path: string) => {
+    navigate(path);
+    setIsOpen(false);
+  };
+
+  const handlePostJob = () => {
+    if (!account) {
+      // If wallet not connected, still allow navigation to post job page
+      // The post job page can handle wallet connection requirement
+      navigate('/post-job');
+    } else {
+      navigate('/post-job');
+    }
+    setIsOpen(false);
+  };
+
   return (
-    <nav className="bg-white/90 backdrop-blur-lg border-b border-gray-200/50 sticky top-0 z-50 shadow-lg shadow-primary/5">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-20">
-          <div className="flex items-center">
-            <Link to="/" className="flex-shrink-0 group">
-              <div className="flex items-center space-x-2">
-                <div className="relative">
-                  <Sparkles className="h-8 w-8 text-orange-500 group-hover:text-orange-600 transition-colors" />
-                  <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-yellow-400 rounded-full opacity-20 group-hover:opacity-30 transition-opacity blur"></div>
-                </div>
-                <span className="text-2xl font-bold bg-gradient-to-r from-orange-600 via-orange-500 to-yellow-600 bg-clip-text text-transparent group-hover:from-orange-700 group-hover:to-yellow-700 transition-all duration-300">
-                  DeFreelance
-                </span>
-              </div>
-            </Link>
-          </div>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      isScrolled 
+        ? 'bg-primary/95 backdrop-blur-lg shadow-2xl border-b border-accent-light/20' 
+        : 'bg-transparent'
+    }`}>
+      <div className="container mx-auto px-4">
+        <div className="flex justify-between items-center py-4">
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2 group">
+            <div className="w-10 h-10 bg-gradient-to-br from-accent-light to-yellow-400 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
+              <Wallet className="w-6 h-6 text-primary font-bold" />
+            </div>
+            <span className="text-2xl font-bold bg-gradient-to-r from-accent-light to-yellow-400 bg-clip-text text-transparent">
+              BlockLance
+            </span>
+          </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
-            {navigation.map((item) => (
-              <Link
+          <div className="hidden md:flex items-center space-x-8">
+            {navItems.map((item) => (
+              <button
                 key={item.name}
-                to={item.href}
-                className="relative text-gray-700 hover:text-orange-600 px-4 py-2 text-sm font-medium transition-all duration-200 rounded-lg hover:bg-orange-50 group"
+                onClick={() => handleNavigation(item.path)}
+                className={`text-sm font-medium transition-all duration-300 hover:text-accent-light relative group ${
+                  location.pathname === item.path 
+                    ? 'text-accent-light' 
+                    : 'text-gray-300 hover:text-white'
+                }`}
               >
                 {item.name}
-                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-orange-500 to-yellow-500 group-hover:w-3/4 transition-all duration-300"></div>
-              </Link>
+                <span className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-accent-light to-yellow-400 transition-all duration-300 group-hover:w-full ${
+                  location.pathname === item.path ? 'w-full' : ''
+                }`}></span>
+              </button>
             ))}
           </div>
 
-          {/* Desktop Auth Section */}
+          {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-4">
-            {isAuthenticated ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="flex items-center space-x-2 hover:bg-orange-50 rounded-full px-4 py-2">
-                    <div className="w-8 h-8 bg-gradient-to-r from-orange-400 to-yellow-500 rounded-full flex items-center justify-center">
-                      <User className="w-4 h-4 text-white" />
-                    </div>
-                    <span className="text-sm font-medium max-w-32 truncate">{user?.email}</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48 p-2">
-                  <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer hover:bg-red-50 rounded-md">
-                    <LogOut className="w-4 h-4 mr-2 text-red-500" />
-                    <span className="text-red-600">Sign Out</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <div className="flex items-center space-x-3">
-                <Link to="/auth">
-                  <Button variant="ghost" className="hover:bg-orange-50 text-gray-700 hover:text-orange-600">
-                    Sign In
-                  </Button>
-                </Link>
-                <Link to="/auth">
-                  <Button className="bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white font-medium px-6 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                    Get Started
-                  </Button>
-                </Link>
-              </div>
-            )}
+            <WalletConnect variant="outline" className="border-accent-light/30 text-accent-light hover:bg-accent-light hover:text-primary transition-all duration-300" />
+            <Button 
+              onClick={handlePostJob}
+              className="bg-gradient-to-r from-accent-light to-yellow-400 text-primary hover:from-accent hover:to-orange-500 font-semibold px-6 py-2 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+            >
+              Post a Job
+            </Button>
           </div>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-700 hover:text-orange-600 p-2 rounded-lg hover:bg-orange-50 transition-colors"
-            >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden text-white hover:text-accent-light transition-colors duration-300"
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
 
         {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden animate-fade-in">
-            <div className="px-2 pt-2 pb-6 space-y-2 bg-white/95 backdrop-blur-sm border-t border-gray-200/50 rounded-b-lg shadow-lg">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className="text-gray-700 hover:text-orange-600 block px-4 py-3 text-base font-medium rounded-lg hover:bg-orange-50 transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
-              
-              {/* Mobile Auth Section */}
-              <div className="pt-4 border-t border-gray-200">
-                {isAuthenticated ? (
-                  <div className="space-y-2">
-                    <div className="px-4 py-3 text-sm text-gray-600 bg-gray-50 rounded-lg">
-                      {user?.email}
-                    </div>
-                    <button
-                      onClick={handleSignOut}
-                      className="w-full text-left px-4 py-3 text-base font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                    >
-                      Sign Out
-                    </button>
-                  </div>
-                ) : (
-                  <div className="space-y-3">
-                    <Link
-                      to="/auth"
-                      className="block px-4 py-3 text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      Sign In
-                    </Link>
-                    <Link
-                      to="/auth"
-                      className="block px-4 py-3 text-base font-medium text-white bg-gradient-to-r from-orange-500 to-yellow-500 rounded-lg text-center hover:from-orange-600 hover:to-yellow-600 transition-all"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      Get Started
-                    </Link>
-                  </div>
-                )}
-              </div>
+        <div className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${
+          isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        }`}>
+          <div className="py-4 space-y-4 bg-secondary/95 backdrop-blur-lg rounded-xl mt-4 border border-accent-light/20">
+            {navItems.map((item) => (
+              <button
+                key={item.name}
+                onClick={() => handleNavigation(item.path)}
+                className={`block w-full text-left px-4 py-2 text-sm font-medium transition-colors duration-300 ${
+                  location.pathname === item.path 
+                    ? 'text-accent-light bg-accent-light/10' 
+                    : 'text-gray-300 hover:text-accent-light hover:bg-accent-light/5'
+                }`}
+              >
+                {item.name}
+              </button>
+            ))}
+            <div className="px-4 py-2 space-y-3">
+              <WalletConnect className="w-full" />
+              <Button 
+                onClick={handlePostJob}
+                className="w-full bg-gradient-to-r from-accent-light to-yellow-400 text-primary hover:from-accent hover:to-orange-500 font-semibold"
+              >
+                Post a Job
+              </Button>
             </div>
           </div>
-        )}
+        </div>
       </div>
     </nav>
   );
