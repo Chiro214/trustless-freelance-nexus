@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from "sonner";
 
@@ -10,7 +11,24 @@ type WalletContextType = {
   switchNetwork: (chainId: number) => Promise<void>;
   switchAccount: (account: string) => void;
   isConnecting: boolean;
+  supportedNetworks: NetworkConfig[];
+  currentNetwork: NetworkConfig | null;
 };
+
+interface NetworkConfig {
+  chainId: number;
+  name: string;
+  displayName: string;
+  nativeCurrency: {
+    name: string;
+    symbol: string;
+    decimals: number;
+  };
+  rpcUrls: string[];
+  blockExplorerUrls: string[];
+  icon: string;
+  category: 'mainnet' | 'testnet' | 'local';
+}
 
 const WalletContext = createContext<WalletContextType | null>(null);
 
@@ -18,11 +36,156 @@ const WalletContext = createContext<WalletContextType | null>(null);
 const WALLET_CONNECTED_KEY = 'blocklance-wallet-connected';
 const SELECTED_ACCOUNT_KEY = 'blocklance-selected-account';
 
-// Networks to avoid (mainnet only, allow local development networks)
-const FORBIDDEN_NETWORKS = [1]; // Only Ethereum mainnet
-
-// Local development networks (Ganache, Hardhat, etc.)
-const LOCAL_NETWORKS = [1337, 5777, 31337]; // Common local network chain IDs
+// Comprehensive network configurations
+const SUPPORTED_NETWORKS: NetworkConfig[] = [
+  // Ethereum Networks
+  {
+    chainId: 1,
+    name: 'ethereum',
+    displayName: 'Ethereum Mainnet',
+    nativeCurrency: { name: 'Ethereum', symbol: 'ETH', decimals: 18 },
+    rpcUrls: ['https://mainnet.infura.io/v3/'],
+    blockExplorerUrls: ['https://etherscan.io/'],
+    icon: '🔷',
+    category: 'mainnet'
+  },
+  {
+    chainId: 11155111,
+    name: 'sepolia',
+    displayName: 'Ethereum Sepolia',
+    nativeCurrency: { name: 'Ethereum', symbol: 'ETH', decimals: 18 },
+    rpcUrls: ['https://sepolia.infura.io/v3/'],
+    blockExplorerUrls: ['https://sepolia.etherscan.io/'],
+    icon: '🔹',
+    category: 'testnet'
+  },
+  // Polygon Networks
+  {
+    chainId: 137,
+    name: 'polygon',
+    displayName: 'Polygon Mainnet',
+    nativeCurrency: { name: 'MATIC', symbol: 'MATIC', decimals: 18 },
+    rpcUrls: ['https://polygon-rpc.com/'],
+    blockExplorerUrls: ['https://polygonscan.com/'],
+    icon: '💠',
+    category: 'mainnet'
+  },
+  {
+    chainId: 80001,
+    name: 'mumbai',
+    displayName: 'Polygon Mumbai',
+    nativeCurrency: { name: 'MATIC', symbol: 'MATIC', decimals: 18 },
+    rpcUrls: ['https://rpc-mumbai.maticvigil.com/'],
+    blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
+    icon: '💎',
+    category: 'testnet'
+  },
+  // Binance Smart Chain
+  {
+    chainId: 56,
+    name: 'bsc',
+    displayName: 'BNB Smart Chain',
+    nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
+    rpcUrls: ['https://bsc-dataseed1.binance.org/'],
+    blockExplorerUrls: ['https://bscscan.com/'],
+    icon: '🟡',
+    category: 'mainnet'
+  },
+  {
+    chainId: 97,
+    name: 'bsc-testnet',
+    displayName: 'BNB Testnet',
+    nativeCurrency: { name: 'BNB', symbol: 'tBNB', decimals: 18 },
+    rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
+    blockExplorerUrls: ['https://testnet.bscscan.com/'],
+    icon: '🟨',
+    category: 'testnet'
+  },
+  // Arbitrum Networks
+  {
+    chainId: 42161,
+    name: 'arbitrum',
+    displayName: 'Arbitrum One',
+    nativeCurrency: { name: 'Ethereum', symbol: 'ETH', decimals: 18 },
+    rpcUrls: ['https://arb1.arbitrum.io/rpc'],
+    blockExplorerUrls: ['https://arbiscan.io/'],
+    icon: '🔵',
+    category: 'mainnet'
+  },
+  {
+    chainId: 421613,
+    name: 'arbitrum-goerli',
+    displayName: 'Arbitrum Goerli',
+    nativeCurrency: { name: 'Ethereum', symbol: 'ETH', decimals: 18 },
+    rpcUrls: ['https://goerli-rollup.arbitrum.io/rpc'],
+    blockExplorerUrls: ['https://goerli.arbiscan.io/'],
+    icon: '🔘',
+    category: 'testnet'
+  },
+  // Optimism Networks
+  {
+    chainId: 10,
+    name: 'optimism',
+    displayName: 'Optimism',
+    nativeCurrency: { name: 'Ethereum', symbol: 'ETH', decimals: 18 },
+    rpcUrls: ['https://mainnet.optimism.io'],
+    blockExplorerUrls: ['https://optimistic.etherscan.io/'],
+    icon: '🔴',
+    category: 'mainnet'
+  },
+  {
+    chainId: 420,
+    name: 'optimism-goerli',
+    displayName: 'Optimism Goerli',
+    nativeCurrency: { name: 'Ethereum', symbol: 'ETH', decimals: 18 },
+    rpcUrls: ['https://goerli.optimism.io'],
+    blockExplorerUrls: ['https://goerli-optimism.etherscan.io/'],
+    icon: '🟠',
+    category: 'testnet'
+  },
+  // Avalanche Networks
+  {
+    chainId: 43114,
+    name: 'avalanche',
+    displayName: 'Avalanche C-Chain',
+    nativeCurrency: { name: 'Avalanche', symbol: 'AVAX', decimals: 18 },
+    rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
+    blockExplorerUrls: ['https://snowtrace.io/'],
+    icon: '⚪',
+    category: 'mainnet'
+  },
+  {
+    chainId: 43113,
+    name: 'fuji',
+    displayName: 'Avalanche Fuji',
+    nativeCurrency: { name: 'Avalanche', symbol: 'AVAX', decimals: 18 },
+    rpcUrls: ['https://api.avax-test.network/ext/bc/C/rpc'],
+    blockExplorerUrls: ['https://testnet.snowtrace.io/'],
+    icon: '⚫',
+    category: 'testnet'
+  },
+  // Local Development Networks
+  {
+    chainId: 1337,
+    name: 'ganache',
+    displayName: 'Ganache Local',
+    nativeCurrency: { name: 'Ethereum', symbol: 'ETH', decimals: 18 },
+    rpcUrls: ['http://localhost:7545'],
+    blockExplorerUrls: ['http://localhost:7545'],
+    icon: '🧪',
+    category: 'local'
+  },
+  {
+    chainId: 31337,
+    name: 'hardhat',
+    displayName: 'Hardhat Local',
+    nativeCurrency: { name: 'Ethereum', symbol: 'ETH', decimals: 18 },
+    rpcUrls: ['http://localhost:8545'],
+    blockExplorerUrls: ['http://localhost:8545'],
+    icon: '⚒️',
+    category: 'local'
+  }
+];
 
 export const useWallet = () => {
   const context = useContext(WalletContext);
@@ -38,17 +201,15 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [chainId, setChainId] = useState<number | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
 
-  // Check if current network is forbidden (only mainnet, allow local networks)
-  const isNetworkForbidden = (networkId: number) => {
-    return FORBIDDEN_NETWORKS.includes(networkId);
+  // Get current network configuration
+  const getCurrentNetwork = (networkId: number | null): NetworkConfig | null => {
+    if (!networkId) return null;
+    return SUPPORTED_NETWORKS.find(network => network.chainId === networkId) || null;
   };
 
-  // Check if network is a local development network
-  const isLocalNetwork = (networkId: number) => {
-    return LOCAL_NETWORKS.includes(networkId);
-  };
+  const currentNetwork = getCurrentNetwork(chainId);
 
-  // Check if wallet is already connected on mount and attempt reconnection
+  // Check if wallet is already connected on mount
   useEffect(() => {
     const wasConnected = localStorage.getItem(WALLET_CONNECTED_KEY) === 'true';
     const savedAccount = localStorage.getItem(SELECTED_ACCOUNT_KEY);
@@ -63,24 +224,17 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             const currentChainId = parseInt(chainIdHex, 16);
             setChainId(currentChainId);
             
-            // Check if network is forbidden
-            if (isNetworkForbidden(currentChainId)) {
-              toast.error("Please switch away from mainnet to use BlockLance");
-              return;
+            const network = getCurrentNetwork(currentChainId);
+            if (network) {
+              toast.success(`Connected to ${network.displayName}`);
             }
             
-            // Check if network is a local development network
-            if (isLocalNetwork(currentChainId)) {
-              toast.success("Local development network connected to BlockLance");
-            }
-            
-            // Set account (use saved account if available and in list, otherwise first account)
+            // Set account
             const accountToUse = savedAccount && accounts.includes(savedAccount) ? savedAccount : accounts[0];
             setAccount(accountToUse);
             localStorage.setItem(WALLET_CONNECTED_KEY, 'true');
             localStorage.setItem(SELECTED_ACCOUNT_KEY, accountToUse);
           } else if (wasConnected) {
-            // Try to reconnect if previously connected
             connectWallet().catch(() => {
               localStorage.removeItem(WALLET_CONNECTED_KEY);
               localStorage.removeItem(SELECTED_ACCOUNT_KEY);
@@ -106,7 +260,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
           setAllAccounts([]);
           localStorage.removeItem(WALLET_CONNECTED_KEY);
           localStorage.removeItem(SELECTED_ACCOUNT_KEY);
-          toast("Wallet disconnected from BlockLance");
+          toast("Wallet disconnected");
         } else {
           setAllAccounts(accounts);
           const savedAccount = localStorage.getItem(SELECTED_ACCOUNT_KEY);
@@ -117,7 +271,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             localStorage.setItem(WALLET_CONNECTED_KEY, 'true');
             localStorage.setItem(SELECTED_ACCOUNT_KEY, accountToUse);
             const shortAddress = `${accountToUse.substring(0, 4)}...${accountToUse.substring(accountToUse.length - 4)}`;
-            toast("Wallet account changed: " + shortAddress);
+            toast("Account switched: " + shortAddress);
           }
         }
       };
@@ -126,14 +280,11 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         const newChainId = parseInt(chainIdHex, 16);
         setChainId(newChainId);
         
-        if (isNetworkForbidden(newChainId)) {
-          toast.error("Mainnet detected! Please switch to a testnet or local network to use BlockLance");
-          // Auto-disconnect from mainnet
-          disconnectWallet();
-        } else if (isLocalNetwork(newChainId)) {
-          toast.success("Local development network connected to BlockLance");
+        const network = getCurrentNetwork(newChainId);
+        if (network) {
+          toast.success(`Switched to ${network.displayName}`);
         } else {
-          toast("Network changed on BlockLance");
+          toast.warning(`Connected to unsupported network (Chain ID: ${newChainId})`);
         }
       };
 
@@ -151,7 +302,8 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const connectWallet = async () => {
     if (!window.ethereum) {
-      toast.error("MetaMask not found. Please install MetaMask to use BlockLance.");
+      toast.error("MetaMask not found. Please install MetaMask to continue.");
+      window.open('https://metamask.io/download/', '_blank');
       return;
     }
 
@@ -161,23 +313,17 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       const chainIdHex = await window.ethereum.request({ method: 'eth_chainId' });
       const currentChainId = parseInt(chainIdHex, 16);
       
-      // Check if network is forbidden (only mainnet)
-      if (isNetworkForbidden(currentChainId)) {
-        toast.error("Please switch away from mainnet to use BlockLance");
-        setIsConnecting(false);
-        return;
-      }
-      
       setAllAccounts(accounts);
       setAccount(accounts[0]);
       setChainId(currentChainId);
       localStorage.setItem(WALLET_CONNECTED_KEY, 'true');
       localStorage.setItem(SELECTED_ACCOUNT_KEY, accounts[0]);
       
-      if (isLocalNetwork(currentChainId)) {
-        toast.success(`Connected to local development network! Found ${accounts.length} account(s).`);
+      const network = getCurrentNetwork(currentChainId);
+      if (network) {
+        toast.success(`Connected to ${network.displayName}! Found ${accounts.length} account(s).`);
       } else {
-        toast.success(`Wallet connected to BlockLance successfully! Found ${accounts.length} account(s).`);
+        toast.success(`Wallet connected! Found ${accounts.length} account(s). (Unsupported network)`);
       }
     } catch (error: any) {
       console.error('Error connecting wallet:', error);
@@ -185,12 +331,39 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       localStorage.removeItem(SELECTED_ACCOUNT_KEY);
       
       if (error.code === 4001) {
-        toast.error("Connection rejected. Please approve the wallet connection to use BlockLance.");
+        toast.error("Connection rejected. Please approve the wallet connection.");
       } else {
-        toast.error(error?.message || "Failed to connect wallet to BlockLance");
+        toast.error(error?.message || "Failed to connect wallet");
       }
     } finally {
       setIsConnecting(false);
+    }
+  };
+
+  const addNetwork = async (network: NetworkConfig) => {
+    if (!window.ethereum) {
+      toast.error("MetaMask not found");
+      return;
+    }
+
+    try {
+      await window.ethereum.request({
+        method: 'wallet_addEthereumChain',
+        params: [{
+          chainId: `0x${network.chainId.toString(16)}`,
+          chainName: network.displayName,
+          nativeCurrency: network.nativeCurrency,
+          rpcUrls: network.rpcUrls,
+          blockExplorerUrls: network.blockExplorerUrls,
+        }],
+      });
+      toast.success(`${network.displayName} added successfully`);
+    } catch (error: any) {
+      if (error.code === 4902) {
+        toast.error("Failed to add network. Please add it manually.");
+      } else {
+        toast.error("Failed to add network");
+      }
     }
   };
 
@@ -200,9 +373,9 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       return;
     }
 
-    // Prevent switching to forbidden networks
-    if (isNetworkForbidden(targetChainId)) {
-      toast.error("Cannot switch to mainnet. BlockLance only supports testnets and local networks.");
+    const targetNetwork = SUPPORTED_NETWORKS.find(n => n.chainId === targetChainId);
+    if (!targetNetwork) {
+      toast.error("Unsupported network");
       return;
     }
 
@@ -211,12 +384,22 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: `0x${targetChainId.toString(16)}` }],
       });
-      toast.success(`Network switched successfully on BlockLance`);
+      toast.success(`Switched to ${targetNetwork.displayName}`);
     } catch (error: any) {
       if (error.code === 4902) {
-        toast.error("Network not found in wallet. Please add it manually.");
+        // Network not found, try to add it
+        await addNetwork(targetNetwork);
+        // Then try to switch again
+        try {
+          await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: `0x${targetChainId.toString(16)}` }],
+          });
+        } catch (switchError) {
+          toast.error("Failed to switch to network after adding");
+        }
       } else {
-        toast.error("Failed to switch network");
+        toast.error(`Failed to switch to ${targetNetwork.displayName}`);
       }
     }
   };
@@ -236,7 +419,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     setChainId(null);
     localStorage.removeItem(WALLET_CONNECTED_KEY);
     localStorage.removeItem(SELECTED_ACCOUNT_KEY);
-    toast.success("Wallet disconnected from BlockLance");
+    toast.success("Wallet disconnected");
   };
 
   return (
@@ -249,7 +432,9 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         disconnectWallet,
         switchNetwork,
         switchAccount,
-        isConnecting
+        isConnecting,
+        supportedNetworks: SUPPORTED_NETWORKS,
+        currentNetwork
       }}
     >
       {children}
