@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useRef } from 'react';
 
 const partners = [
@@ -87,18 +86,18 @@ const Partners = () => {
     >
       {/* Modern geometric background */}
       <div className="absolute inset-0">
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-accent/5 to-accent-light/5"></div>
-        <div className="absolute top-10 right-10 w-32 h-32 bg-gradient-to-br from-accent-light/10 to-accent/10 rounded-full blur-xl animate-pulse"></div>
-        <div className="absolute bottom-10 left-10 w-24 h-24 bg-gradient-to-br from-accent/10 to-accent-light/10 rounded-full blur-lg animate-pulse" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-accent-light/5 to-accent/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-accent/5 to-blue-500/5"></div>
+        <div className="absolute top-10 right-10 w-32 h-32 bg-gradient-to-br from-accent/10 to-blue-500/10 rounded-full blur-xl animate-pulse"></div>
+        <div className="absolute bottom-10 left-10 w-24 h-24 bg-gradient-to-br from-accent/10 to-blue-500/10 rounded-full blur-lg animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-accent/5 to-blue-500/5 rounded-full blur-3xl"></div>
       </div>
 
       <div className="container mx-auto relative z-10">
         <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
-            Powered by <span className="bg-gradient-to-r from-accent-light to-accent bg-clip-text text-transparent">Blockchain Infrastructure</span>
+            Powered by <span className="bg-gradient-to-r from-accent to-blue-500 bg-clip-text text-transparent">Blockchain Infrastructure</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-accent-light to-accent mx-auto rounded-full mb-6"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-accent to-blue-500 mx-auto rounded-full mb-6"></div>
           <p className="text-gray-300 text-lg max-w-3xl mx-auto">
             Built on the most trusted and innovative blockchain technologies in the industry
           </p>
@@ -115,8 +114,8 @@ const Partners = () => {
                 opacity: 0
               }}
             >
-              <div className="relative bg-white/10 backdrop-blur-xl rounded-3xl p-6 border border-white/20 hover:border-accent-light/50 transition-all duration-500 hover:scale-105 hover:-translate-y-2 w-full h-32 flex items-center justify-center group-hover:bg-white/15 shadow-lg">
-                <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-accent-light/10 to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative bg-white/10 backdrop-blur-xl rounded-3xl p-6 border border-white/20 hover:border-accent/50 transition-all duration-500 hover:scale-105 hover:-translate-y-2 w-full h-32 flex items-center justify-center group-hover:bg-white/15 shadow-lg">
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-accent/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 
                 {imageErrors[partner.name] ? (
                   <div className={`w-16 h-16 bg-gradient-to-br ${partner.color} rounded-xl flex items-center justify-center text-white font-bold text-2xl relative z-10 shadow-lg`}>
@@ -133,13 +132,13 @@ const Partners = () => {
                 )}
               </div>
               
-              <p className="mt-4 text-center text-sm font-medium text-gray-400 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:text-accent-light">{partner.name}</p>
+              <p className="mt-4 text-center text-sm font-medium text-gray-400 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:text-accent">{partner.name}</p>
             </div>
           ))}
         </div>
 
         <div className={`text-center mt-16 transition-opacity duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-          <div className="inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium rounded-full group bg-gradient-to-r from-accent-light to-accent">
+          <div className="inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium rounded-full group bg-gradient-to-r from-accent to-blue-500">
             <span className="px-6 py-3 transition-all ease-in duration-75 bg-primary rounded-full group-hover:bg-opacity-0 text-white">
               Secure • Scalable • Decentralized
             </span>

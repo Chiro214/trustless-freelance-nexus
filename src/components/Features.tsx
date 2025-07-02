@@ -1,4 +1,3 @@
-
 import { Check, Shield, User, Wallet } from "lucide-react";
 
 const features = [
@@ -33,7 +32,7 @@ const Features = () => {
     <section className="py-20 bg-primary px-4">
       <div className="container mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">How <span className="text-accent-light">BlockLance</span> Works</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">How <span className="text-accent">Defreelance</span> Works</h2>
           <p className="text-gray-300 max-w-2xl mx-auto">Our platform leverages blockchain technology to create a trustless environment for freelancers and clients.</p>
         </div>
         
@@ -41,7 +40,7 @@ const Features = () => {
           {features.map((feature, index) => (
             <div 
               key={feature.title} 
-              className="bg-secondary p-8 rounded-xl hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group"
+              className="bg-secondary p-8 rounded-xl hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group border border-accent/10 hover:border-accent/30"
             >
               <div className="mb-4 overflow-hidden rounded-lg">
                 <img 
@@ -50,17 +49,17 @@ const Features = () => {
                   className="w-full h-32 object-cover group-hover:scale-110 transition-transform duration-300"
                 />
               </div>
-              <div className="bg-accent bg-opacity-10 p-4 rounded-full inline-flex mb-6">
-                <feature.icon className="h-6 w-6 text-accent-light" />
+              <div className="bg-accent bg-opacity-10 p-4 rounded-full inline-flex mb-6 group-hover:bg-opacity-20 transition-all duration-300">
+                <feature.icon className="h-6 w-6 text-accent" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-white">{feature.title}</h3>
+              <h3 className="text-xl font-bold mb-3 text-white group-hover:text-accent transition-colors duration-300">{feature.title}</h3>
               <p className="text-gray-300">{feature.description}</p>
             </div>
           ))}
         </div>
         
         <div className="mt-16 text-center">
-          <div className="inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-r from-accent to-accent-light">
+          <div className="inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-r from-accent to-blue-500">
             <span className="px-5 py-2.5 transition-all ease-in duration-75 bg-primary rounded-md group-hover:bg-opacity-0 text-white">
               Learn More About How It Works
             </span>

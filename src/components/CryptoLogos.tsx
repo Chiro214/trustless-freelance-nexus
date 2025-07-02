@@ -1,4 +1,3 @@
-
 import { Bitcoin, Zap } from "lucide-react";
 
 const CryptoLogos = () => {
@@ -7,10 +6,10 @@ const CryptoLogos = () => {
       <div className="container mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-2xl md:text-3xl font-bold mb-4 text-white">
-            Supported <span className="text-accent-light">Networks</span>
+            Supported <span className="text-accent">Networks</span>
           </h2>
           <p className="text-gray-300 max-w-2xl mx-auto">
-            BlockLance supports multiple blockchain networks for maximum flexibility and low transaction costs.
+            Defreelance supports multiple blockchain networks for maximum flexibility and low transaction costs.
           </p>
         </div>
         
@@ -72,7 +71,7 @@ const CryptoLogos = () => {
 
         <div className="text-center mt-12">
           <p className="text-gray-400">
-            More networks coming soon. BlockLance is constantly expanding to support new blockchain ecosystems.
+            More networks coming soon. Defreelance is constantly expanding to support new blockchain ecosystems.
           </p>
         </div>
       </div>
