@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from "sonner";
 
@@ -327,11 +326,16 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       }
     } catch (error: any) {
       console.error('Error connecting wallet:', error);
+      
+      // Clean up localStorage on any error
       localStorage.removeItem(WALLET_CONNECTED_KEY);
       localStorage.removeItem(SELECTED_ACCOUNT_KEY);
       
+      // Handle specific error cases
       if (error.code === 4001) {
         toast.error("Connection rejected. Please approve the wallet connection.");
+      } else if (error.code === -32002) {
+        toast.error("Connection request already pending. Please check MetaMask.");
       } else {
         toast.error(error?.message || "Failed to connect wallet");
       }
