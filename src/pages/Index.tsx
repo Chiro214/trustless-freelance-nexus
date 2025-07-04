@@ -1,4 +1,3 @@
-
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
@@ -12,10 +11,10 @@ import { Suspense } from "react";
 
 const Index = () => {
   return (
-    <div className="bg-gradient-to-br from-primary via-secondary to-primary min-h-screen">
+    <div className="bg-white min-h-screen">
       <Navbar />
       <Hero />
-      <div className="relative">
+      <div className="relative bg-gradient-to-br from-primary via-secondary to-primary">
         {/* Background gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-primary/95 to-secondary/95"></div>
         <div className="relative z-10">
