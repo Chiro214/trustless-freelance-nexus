@@ -1,7 +1,9 @@
+
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Play, Shield, Globe, Zap, TrendingUp, Users, Star, CheckCircle } from "lucide-react";
 import Logo from "./Logo";
+import FuturisticBackground from "./FuturisticBackground";
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -20,30 +22,11 @@ const Hero = () => {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary via-secondary to-primary">
-      {/* Sophisticated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Animated gradient orbs */}
-        <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-accent/20 via-accent-light/10 to-transparent rounded-full blur-3xl animate-morph"></div>
-        <div className="absolute top-40 right-20 w-80 h-80 bg-gradient-to-br from-accent-dark/15 via-accent/10 to-transparent rounded-full blur-2xl animate-morph" style={{ animationDelay: '3s' }}></div>
-        <div className="absolute bottom-32 left-1/4 w-64 h-64 bg-gradient-to-br from-accent-light/15 via-accent/5 to-transparent rounded-full blur-3xl animate-morph" style={{ animationDelay: '6s' }}></div>
-        
-        {/* Subtle grid pattern */}
-        <div className="absolute inset-0 opacity-[0.03]">
-          <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <defs>
-              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#8B5CF6" strokeWidth="0.5"/>
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#grid)" />
-          </svg>
-        </div>
-
-        {/* Floating particles */}
-        <div className="absolute top-1/4 left-1/3 w-2 h-2 bg-accent rounded-full animate-float opacity-60"></div>
-        <div className="absolute top-1/3 right-1/4 w-1 h-1 bg-accent-light rounded-full animate-float opacity-40" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute bottom-1/3 left-1/4 w-1.5 h-1.5 bg-accent-dark rounded-full animate-float opacity-50" style={{ animationDelay: '4s' }}></div>
-      </div>
+      {/* Futuristic 3D Background */}
+      <FuturisticBackground />
+      
+      {/* Overlay for better text readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/40 via-transparent to-primary/60"></div>
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-7xl mx-auto">
