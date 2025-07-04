@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Play, CheckCircle, Users, Globe, TrendingUp, Shield, Zap } from "lucide-react";
+import { ArrowRight, Play, Shield, Globe, Zap, TrendingUp, Users, Star, CheckCircle } from "lucide-react";
 import Logo from "./Logo";
 
 const Hero = () => {
@@ -15,30 +15,34 @@ const Hero = () => {
   };
 
   const handleWatchDemo = () => {
-    // Open demo video or modal
     console.log('Watch demo clicked');
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-white via-purple-50/30 to-white">
-      {/* Clean geometric background */}
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary via-secondary to-primary">
+      {/* Sophisticated background elements */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Subtle gradient orbs */}
-        <div className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-purple-100/40 to-purple-200/20 rounded-full blur-3xl animate-morph"></div>
-        <div className="absolute top-40 right-20 w-80 h-80 bg-gradient-to-br from-accent/10 to-accent-light/20 rounded-full blur-2xl animate-morph" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute bottom-32 left-1/4 w-64 h-64 bg-gradient-to-br from-secondary/10 to-primary/5 rounded-full blur-3xl animate-morph" style={{ animationDelay: '4s' }}></div>
+        {/* Animated gradient orbs */}
+        <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-accent/20 via-accent-light/10 to-transparent rounded-full blur-3xl animate-morph"></div>
+        <div className="absolute top-40 right-20 w-80 h-80 bg-gradient-to-br from-accent-dark/15 via-accent/10 to-transparent rounded-full blur-2xl animate-morph" style={{ animationDelay: '3s' }}></div>
+        <div className="absolute bottom-32 left-1/4 w-64 h-64 bg-gradient-to-br from-accent-light/15 via-accent/5 to-transparent rounded-full blur-3xl animate-morph" style={{ animationDelay: '6s' }}></div>
         
-        {/* Minimal grid pattern */}
-        <div className="absolute inset-0 opacity-[0.02]">
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 opacity-[0.03]">
           <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
             <defs>
-              <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#2E073F" strokeWidth="0.5"/>
+              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#8B5CF6" strokeWidth="0.5"/>
               </pattern>
             </defs>
             <rect width="100%" height="100%" fill="url(#grid)" />
           </svg>
         </div>
+
+        {/* Floating particles */}
+        <div className="absolute top-1/4 left-1/3 w-2 h-2 bg-accent rounded-full animate-float opacity-60"></div>
+        <div className="absolute top-1/3 right-1/4 w-1 h-1 bg-accent-light rounded-full animate-float opacity-40" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute bottom-1/3 left-1/4 w-1.5 h-1.5 bg-accent-dark rounded-full animate-float opacity-50" style={{ animationDelay: '4s' }}></div>
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
@@ -46,59 +50,68 @@ const Hero = () => {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left Content */}
             <div className="text-left space-y-8 animate-fade-in">
-              {/* Badge */}
-              <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-accent-light/20 to-accent/10 rounded-full border border-accent/20 text-primary text-sm font-medium backdrop-blur-sm">
+              {/* Premium Badge */}
+              <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-accent/20 via-accent-light/10 to-accent/5 rounded-full border border-accent/30 backdrop-blur-sm">
                 <div className="w-2 h-2 bg-accent rounded-full mr-3 animate-pulse"></div>
-                Revolutionizing Freelancing with Blockchain
+                <span className="text-accent-light font-medium text-sm">
+                  Revolutionizing Freelancing with Blockchain
+                </span>
+                <div className="w-2 h-2 bg-accent-light rounded-full ml-3 animate-pulse" style={{ animationDelay: '1s' }}></div>
               </div>
 
               {/* Main Heading */}
               <div className="space-y-6">
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight">
-                  The Future of
-                  <span className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
+                  <span className="text-white block mb-2">The Future of</span>
+                  <span className="block bg-gradient-to-r from-accent via-accent-light to-accent-dark bg-clip-text text-transparent bg-300% animate-gradient-shift">
                     Decentralized
                   </span>
-                  <span className="block">Freelancing</span>
+                  <span className="text-white block mt-2">Freelancing</span>
                 </h1>
                 
-                <p className="text-xl md:text-2xl text-gray-600 leading-relaxed max-w-2xl">
+                <p className="text-xl md:text-2xl text-gray-300 leading-relaxed max-w-2xl">
                   Connect with global talent on a blockchain-powered platform that ensures 
-                  <span className="font-semibold text-primary"> secure payments</span>, 
-                  <span className="font-semibold text-secondary"> transparent transactions</span>, and 
-                  <span className="font-semibold text-accent"> zero intermediaries</span>.
+                  <span className="text-accent-light font-semibold"> secure payments</span>, 
+                  <span className="text-accent font-semibold"> transparent transactions</span>, and 
+                  <span className="text-accent-dark font-semibold"> zero intermediaries</span>.
                 </p>
               </div>
 
-              {/* Key Features */}
+              {/* Key Features Grid */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="flex items-center space-x-3 p-4 bg-white/80 backdrop-blur-sm rounded-xl shadow-sm border border-purple-100 hover:shadow-lg hover:border-accent/30 transition-all duration-300 group">
-                  <div className="w-12 h-12 bg-gradient-to-br from-green-100 to-green-200 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <Shield className="w-6 h-6 text-green-600" />
-                  </div>
-                  <div>
-                    <div className="font-semibold text-gray-900">Secure Escrow</div>
-                    <div className="text-sm text-gray-600">Smart contracts</div>
-                  </div>
-                </div>
-                
-                <div className="flex items-center space-x-3 p-4 bg-white/80 backdrop-blur-sm rounded-xl shadow-sm border border-purple-100 hover:shadow-lg hover:border-accent/30 transition-all duration-300 group">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <Globe className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <div className="font-semibold text-gray-900">Global Reach</div>
-                    <div className="text-sm text-gray-600">Worldwide talent</div>
+                <div className="group p-4 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-accent/30 hover:bg-white/10 transition-all duration-300">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-12 h-12 bg-gradient-to-br from-green-500/20 to-green-600/10 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                      <Shield className="w-6 h-6 text-green-400" />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-white">Secure Escrow</div>
+                      <div className="text-sm text-gray-400">Smart contracts</div>
+                    </div>
                   </div>
                 </div>
                 
-                <div className="flex items-center space-x-3 p-4 bg-white/80 backdrop-blur-sm rounded-xl shadow-sm border border-purple-100 hover:shadow-lg hover:border-accent/30 transition-all duration-300 group">
-                  <div className="w-12 h-12 bg-gradient-to-br from-accent-light/50 to-accent/30 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <Zap className="w-6 h-6 text-accent" />
+                <div className="group p-4 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-accent/30 hover:bg-white/10 transition-all duration-300">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500/20 to-blue-600/10 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                      <Globe className="w-6 h-6 text-blue-400" />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-white">Global Reach</div>
+                      <div className="text-sm text-gray-400">Worldwide talent</div>
+                    </div>
                   </div>
-                  <div>
-                    <div className="font-semibold text-gray-900">Low Fees</div>
-                    <div className="text-sm text-gray-600">2.5% platform fee</div>
+                </div>
+                
+                <div className="group p-4 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-accent/30 hover:bg-white/10 transition-all duration-300">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-12 h-12 bg-gradient-to-br from-accent/20 to-accent-dark/10 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                      <Zap className="w-6 h-6 text-accent" />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-white">Low Fees</div>
+                      <div className="text-sm text-gray-400">2.5% platform fee</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -108,9 +121,10 @@ const Hero = () => {
                 <Button 
                   size="lg"
                   onClick={handleGetStarted}
-                  className="bg-gradient-to-r from-primary to-secondary text-white hover:from-secondary hover:to-accent px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 group"
+                  className="bg-gradient-to-r from-accent to-accent-dark text-white hover:from-accent-dark hover:to-accent px-8 py-4 text-lg font-semibold shadow-2xl hover:shadow-accent/25 transform hover:scale-105 transition-all duration-300 group relative overflow-hidden"
                 >
-                  <span className="flex items-center">
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <span className="relative z-10 flex items-center">
                     Get Started Today
                     <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                   </span>
@@ -120,7 +134,7 @@ const Hero = () => {
                   variant="outline" 
                   size="lg"
                   onClick={handleWatchDemo}
-                  className="border-2 border-accent/30 text-primary hover:bg-accent/10 hover:border-accent px-8 py-4 text-lg font-semibold transition-all duration-300 group backdrop-blur-sm"
+                  className="border-2 border-accent/50 text-accent hover:bg-accent/10 hover:border-accent px-8 py-4 text-lg font-semibold transition-all duration-300 group backdrop-blur-sm"
                 >
                   <Play className="mr-2 w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
                   Watch Demo
@@ -128,120 +142,135 @@ const Hero = () => {
               </div>
 
               {/* Trust Indicators */}
-              <div className="flex items-center space-x-8 pt-4">
+              <div className="flex items-center space-x-8 pt-6">
                 <div className="text-center">
-                  <div className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">50K+</div>
-                  <div className="text-sm text-gray-600">Active Users</div>
+                  <div className="text-3xl font-bold bg-gradient-to-r from-accent to-accent-light bg-clip-text text-transparent">50K+</div>
+                  <div className="text-sm text-gray-400">Active Users</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">$2M+</div>
-                  <div className="text-sm text-gray-600">Transactions</div>
+                  <div className="text-3xl font-bold bg-gradient-to-r from-accent-light to-accent-dark bg-clip-text text-transparent">$2M+</div>
+                  <div className="text-sm text-gray-400">Transactions</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">99.9%</div>
-                  <div className="text-sm text-gray-600">Uptime</div>
+                  <div className="text-3xl font-bold bg-gradient-to-r from-accent-dark to-accent bg-clip-text text-transparent">99.9%</div>
+                  <div className="text-sm text-gray-400">Uptime</div>
                 </div>
               </div>
             </div>
 
-            {/* Right Content - Visual Element */}
+            {/* Right Content - Dashboard Preview */}
             <div className="relative animate-fade-in" style={{ animationDelay: '0.3s' }}>
               <div className="relative">
-                {/* Main Card */}
-                <div className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-purple-100 relative overflow-hidden">
+                {/* Main Dashboard Card */}
+                <div className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-white/20 relative overflow-hidden animate-glow-pulse">
                   {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-accent-light/5 to-accent/5 rounded-3xl"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent-dark/5 rounded-3xl"></div>
                   
                   {/* Header */}
                   <div className="flex items-center justify-between mb-6 relative z-10">
                     <div className="flex items-center space-x-3">
                       <Logo size="md" animated={true} />
                       <div>
-                        <div className="font-bold text-primary">DeFreelance</div>
-                        <div className="text-sm text-gray-600">Decentralized Platform</div>
+                        <div className="font-bold text-white">DeFreelance</div>
+                        <div className="text-sm text-gray-400">Decentralized Platform</div>
                       </div>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                      <span className="text-sm text-gray-600">Live</span>
+                      <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                      <span className="text-sm text-gray-300">Live</span>
                     </div>
                   </div>
 
                   {/* Stats Grid */}
                   <div className="grid grid-cols-2 gap-4 mb-6 relative z-10">
-                    <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-4 border border-primary/10">
-                      <div className="text-2xl font-bold text-primary">1,247</div>
-                      <div className="text-sm text-primary/70">Active Jobs</div>
+                    <div className="bg-gradient-to-br from-accent/20 to-accent/5 rounded-xl p-4 border border-accent/20 backdrop-blur-sm">
+                      <div className="text-2xl font-bold text-accent-light">1,247</div>
+                      <div className="text-sm text-gray-300">Active Jobs</div>
                     </div>
-                    <div className="bg-gradient-to-br from-secondary/10 to-secondary/5 rounded-xl p-4 border border-secondary/10">
-                      <div className="text-2xl font-bold text-secondary">8,932</div>
-                      <div className="text-sm text-secondary/70">Freelancers</div>
+                    <div className="bg-gradient-to-br from-accent-light/20 to-accent-light/5 rounded-xl p-4 border border-accent-light/20 backdrop-blur-sm">
+                      <div className="text-2xl font-bold text-accent">8,932</div>
+                      <div className="text-sm text-gray-300">Freelancers</div>
                     </div>
-                    <div className="bg-gradient-to-br from-accent/10 to-accent/5 rounded-xl p-4 border border-accent/10">
-                      <div className="text-2xl font-bold text-accent">$847K</div>
-                      <div className="text-sm text-accent/70">Paid Out</div>
+                    <div className="bg-gradient-to-br from-accent-dark/20 to-accent-dark/5 rounded-xl p-4 border border-accent-dark/20 backdrop-blur-sm">
+                      <div className="text-2xl font-bold text-green-400">$847K</div>
+                      <div className="text-sm text-gray-300">Paid Out</div>
                     </div>
-                    <div className="bg-gradient-to-br from-accent-light/20 to-accent-light/10 rounded-xl p-4 border border-accent-light/20">
-                      <div className="text-2xl font-bold text-primary">4.9★</div>
-                      <div className="text-sm text-primary/70">Avg Rating</div>
+                    <div className="bg-gradient-to-br from-yellow-500/20 to-yellow-500/5 rounded-xl p-4 border border-yellow-500/20 backdrop-blur-sm">
+                      <div className="text-2xl font-bold text-yellow-400 flex items-center">
+                        4.9<Star className="w-4 h-4 ml-1 fill-current" />
+                      </div>
+                      <div className="text-sm text-gray-300">Avg Rating</div>
                     </div>
                   </div>
 
                   {/* Recent Activity */}
                   <div className="space-y-3 relative z-10">
-                    <div className="text-sm font-semibold text-primary mb-3">Recent Activity</div>
-                    
-                    <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-primary/5 to-transparent rounded-lg border border-primary/10">
-                      <div className="w-8 h-8 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center text-white text-xs font-bold">
-                        JS
-                      </div>
-                      <div className="flex-1">
-                        <div className="text-sm font-medium text-gray-900">Smart Contract Developer</div>
-                        <div className="text-xs text-gray-600">Posted 2 minutes ago</div>
-                      </div>
-                      <div className="text-sm font-semibold text-green-600">$1,200</div>
+                    <div className="text-sm font-semibold text-white mb-3 flex items-center">
+                      <TrendingUp className="w-4 h-4 mr-2 text-accent" />
+                      Recent Activity
                     </div>
                     
-                    <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-secondary/5 to-transparent rounded-lg border border-secondary/10">
-                      <div className="w-8 h-8 bg-gradient-to-r from-secondary to-accent rounded-full flex items-center justify-center text-white text-xs font-bold">
+                    <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-accent/10 to-transparent rounded-lg border border-accent/20 backdrop-blur-sm">
+                      <div className="w-10 h-10 bg-gradient-to-r from-accent to-accent-dark rounded-full flex items-center justify-center text-white text-sm font-bold">
+                        SC
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-sm font-medium text-white">Smart Contract Developer</div>
+                        <div className="text-xs text-gray-400">Posted 2 minutes ago</div>
+                      </div>
+                      <div className="text-sm font-semibold text-green-400">$1,200</div>
+                    </div>
+                    
+                    <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-accent-light/10 to-transparent rounded-lg border border-accent-light/20 backdrop-blur-sm">
+                      <div className="w-10 h-10 bg-gradient-to-r from-accent-light to-accent rounded-full flex items-center justify-center text-white text-sm font-bold">
                         RD
                       </div>
                       <div className="flex-1">
-                        <div className="text-sm font-medium text-gray-900">React Developer</div>
-                        <div className="text-xs text-gray-600">Payment completed</div>
+                        <div className="text-sm font-medium text-white">React Developer</div>
+                        <div className="text-xs text-gray-400 flex items-center">
+                          <CheckCircle className="w-3 h-3 mr-1 text-green-400" />
+                          Payment completed
+                        </div>
                       </div>
-                      <div className="text-sm font-semibold text-green-600">$800</div>
+                      <div className="text-sm font-semibold text-green-400">$800</div>
                     </div>
                     
-                    <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-accent/5 to-transparent rounded-lg border border-accent/10">
-                      <div className="w-8 h-8 bg-gradient-to-r from-accent to-accent-light rounded-full flex items-center justify-center text-white text-xs font-bold">
+                    <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-accent-dark/10 to-transparent rounded-lg border border-accent-dark/20 backdrop-blur-sm">
+                      <div className="w-10 h-10 bg-gradient-to-r from-accent-dark to-accent-light rounded-full flex items-center justify-center text-white text-sm font-bold">
                         UD
                       </div>
                       <div className="flex-1">
-                        <div className="text-sm font-medium text-gray-900">UI/UX Designer</div>
-                        <div className="text-xs text-gray-600">In progress</div>
+                        <div className="text-sm font-medium text-white">UI/UX Designer</div>
+                        <div className="text-xs text-gray-400">In progress</div>
                       </div>
                       <div className="text-sm font-semibold text-accent">$650</div>
                     </div>
                   </div>
 
                   {/* Floating elements */}
-                  <div className="absolute -top-4 -right-4 w-8 h-8 bg-gradient-to-r from-accent to-accent-light rounded-full opacity-80 animate-bounce"></div>
-                  <div className="absolute -bottom-2 -left-2 w-6 h-6 bg-gradient-to-r from-secondary to-primary rounded-full opacity-60 animate-pulse"></div>
+                  <div className="absolute -top-4 -right-4 w-8 h-8 bg-gradient-to-r from-accent to-accent-light rounded-full opacity-80 animate-float"></div>
+                  <div className="absolute -bottom-2 -left-2 w-6 h-6 bg-gradient-to-r from-accent-light to-accent-dark rounded-full opacity-60 animate-float" style={{ animationDelay: '2s' }}></div>
                 </div>
 
-                {/* Floating Cards */}
-                <div className="absolute -top-8 -left-8 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-purple-100 animate-float">
+                {/* Floating Info Cards */}
+                <div className="absolute -top-8 -left-8 bg-white/10 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-white/20 animate-float">
                   <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                    <span className="text-sm font-medium text-gray-900">Secure Payments</span>
+                    <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                    <span className="text-sm font-medium text-white">Secure Payments</span>
                   </div>
                 </div>
 
-                <div className="absolute -bottom-8 -right-8 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-purple-100 animate-float" style={{ animationDelay: '1s' }}>
+                <div className="absolute -bottom-8 -right-8 bg-white/10 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-white/20 animate-float" style={{ animationDelay: '1s' }}>
                   <div className="flex items-center space-x-2">
-                    <Globe className="w-4 h-4 text-accent" />
-                    <span className="text-sm font-medium text-gray-900">Global Network</span>
+                    <Users className="w-4 h-4 text-accent" />
+                    <span className="text-sm font-medium text-white">Global Network</span>
+                  </div>
+                </div>
+
+                <div className="absolute top-1/2 -left-12 bg-white/10 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-white/20 animate-float" style={{ animationDelay: '3s' }}>
+                  <div className="flex items-center space-x-2">
+                    <Zap className="w-4 h-4 text-yellow-400" />
+                    <span className="text-sm font-medium text-white">Instant</span>
                   </div>
                 </div>
               </div>
@@ -251,8 +280,8 @@ const Hero = () => {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 border-2 border-primary/30 rounded-full flex justify-center">
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-float">
+        <div className="w-6 h-10 border-2 border-accent/50 rounded-full flex justify-center backdrop-blur-sm">
           <div className="w-1 h-3 bg-accent rounded-full mt-2 animate-pulse"></div>
         </div>
       </div>

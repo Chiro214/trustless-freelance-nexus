@@ -11,7 +11,7 @@ import { Suspense } from "react";
 
 const Index = () => {
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-primary min-h-screen">
       <Navbar />
       <Hero />
       <div className="relative bg-gradient-to-br from-primary via-secondary to-primary">
