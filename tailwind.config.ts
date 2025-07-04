@@ -25,16 +25,16 @@ export default {
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				primary: {
-					DEFAULT: '#0F172A', // Slate-900 - Deep navy for modern SaaS look
+					DEFAULT: '#2E073F', // Deep purple from palette
 					foreground: 'hsl(var(--primary-foreground))'
 				},
 				secondary: {
-					DEFAULT: '#1E293B', // Slate-800 - Slightly lighter navy
+					DEFAULT: '#7A1CAC', // Medium purple from palette
 					foreground: 'hsl(var(--secondary-foreground))'
 				},
 				accent: {
-					DEFAULT: '#FB923C', // Orange-400 - Modern orange for DeFreelance
-					light: '#FBBF24', // Yellow-400 - Complementary yellow
+					DEFAULT: '#AD49E1', // Bright purple from palette
+					light: '#EBD3F8', // Light purple from palette
 					foreground: 'hsl(var(--accent-foreground))'
 				},
 				destructive: {
@@ -150,11 +150,11 @@ export default {
 				},
 				'pulse-glow': {
 					'0%, 100%': { 
-						boxShadow: '0 0 20px rgba(251, 146, 60, 0.3)',
+						boxShadow: '0 0 20px rgba(173, 73, 225, 0.3)',
 						transform: 'scale(1)'
 					},
 					'50%': { 
-						boxShadow: '0 0 40px rgba(251, 146, 60, 0.6)',
+						boxShadow: '0 0 40px rgba(173, 73, 225, 0.6)',
 						transform: 'scale(1.05)'
 					}
 				},
@@ -166,6 +166,14 @@ export default {
 					'100%': {
 						opacity: '1',
 						transform: 'translateY(0)'
+					}
+				},
+				'morph': {
+					'0%, 100%': { 
+						borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%' 
+					},
+					'50%': { 
+						borderRadius: '30% 60% 70% 40% / 50% 60% 30% 60%' 
 					}
 				}
 			},
@@ -181,7 +189,8 @@ export default {
 				'bounce-slow': 'bounce-slow 4s infinite',
 				'spin-slow': 'spin-slow 8s linear infinite',
 				'pulse-glow': 'pulse-glow 3s ease-in-out infinite',
-				'slide-up': 'slide-up 0.6s ease-out'
+				'slide-up': 'slide-up 0.6s ease-out',
+				'morph': 'morph 8s ease-in-out infinite'
 			},
 			backgroundSize: {
 				'300%': '300%'
