@@ -35,31 +35,27 @@ const Navbar = () => {
   };
 
   const handlePostJob = () => {
-    if (!account) {
-      navigate('/post-job');
-    } else {
-      navigate('/post-job');
-    }
+    navigate('/post-job');
     setIsOpen(false);
   };
 
-  // Check if we're on the home page to adjust navbar styling
   const isHomePage = location.pathname === '/';
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
       isScrolled || !isHomePage
-        ? 'bg-primary/95 backdrop-blur-xl shadow-2xl border-b border-accent/20' 
-        : 'bg-primary/80 backdrop-blur-sm'
+        ? 'bg-white/80 dark:bg-black/80 backdrop-blur-xl shadow-2xl border-b border-gray-200/20 dark:border-white/10' 
+        : 'bg-white/60 dark:bg-black/60 backdrop-blur-sm'
     }`}>
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 group">
-            <Logo size="md" animated={false} className="group-hover:scale-110 transition-transform duration-300" />
-            <span className="text-2xl font-bold bg-gradient-to-r from-accent to-accent-light bg-clip-text text-transparent group-hover:from-accent-light group-hover:to-accent-dark transition-all duration-300">
-              DeFreelance
-            </span>
+          <Link to="/" className="group">
+            <Logo 
+              size="md" 
+              animated={false} 
+              className="group-hover:scale-105 transition-transform duration-300" 
+            />
           </Link>
 
           {/* Desktop Navigation */}
@@ -68,14 +64,14 @@ const Navbar = () => {
               <button
                 key={item.name}
                 onClick={() => handleNavigation(item.path)}
-                className={`text-sm font-medium transition-all duration-300 hover:text-accent relative group ${
+                className={`text-sm font-medium transition-all duration-300 hover:text-purple-600 dark:hover:text-purple-400 relative group ${
                   location.pathname === item.path 
-                    ? 'text-accent' 
-                    : 'text-gray-300 hover:text-accent'
+                    ? 'text-purple-600 dark:text-purple-400' 
+                    : 'text-gray-700 dark:text-gray-300'
                 }`}
               >
                 {item.name}
-                <span className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-accent to-accent-light transition-all duration-300 group-hover:w-full ${
+                <span className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-600 to-blue-600 transition-all duration-300 group-hover:w-full ${
                   location.pathname === item.path ? 'w-full' : ''
                 }`}></span>
               </button>
@@ -86,11 +82,11 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-4">
             <WalletConnect 
               variant="outline" 
-              className="border-accent/30 text-accent hover:bg-accent hover:text-white transition-all duration-300 hover:shadow-lg hover:shadow-accent/25" 
+              className="border-purple-300 dark:border-purple-600 text-purple-600 dark:text-purple-400 hover:bg-purple-600 hover:text-white dark:hover:bg-purple-500 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/25" 
             />
             <Button 
               onClick={handlePostJob}
-              className="bg-gradient-to-r from-accent to-accent-dark text-white hover:from-accent-dark hover:to-accent font-semibold px-6 py-2 rounded-lg shadow-lg hover:shadow-xl hover:shadow-accent/25 transform hover:scale-105 transition-all duration-300 relative overflow-hidden group"
+              className="bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:from-purple-700 hover:to-blue-700 font-semibold px-6 py-2 rounded-lg shadow-lg hover:shadow-xl hover:shadow-purple-500/25 transform hover:scale-105 transition-all duration-300 relative overflow-hidden group"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <span className="relative z-10">Post a Job</span>
@@ -100,7 +96,7 @@ const Navbar = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-gray-300 hover:text-accent transition-colors duration-300 p-2 rounded-lg hover:bg-accent/10"
+            className="md:hidden text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-300 p-2 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/20"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -110,15 +106,15 @@ const Navbar = () => {
         <div className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${
           isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         }`}>
-          <div className="py-4 space-y-4 bg-secondary/95 backdrop-blur-lg rounded-xl mt-4 border border-accent/20 shadow-2xl">
+          <div className="py-4 space-y-4 bg-white/90 dark:bg-black/90 backdrop-blur-lg rounded-xl mt-4 border border-gray-200/20 dark:border-white/10 shadow-2xl">
             {navItems.map((item) => (
               <button
                 key={item.name}
                 onClick={() => handleNavigation(item.path)}
                 className={`block w-full text-left px-4 py-2 text-sm font-medium transition-colors duration-300 rounded-lg mx-2 ${
                   location.pathname === item.path 
-                    ? 'text-accent bg-accent/10' 
-                    : 'text-gray-300 hover:text-accent hover:bg-accent/5'
+                    ? 'text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-900/20' 
+                    : 'text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/10'
                 }`}
               >
                 {item.name}
@@ -128,7 +124,7 @@ const Navbar = () => {
               <WalletConnect className="w-full" />
               <Button 
                 onClick={handlePostJob}
-                className="w-full bg-gradient-to-r from-accent to-accent-dark text-white hover:from-accent-dark hover:to-accent font-semibold"
+                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:from-purple-700 hover:to-blue-700 font-semibold"
               >
                 Post a Job
               </Button>
