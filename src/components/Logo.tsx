@@ -15,37 +15,62 @@ const Logo: React.FC<LogoProps> = ({
 }) => {
   const sizeClasses = {
     sm: 'h-8',
-    md: 'h-10',
-    lg: 'h-12',
-    xl: 'h-16'
+    md: 'h-12',
+    lg: 'h-16',
+    xl: 'h-24'
   };
 
   const textSizeClasses = {
     sm: 'text-lg',
     md: 'text-xl',
     lg: 'text-2xl',
-    xl: 'text-3xl'
+    xl: 'text-4xl'
   };
 
   return (
     <div className={`flex items-center gap-3 ${className}`}>
-      <div className={`relative ${animated ? 'animate-pulse' : ''} transition-all duration-300 hover:scale-110`}>
-        <img 
-          src="/assets/images/defreelance-logo.png" 
-          alt="DeFreelance Logo" 
-          className={`${sizeClasses[size]} w-auto object-contain filter transition-all duration-300 
-            dark:brightness-0 dark:invert 
-            drop-shadow-lg hover:drop-shadow-xl
-            ${animated ? 'animate-glow-pulse' : ''}
-          `}
-        />
-        {animated && (
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-blue-400/20 rounded-full blur-xl animate-pulse"></div>
-        )}
+      <div className={`relative group transition-all duration-500 ${animated ? 'animate-pulse' : ''}`}>
+        {/* Logo with modern effects */}
+        <div className="relative">
+          <img 
+            src="/assets/images/DeFreelance Logo.png" 
+            alt="DeFreelance Logo" 
+            className={`
+              ${sizeClasses[size]} w-auto object-contain 
+              transition-all duration-500 ease-out
+              group-hover:scale-110 group-hover:rotate-3
+              filter drop-shadow-lg group-hover:drop-shadow-2xl
+              ${animated ? 'animate-float' : ''}
+            `}
+          />
+          
+          {/* Glow effect for dark mode */}
+          <div className={`
+            absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500
+            bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-purple-500/20 
+            rounded-full blur-xl scale-150
+            ${animated ? 'animate-pulse' : ''}
+          `}></div>
+          
+          {/* Animated ring */}
+          {animated && (
+            <div className="absolute inset-0 -m-2">
+              <div className="w-full h-full border-2 border-purple-400/30 rounded-full animate-spin-slow"></div>
+            </div>
+          )}
+        </div>
       </div>
       
       {showText && (
-        <span className={`font-bold bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400 bg-clip-text text-transparent ${textSizeClasses[size]} transition-all duration-300`}>
+        <span className={`
+          font-bold transition-all duration-500
+          bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 
+          dark:from-purple-400 dark:via-blue-400 dark:to-purple-400 
+          bg-clip-text text-transparent bg-300%
+          ${textSizeClasses[size]}
+          ${animated ? 'animate-text-shimmer' : ''}
+          hover:scale-105 cursor-default
+        `}>
           DeFreelance
         </span>
       )}
