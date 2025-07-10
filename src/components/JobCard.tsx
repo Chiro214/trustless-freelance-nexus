@@ -1,8 +1,8 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useWallet } from "@/context/WalletContext";
-import { useJobs } from "@/context/JobsContext";
+import { useAuth } from "@/hooks/useAuth";
+import { useProposals } from "@/hooks/useProposals";
 import CryptoPayment from "./CryptoPayment";
 import { toast } from "sonner";
 import { ExternalLink, Users, CheckCircle, Clock, DollarSign, User } from "lucide-react";
@@ -27,33 +27,63 @@ const JobCard = ({
   clientName
 }: JobCardProps) => {
   const { account } = useWallet();
-  const { addApplication, completeJob, getJobApplications, isJobApplied } = useJobs();
+  const { user } = useAuth();
+  const { proposals, createProposal, loading: proposalLoading } = useProposals();
   const [showPayment, setShowPayment] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const jobApplications = getJobApplications(id);
-  const isAppliedByUser = account ? isJobApplied(id, account) : false;
-  const userApplication = jobApplications.find(app => 
-    account && app.applicantAddress.toLowerCase() === account.toLowerCase()
+  // Check if user has already applied to this job
+  const userProposals = proposals.filter(p => 
+    p.job_id === id.toString() && p.freelancer_id === user?.id
   );
-  const isCompleted = userApplication?.status === 'completed';
-  const isClientView = account && account.toLowerCase() === clientName.toLowerCase();
+  const hasApplied = userProposals.length > 0;
+  const userProposal = userProposals[0];
+  const isCompleted = userProposal?.status === 'accepted';
+  const isClientView = false; // We'll implement this when we have real job data
 
-  const handleApply = () => {
-    if (!account) {
-      toast.error("Please connect your wallet to apply on BlockLance");
+  const handleApply = async () => {
+    if (!user) {
+      toast.error("Please sign in to apply for jobs");
       return;
     }
-    if (isAppliedByUser) {
+    
+    if (!account) {
+      toast.error("Please connect your wallet to apply");
+      return;
+    }
+    
+    if (hasApplied) {
       toast.info("You have already applied for this job");
       return;
     }
-    setShowPayment(true);
+
+    setIsLoading(true);
+    
+    try {
+      // Create a proposal in the database
+      const proposalData = {
+        job_id: id.toString(),
+        proposed_rate: parseFloat(price),
+        cover_letter: `I am interested in working on this ${category.toLowerCase()} project: ${title}`,
+        estimated_duration: deadline
+      };
+      
+      const result = await createProposal(proposalData);
+      
+      if (result) {
+        toast.success("Application submitted successfully!");
+      }
+    } catch (error) {
+      console.error("Error applying to job:", error);
+      toast.error("Failed to submit application. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleReleasePayment = async () => {
     if (!account) {
-      toast.error("Please connect your wallet to release payment on BlockLance");
+      toast.error("Please connect your wallet to release payment");
       return;
     }
 
@@ -62,23 +92,21 @@ const JobCard = ({
     try {
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      completeJob(id);
-      toast.success(`Payment of $${price} released successfully on BlockLance`);
+      // This would be implemented when we have real client/job ownership
+      toast.success(`Payment of $${price} released successfully`);
       setIsLoading(false);
     } catch (error) {
       console.error("Payment release error:", error);
-      toast.error("Failed to release payment on BlockLance");
+      toast.error("Failed to release payment");
       setIsLoading(false);
     }
   };
 
   const handlePaymentSuccess = (token: any, txHash: string) => {
-    if (account) {
-      addApplication(id, account, txHash);
-      setShowPayment(false);
-      const shortTxHash = `${txHash.substring(0, 6)}...${txHash.substring(txHash.length - 4)}`;
-      toast.success(`Application submitted on BlockLance with transaction: ${shortTxHash}`);
-    }
+    // This is now handled in the handleApply function
+    setShowPayment(false);
+    const shortTxHash = `${txHash.substring(0, 6)}...${txHash.substring(txHash.length - 4)}`;
+    toast.success(`Application submitted with transaction: ${shortTxHash}`);
   };
 
   const getExplorerUrl = (txHash: string) => {
@@ -98,7 +126,7 @@ const JobCard = ({
         </div>
       );
     }
-    if (isAppliedByUser) {
+    if (hasApplied) {
       return (
         <div className="flex items-center gap-2 bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-sm border border-blue-500/30">
           <CheckCircle size={14} />
@@ -169,30 +197,22 @@ const JobCard = ({
           <div className="flex items-center gap-2 bg-blue-500/20 px-3 py-2 rounded-lg border border-blue-500/30">
             <Users size={16} className="text-blue-400" />
             <span className="text-blue-400 text-sm font-medium">
-              {jobApplications.length} application{jobApplications.length !== 1 ? 's' : ''}
+              {userProposals.length} proposal{userProposals.length !== 1 ? 's' : ''}
             </span>
           </div>
           {getApplicationStatusBadge()}
         </div>
         
         {/* Enhanced transaction details */}
-        {userApplication && (
+        {userProposal && (
           <div className="mb-6 p-4 bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/30 rounded-xl backdrop-blur-sm">
             <div className="flex justify-between items-center mb-2">
               <p className="text-blue-400 font-semibold">
-                {isCompleted ? '✅ Job Completed' : '🔄 Application Submitted'}
+                {isCompleted ? '✅ Proposal Accepted' : '🔄 Proposal Submitted'}
               </p>
-              <a 
-                href={getExplorerUrl(userApplication.txHash)} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-blue-400 hover:text-blue-300 text-xs flex items-center gap-1 hover:scale-105 transition-all duration-200"
-              >
-                View Transaction <ExternalLink size={12} />
-              </a>
             </div>
-            <p className="text-gray-300 text-xs font-mono bg-black/20 px-2 py-1 rounded truncate">
-              {userApplication.txHash}
+            <p className="text-gray-300 text-xs">
+              Status: {userProposal.status} • Rate: ${userProposal.proposed_rate}
             </p>
           </div>
         )}
@@ -215,7 +235,7 @@ const JobCard = ({
               recipientAddress={clientName}
               onPayment={handlePaymentSuccess}
             />
-          ) : isClientView && jobApplications.length > 0 && !isCompleted ? (
+          ) : isClientView && userProposals.length > 0 && !isCompleted ? (
             <Button 
               className="bg-gradient-to-r from-green-500 to-emerald-500 text-white hover:from-green-600 hover:to-emerald-600 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
               onClick={handleReleasePayment}
@@ -235,7 +255,7 @@ const JobCard = ({
               <CheckCircle className="h-5 w-5 mr-2" />
               Completed
             </div>
-          ) : isAppliedByUser ? (
+          ) : hasApplied ? (
             <div className="flex items-center text-blue-400 bg-blue-500/20 px-4 py-2 rounded-lg border border-blue-500/30">
               <CheckCircle className="h-5 w-5 mr-2" />
               Applied
@@ -244,9 +264,16 @@ const JobCard = ({
             <Button 
               className="bg-gradient-to-r from-accent-light to-yellow-400 text-primary hover:from-accent hover:to-orange-500 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 font-semibold"
               onClick={handleApply}
-              disabled={!account}
+              disabled={!user || isLoading || proposalLoading}
             >
-              Apply Now
+              {isLoading ? (
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 border-2 border-primary/30 border-t-primary rounded-full animate-spin"></div>
+                  Applying...
+                </div>
+              ) : (
+                "Apply Now"
+              )}
             </Button>
           )}
         </div>
