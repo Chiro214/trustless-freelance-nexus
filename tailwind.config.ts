@@ -25,15 +25,15 @@ export default {
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				primary: {
-					DEFAULT: '#0A0A0A', // Deep black
+					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))'
 				},
 				secondary: {
-					DEFAULT: '#1A1A1A', // Dark gray
+					DEFAULT: 'hsl(var(--secondary))',
 					foreground: 'hsl(var(--secondary-foreground))'
 				},
 				accent: {
-					DEFAULT: '#8B5CF6', // Purple-500
+					DEFAULT: 'hsl(var(--accent))',
 					light: '#A78BFA', // Purple-400
 					dark: '#7C3AED', // Purple-600
 					foreground: 'hsl(var(--accent-foreground))'

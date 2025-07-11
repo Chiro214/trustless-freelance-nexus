@@ -145,50 +145,50 @@ const Hero = () => {
             <div className="relative animate-fade-in" style={{ animationDelay: '0.3s' }}>
               <div className="relative">
                 {/* Main Dashboard Card */}
-                <div className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-white/20 relative overflow-hidden animate-glow-pulse">
+                <div className="bg-card backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-border relative overflow-hidden animate-glow-pulse">
                   {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent-dark/5 rounded-3xl"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 rounded-3xl"></div>
                   
                   {/* Header */}
                   <div className="flex items-center justify-between mb-6 relative z-10">
                     <div className="flex items-center space-x-3">
                       <Logo size="md" animated={true} />
                       <div>
-                        <div className="font-bold text-white">DeFreelance</div>
-                        <div className="text-sm text-gray-400">Decentralized Platform</div>
+                        <div className="font-bold text-foreground">DeFreelance</div>
+                        <div className="text-sm text-muted-foreground">Decentralized Platform</div>
                       </div>
                     </div>
                     <div className="flex items-center space-x-2">
                       <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-                      <span className="text-sm text-gray-300">Live</span>
+                      <span className="text-sm text-muted-foreground">Live</span>
                     </div>
                   </div>
 
                   {/* Stats Grid */}
                   <div className="grid grid-cols-2 gap-4 mb-6 relative z-10">
+                    <div className="bg-gradient-to-br from-primary/20 to-primary/5 rounded-xl p-4 border border-primary/20 backdrop-blur-sm">
+                      <div className="text-2xl font-bold text-primary">1,247</div>
+                      <div className="text-sm text-muted-foreground">Active Jobs</div>
+                    </div>
                     <div className="bg-gradient-to-br from-accent/20 to-accent/5 rounded-xl p-4 border border-accent/20 backdrop-blur-sm">
-                      <div className="text-2xl font-bold text-accent-light">1,247</div>
-                      <div className="text-sm text-gray-300">Active Jobs</div>
-                    </div>
-                    <div className="bg-gradient-to-br from-accent-light/20 to-accent-light/5 rounded-xl p-4 border border-accent-light/20 backdrop-blur-sm">
                       <div className="text-2xl font-bold text-accent">8,932</div>
-                      <div className="text-sm text-gray-300">Freelancers</div>
+                      <div className="text-sm text-muted-foreground">Freelancers</div>
                     </div>
-                    <div className="bg-gradient-to-br from-accent-dark/20 to-accent-dark/5 rounded-xl p-4 border border-accent-dark/20 backdrop-blur-sm">
+                    <div className="bg-gradient-to-br from-accent/20 to-accent/5 rounded-xl p-4 border border-accent/20 backdrop-blur-sm">
                       <div className="text-2xl font-bold text-green-400">$847K</div>
-                      <div className="text-sm text-gray-300">Paid Out</div>
+                      <div className="text-sm text-muted-foreground">Paid Out</div>
                     </div>
-                    <div className="bg-gradient-to-br from-yellow-500/20 to-yellow-500/5 rounded-xl p-4 border border-yellow-500/20 backdrop-blur-sm">
+                    <div className="bg-gradient-to-br from-accent/20 to-accent/5 rounded-xl p-4 border border-accent/20 backdrop-blur-sm">
                       <div className="text-2xl font-bold text-yellow-400 flex items-center">
                         4.9<Star className="w-4 h-4 ml-1 fill-current" />
                       </div>
-                      <div className="text-sm text-gray-300">Avg Rating</div>
+                      <div className="text-sm text-muted-foreground">Avg Rating</div>
                     </div>
                   </div>
 
                   {/* Recent Activity */}
                   <div className="space-y-3 relative z-10">
-                    <div className="text-sm font-semibold text-white mb-3 flex items-center">
+                    <div className="text-sm font-semibold text-foreground mb-3 flex items-center">
                       <TrendingUp className="w-4 h-4 mr-2 text-accent" />
                       Recent Activity
                     </div>
@@ -198,8 +198,8 @@ const Hero = () => {
                         SC
                       </div>
                       <div className="flex-1">
-                        <div className="text-sm font-medium text-white">Smart Contract Developer</div>
-                        <div className="text-xs text-gray-400">Posted 2 minutes ago</div>
+                        <div className="text-sm font-medium text-foreground">Smart Contract Developer</div>
+                        <div className="text-xs text-muted-foreground">Posted 2 minutes ago</div>
                       </div>
                       <div className="text-sm font-semibold text-green-400">$1,200</div>
                     </div>
@@ -209,8 +209,8 @@ const Hero = () => {
                         RD
                       </div>
                       <div className="flex-1">
-                        <div className="text-sm font-medium text-white">React Developer</div>
-                        <div className="text-xs text-gray-400 flex items-center">
+                        <div className="text-sm font-medium text-foreground">React Developer</div>
+                        <div className="text-xs text-muted-foreground flex items-center">
                           <CheckCircle className="w-3 h-3 mr-1 text-green-400" />
                           Payment completed
                         </div>
@@ -223,8 +223,8 @@ const Hero = () => {
                         UD
                       </div>
                       <div className="flex-1">
-                        <div className="text-sm font-medium text-white">UI/UX Designer</div>
-                        <div className="text-xs text-gray-400">In progress</div>
+                        <div className="text-sm font-medium text-foreground">UI/UX Designer</div>
+                        <div className="text-xs text-muted-foreground">In progress</div>
                       </div>
                       <div className="text-sm font-semibold text-accent">$650</div>
                     </div>

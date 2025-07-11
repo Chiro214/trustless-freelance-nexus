@@ -37,8 +37,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete, duration = 30
   return (
     <div className={`
       fixed inset-0 z-50 flex items-center justify-center
-      bg-gradient-to-br from-gray-50 via-white to-purple-50
-      dark:from-gray-900 dark:via-black dark:to-purple-900
+      bg-gradient-to-br from-black via-primary to-purple-900
       transition-all duration-1000 ease-out
       ${fadeOut ? 'opacity-0 scale-110 blur-sm' : 'opacity-100 scale-100'}
     `}>
@@ -57,20 +56,20 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete, duration = 30
       {/* Main loading container with glassmorphism */}
       <div className="relative z-10 text-center">
         <div className="
-          bg-white/20 dark:bg-black/20 
+          bg-black/40 
           backdrop-blur-[30px] 
-          border border-white/30 dark:border-purple-500/20
+          border border-purple-500/30
           rounded-3xl p-16 shadow-2xl
           animate-fade-in
           relative overflow-hidden
           hover:scale-105 transition-transform duration-700
         ">
           {/* Background gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-blue-500/5 rounded-3xl"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-blue-500/10 rounded-3xl"></div>
           
           {/* Animated border */}
-          <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-purple-500/20 p-[1px]">
-            <div className="w-full h-full bg-white/20 dark:bg-black/20 rounded-3xl"></div>
+          <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-purple-500/30 via-blue-500/30 to-purple-500/30 p-[1px]">
+            <div className="w-full h-full bg-black/40 rounded-3xl"></div>
           </div>
 
           <div className="relative z-10">
@@ -106,7 +105,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete, duration = 30
                 DeFreelance
               </h1>
               <p className="
-                text-gray-600 dark:text-gray-300 text-xl font-medium 
+                text-gray-300 text-xl font-medium 
                 animate-fade-in opacity-80
               " style={{ animationDelay: '0.5s' }}>
                 Decentralized Freelancing Platform
@@ -119,9 +118,9 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete, duration = 30
             {/* Enhanced progress bar */}
             <div className="w-80 mx-auto">
               <div className="
-                bg-gray-200/30 dark:bg-gray-700/30 
+                bg-gray-800/50 
                 rounded-full h-3 overflow-hidden 
-                backdrop-blur-sm border border-white/20
+                backdrop-blur-sm border border-purple-500/20
                 shadow-inner
               ">
                 <div 
@@ -138,7 +137,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete, duration = 30
                 </div>
               </div>
               <div className="mt-4 text-center">
-                <span className="text-gray-500 dark:text-gray-400 text-sm font-medium">
+                <span className="text-gray-400 text-sm font-medium">
                   {progress}% Loading...
                 </span>
               </div>
