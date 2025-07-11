@@ -44,13 +44,10 @@ const Navbar = () => {
   return (
     <nav className={`
       fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-out
-      ${isScrolled || !isHomePage
-        ? 'bg-white/80 dark:bg-black/80 backdrop-blur-xl shadow-2xl border-b border-gray-200/20 dark:border-purple-500/20' 
-        : 'bg-white/60 dark:bg-black/60 backdrop-blur-md'
-      }
-      before:absolute before:inset-0 before:bg-gradient-to-r before:from-purple-500/5 before:to-blue-500/5 before:opacity-0 before:transition-opacity before:duration-500
-      ${isScrolled ? 'before:opacity-100' : ''}
+      bg-gradient-to-r from-[#0d0d0d] via-[#111111] to-[#0d0d0d]
+      backdrop-blur-md shadow-md shadow-purple-500/10 border-b border-purple-500/10
     `}>
+
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex justify-between items-center py-4">
           {/* Logo with enhanced effects */}
@@ -76,7 +73,7 @@ const Navbar = () => {
                   hover:text-purple-600 dark:hover:text-purple-400
                   ${location.pathname === item.path 
                     ? 'text-purple-600 dark:text-purple-400' 
-                    : 'text-gray-700 dark:text-gray-300'
+                    : 'text-white'
                   }
                 `}
                 style={{ animationDelay: `${index * 100}ms` }}

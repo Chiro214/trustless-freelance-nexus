@@ -14,33 +14,32 @@ const Logo: React.FC<LogoProps> = ({
   showText = true 
 }) => {
   const sizeClasses = {
-    sm: 'h-8',
-    md: 'h-12',
-    lg: 'h-16',
-    xl: 'h-24'
-  };
+   sm: 'h-12',
+   md: 'h-16',
+   lg: 'h-24',
+   xl: 'h-32'
+};
+
 
   const textSizeClasses = {
-    sm: 'text-lg',
-    md: 'text-xl',
-    lg: 'text-2xl',
-    xl: 'text-4xl'
+    sm: 'text-xl',
+    md: 'text-3xl',
+    lg: 'text-4xl',
+    xl: 'text-5xl'
   };
 
   return (
-    <div className={`flex items-center gap-3 ${className}`}>
+    <div className={`flex items-center gap-1 ${className}`}>
       <div className={`relative group transition-all duration-500 ${animated ? 'animate-pulse' : ''}`}>
         {/* Logo with modern effects */}
         <div className="relative">
           <img 
-            src="/lovable-uploads/39f444e7-164d-4d4d-9f05-4342991ad419.png" 
+            src="/assets/logo-new.png"
             alt="DeFreelance Logo"
             className={`
-              ${sizeClasses[size]} w-auto object-contain 
-              transition-all duration-500 ease-out
-              group-hover:scale-110 group-hover:rotate-3
-              filter drop-shadow-lg group-hover:drop-shadow-2xl
-              ${animated ? 'animate-float' : ''}
+             ${sizeClasses[size]} w-auto object-contain 
+             transition-transform duration-300 ease-in-out
+             hover:scale-105 hover:drop-shadow-[0_0_8px_rgba(147,51,234,0.4)]
             `}
           />
           
@@ -63,16 +62,14 @@ const Logo: React.FC<LogoProps> = ({
       
       {showText && (
         <span className={`
-          font-bold transition-all duration-500
-          bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 
-          dark:from-purple-400 dark:via-blue-400 dark:to-purple-400 
-          bg-clip-text text-transparent bg-300%
-          ${textSizeClasses[size]}
-          ${animated ? 'animate-text-shimmer' : ''}
-          hover:scale-105 cursor-default
+          ml-2 font-semibold text-transparent bg-clip-text
+          bg-gradient-to-r from-purple-500 via-blue-500 to-purple-500
+          ${textSizeClasses[size]} 
+          transition-opacity duration-500 ease-in-out hover:opacity-80
         `}>
           DeFreelance
         </span>
+
       )}
     </div>
   );
