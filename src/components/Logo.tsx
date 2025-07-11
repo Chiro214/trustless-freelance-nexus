@@ -33,7 +33,7 @@ const Logo: React.FC<LogoProps> = ({
         {/* Logo with modern effects */}
         <div className="relative">
           <img 
-            src="/lovable-uploads/aabf3db6-8259-41f8-8ec3-e3953d040455.png" 
+            src="/lovable-uploads/39f444e7-164d-4d4d-9f05-4342991ad419.png" 
             alt="DeFreelance Logo"
             className={`
               ${sizeClasses[size]} w-auto object-contain 
