@@ -28,8 +28,8 @@ const cryptoGiants = [
   },
   {
     name: "Crypto.com",
-    logo: "https://crypto.com/favicon.ico",
-    fallback: "CRO",
+    logo: "/public/favicon.png",
+    fallback: "YB",
     color: "from-blue-600 to-purple-700"
   },
   {
