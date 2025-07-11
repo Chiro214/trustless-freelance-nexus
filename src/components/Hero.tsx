@@ -145,7 +145,7 @@ const Hero = () => {
             <div className="relative animate-fade-in" style={{ animationDelay: '0.3s' }}>
               <div className="relative">
                 {/* Main Dashboard Card */}
-                <div className="bg-card backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-border relative overflow-hidden animate-glow-pulse">
+                <div className="bg-black backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-border relative overflow-hidden animate-glow-pulse">
                   {/* Gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 rounded-3xl"></div>
                   
