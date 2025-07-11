@@ -45,7 +45,7 @@ const Hero = () => {
               {/* Main Heading */}
               <div className="space-y-6">
                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
-                  <span className="text-white block mb-2 mt-4">The Future of</span>
+                  <span className="text-white block mb-2 mt-12">The Future of</span>
                   <span className="block bg-gradient-to-r from-accent via-accent-light to-accent-dark bg-clip-text text-transparent bg-300% animate-gradient-shift">
                     Decentralized
                   </span>
