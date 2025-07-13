@@ -4,49 +4,49 @@ import { useEffect, useState, useRef } from 'react';
 const cryptoGiants = [
   {
     name: "Coinbase",
-    logo: "https://assets.coinbase.com/assets/coinbase-coin.png",
+    logo: "/assets/sponsors/coinbase.png",
     fallback: "CB",
     color: "from-blue-500 to-indigo-600"
   },
   {
     name: "Binance",
-    logo: "https://public.bnbstatic.com/image/cms/blog/20200923/c2c0c0d5-2ea9-4b7b-8cb1-3b5297e5056a.png",
+    logo: "/assets/sponsors/binance.png",
     fallback: "BNB",
     color: "from-yellow-400 to-orange-500"
   },
   {
     name: "Uniswap",
-    logo: "https://cryptologos.cc/logos/uniswap-uni-logo.png?size=200",
+    logo: "/assets/sponsors/uniswap.png",
     fallback: "🦄",
     color: "from-pink-500 to-purple-600"
   },
   {
     name: "Kraken",
-    logo: "https://assets.coingecko.com/markets/images/130/small/kraken.jpg",
+    logo: "/assets/sponsors/kraken.png",
     fallback: "🐙",
     color: "from-purple-600 to-indigo-700"
   },
   {
     name: "Crypto.com",
-    logo: "/public/favicon.png",
+    logo: "/assets/sponsors/cryptocom.png",
     fallback: "YB",
     color: "from-blue-600 to-purple-700"
   },
   {
     name: "1inch",
-    logo: "https://cryptologos.cc/logos/1inch-1inch-logo.png?size=200",
+    logo: "/assets/sponsors/1inch.png",
     fallback: "1️⃣",
     color: "from-red-500 to-pink-600"
   },
   {
     name: "Aave",
-    logo: "https://cryptologos.cc/logos/aave-aave-logo.png?size=200",
+    logo: "/assets/sponsors/aave.png",
     fallback: "👻",
     color: "from-purple-500 to-pink-500"
   },
   {
     name: "Compound",
-    logo: "https://cryptologos.cc/logos/compound-comp-logo.png?size=200",
+    logo: "/assets/sponsors/compound.png",
     fallback: "💰",
     color: "from-green-500 to-teal-600"
   }

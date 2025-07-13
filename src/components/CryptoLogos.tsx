@@ -16,8 +16,8 @@ const CryptoLogos = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center">
           {/* Ethereum */}
           <div className="flex flex-col items-center p-6 bg-primary rounded-xl hover:scale-105 transition-transform duration-300">
-            <div className="w-16 h-16 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center mb-3">
-              <img src="/assets/networks/ethereum.png" alt="Ethereum Logo" className="h-10 w-10 object-contain" />
+            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mb-3">
+              <img src="/assets/networks/ethereum.png" alt="Ethereum Logo" className="h-12 w-12 object-contain" />
             </div>
             <span className="text-white font-semibold">Ethereum</span>
             <span className="text-white-400 text-sm">ETH</span>
@@ -26,7 +26,7 @@ const CryptoLogos = () => {
           {/* Bitcoin */}
           <div className="flex flex-col items-center p-6 bg-primary rounded-xl hover:scale-105 transition-transform duration-300">
             <div className="w-16 h-16 bg-gradient-to-r from-orange-400 to-yellow-500 rounded-full flex items-center justify-center mb-3">
-              <img src="/assets/networks/bitcoin.png" alt="Bitcoin Logo" className="h-10 w-10 object-contain" />
+              <img src="/assets/networks/bitcoin.png" alt="Bitcoin Logo" className="h-16 w-16 object-contain" />
             </div>
             <span className="text-white font-semibold">Bitcoin</span>
             <span className="text-white-400 text-sm">BTC</span>
@@ -44,7 +44,7 @@ const CryptoLogos = () => {
           {/* Binance Smart Chain */}
           <div className="flex flex-col items-center p-6 bg-primary rounded-xl hover:scale-105 transition-transform duration-300">
             <div className="w-16 h-16 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mb-3">
-              <img src="/assets/networks/bnb.png" alt="BSC Logo" className="h-10 w-10 object-contain" />
+              <img src="/assets/networks/bnb.png" alt="BSC Logo" className="h-16 w-16 object-contain" />
             </div>
             <span className="text-white font-semibold">BSC</span>
             <span className="text-white-400 text-sm">BNB</span>
@@ -53,7 +53,7 @@ const CryptoLogos = () => {
           {/* Arbitrum */}
           <div className="flex flex-col items-center p-6 bg-primary rounded-xl hover:scale-105 transition-transform duration-300">
             <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mb-3">
-              <img src="/assets/networks/arbitrum.png" alt="Arbitrum Logo" className="h-10 w-10 object-contain" />
+              <img src="/assets/networks/arbitrum.png" alt="Arbitrum Logo" className="h-16 w-16 object-contain" />
             </div>
             <span className="text-white font-semibold">Arbitrum</span>
             <span className="text-white-400 text-sm">ARB</span>
