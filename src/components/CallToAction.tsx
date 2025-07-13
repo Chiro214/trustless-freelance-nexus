@@ -29,7 +29,7 @@ const CallToAction = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           {/* Badge */}
-          <div className="inline-flex items-center px-4 py-2 bg-accent/20 rounded-full border border-accent/30 text-accent text-sm font-medium mb-8 backdrop-blur-sm">
+          <div className="inline-flex items-center px-4 py-2 bg-accent/20 rounded-full border border-accent/80 text-accent text-sm font-medium mb-8 backdrop-blur-sm animate-pulse shadow-[0_0_16px_4px_rgba(56,189,248,0.5)]">
             <Zap className="w-4 h-4 mr-2" />
             Join the Revolution
           </div>

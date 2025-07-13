@@ -32,8 +32,8 @@ interface NetworkConfig {
 const WalletContext = createContext<WalletContextType | null>(null);
 
 // LocalStorage keys for persistence
-const WALLET_CONNECTED_KEY = 'blocklance-wallet-connected';
-const SELECTED_ACCOUNT_KEY = 'blocklance-selected-account';
+const WALLET_CONNECTED_KEY = 'DeFreelance-wallet-connected';
+const SELECTED_ACCOUNT_KEY = 'DeFreelance-selected-account';
 
 // Comprehensive network configurations
 const SUPPORTED_NETWORKS: NetworkConfig[] = [

@@ -80,7 +80,7 @@ const Privacy = () => {
             <section>
               <h2 className="text-2xl font-bold text-white mb-4">7. Contact Us</h2>
               <p className="text-gray-300 leading-relaxed">
-                If you have questions about this Privacy Policy, please contact us at privacy@defreelance.com
+                If you have questions about this Privacy Policy, please contact us at privacy@DeFreelance.com
               </p>
             </section>
           </div>

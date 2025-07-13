@@ -1,11 +1,10 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DollarSign, Calendar, Tag } from "lucide-react";
+import { DollarSign, Calendar, Tag, XCircle } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useWallet } from "@/context/WalletContext";
@@ -14,7 +13,7 @@ import { useCreativeToast } from "@/hooks/use-creative-toast";
 
 const PostJob = () => {
   const { account } = useWallet();
-  const { addPostedJob } = useJobs();
+  const { addPostedJob, postedJobs, setPostedJobs } = useJobs();
   const { showToast } = useCreativeToast();
   
   const [formData, setFormData] = useState({
@@ -25,6 +24,9 @@ const PostJob = () => {
     deadline: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Track withdrawn jobs by index
+  const [withdrawnJobs, setWithdrawnJobs] = useState<number[]>([]);
 
   const categories = [
     "blockchain",
@@ -124,18 +126,31 @@ const PostJob = () => {
     }
   };
 
+  const handleWithdrawJob = (jobIndex: number) => {
+    setWithdrawnJobs(prev => [...prev, jobIndex]);
+    // Remove job from postedJobs and context
+    const updatedJobs = postedJobs.filter((_, idx) => idx !== jobIndex);
+    if (typeof setPostedJobs === "function") {
+      setPostedJobs(updatedJobs);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-primary">
+    <div className="min-h-screen bg-black">
       <Navbar />
       
-      <div className="pt-24 pb-20 px-4">
+      {/* Add extra top padding to prevent overlap with the navbar/dashboard */}
+      <div className="pt-40 pb-20 px-4">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-white mb-4">Post a <span className="text-accent-light">Job</span></h1>
+            <h1 className="text-4xl font-bold text-white mb-4">
+              Post a <span className="text-accent-light">Job</span>
+            </h1>
             <p className="text-gray-300 max-w-2xl mx-auto">
               Create a new job posting and connect with talented freelancers on the blockchain.
             </p>
-          </div>
+          </div
+          >
           
           <Card className="bg-white/10 backdrop-blur-lg border-white/20">
             <CardHeader>
@@ -225,14 +240,58 @@ const PostJob = () => {
                   <Button
                     type="submit"
                     disabled={isSubmitting || !account}
-                    className="w-full bg-accent hover:bg-accent-light text-primary font-semibold py-6 text-lg"
+                    className={`w-full font-semibold py-6 text-lg
+                      ${isSubmitting || !account
+                        ? "bg-gray-700 text-gray-400 cursor-not-allowed"
+                        : "bg-white text-black hover:text-white border-2 border-white transition-all duration-300 shadow-lg"
+                      }`}
                   >
-                    {isSubmitting ? "Posting Job..." : !account ? "Connect Wallet to Post" : "Post Job"}
+                    {isSubmitting
+                      ? "Posting Job..."
+                      : !account
+                      ? "Connect Wallet to Post"
+                      : "Post Job"}
                   </Button>
                 </div>
               </form>
             </CardContent>
           </Card>
+
+          <div className="mt-12">
+            <h2 className="text-3xl font-bold text-white mb-4">Posted Jobs</h2>
+            <div className="space-y-4">
+              {postedJobs.length === 0 ? (
+                <p className="text-gray-400">No jobs posted yet.</p>
+              ) : (
+                postedJobs.map((job, idx) => {
+                  const isWithdrawn = withdrawnJobs.includes(idx);
+                  return (
+                    <div key={job.title + job.deadline} className="p-4 bg-white/10 rounded-lg border border-white/20 flex items-center justify-between">
+                      <div>
+                        <h3 className="text-xl font-semibold text-white">{job.title}</h3>
+                        <p className="text-gray-300">{job.description}</p>
+                        <div className="flex flex-wrap gap-4 mt-2">
+                          <span className="text-sm bg-accent-light text-white bold rounded-full px-3 py-1">{job.category}</span>
+                          <span className="text-sm bg-accent-light text-white bold rounded-full px-3 py-1">{job.budget}</span>
+                          <span className="text-sm bg-accent-light text-white bold rounded-full px-3 py-1">{job.deadline}</span>
+                        </div>
+                      </div>
+                      <button
+                        className={`ml-6 flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all duration-200
+                          ${isWithdrawn ? "bg-gray-700 text-gray-400 cursor-not-allowed" : "bg-red-600 hover:bg-red-700 text-white"}`}
+                        disabled={isWithdrawn}
+                        onClick={() => handleWithdrawJob(idx)}
+                        title="Withdraw Job"
+                      >
+                        <XCircle className="w-5 h-5" />
+                        {isWithdrawn ? "Withdrawn" : "Withdraw"}
+                      </button>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
         </div>
       </div>
       

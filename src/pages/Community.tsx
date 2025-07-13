@@ -43,14 +43,14 @@ const Community = () => {
                 <h3 className="text-xl font-bold text-white">Twitter</h3>
               </div>
               <p className="text-gray-300 mb-4">
-                Follow us for the latest updates, announcements, and insights from the BlockLance team.
+                Follow us for the latest updates, announcements, and insights from the DeFreelance team.
               </p>
               <div className="flex items-center justify-between mb-4">
                 <span className="text-sm text-gray-400">50K+ Followers</span>
                 <span className="text-sm text-blue-400">📈 Growing</span>
               </div>
               <Button variant="outline" className="w-full border-blue-400/30 text-blue-400 hover:bg-blue-400 hover:text-primary">
-                Follow @BlockLance
+                Follow @DeFreelance
               </Button>
             </div>
 

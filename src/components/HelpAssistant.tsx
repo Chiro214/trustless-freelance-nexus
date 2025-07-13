@@ -16,7 +16,7 @@ const HelpAssistant = () => {
   const helpOptions = [
     {
       title: "How to get started?",
-      description: "Learn the basics of posting jobs and finding work on Defreelance",
+      description: "Learn the basics of posting jobs and finding work on DeFreelance",
       link: "/how-it-works"
     },
     {

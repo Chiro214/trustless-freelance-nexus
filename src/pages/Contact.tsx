@@ -205,8 +205,8 @@ const Contact = () => {
                     <h3 className="text-white font-semibold">Live Chat</h3>
                   </div>
                   <p className="text-gray-300 mb-2">Join our Discord community</p>
-                  <a href="https://discord.gg/defreelance" target="_blank" rel="noopener noreferrer" className="text-accent-light hover:underline">
-                    discord.gg/defreelance
+                  <a href="https://discord.gg/DeFreelance" target="_blank" rel="noopener noreferrer" className="text-accent-light hover:underline">
+                    discord.gg/DeFreelance
                   </a>
                 </CardContent>
               </Card>
@@ -215,10 +215,10 @@ const Contact = () => {
                 <CardContent className="p-6">
                   <h3 className="text-white font-semibold mb-4">Follow Us</h3>
                   <div className="flex space-x-4">
-                    <a href="https://twitter.com/defreelance" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-accent-light">
+                    <a href="https://twitter.com/DeFreelance" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-accent-light">
                       <Twitter className="w-6 h-6" />
                     </a>
-                    <a href="https://github.com/defreelance" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-accent-light">
+                    <a href="https://github.com/DeFreelance" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-accent-light">
                       <Github className="w-6 h-6" />
                     </a>
                   </div>

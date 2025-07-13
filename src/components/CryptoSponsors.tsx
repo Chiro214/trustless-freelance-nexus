@@ -1,5 +1,5 @@
-
 import { useEffect, useState, useRef } from 'react';
+import { useNavigate } from "react-router-dom";
 
 const cryptoGiants = [
   {
@@ -53,6 +53,7 @@ const cryptoGiants = [
 ];
 
 const CryptoSponsors = () => {
+  const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [imageErrors, setImageErrors] = useState<{[key: string]: boolean}>({});
@@ -99,7 +100,7 @@ const CryptoSponsors = () => {
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-accent-light to-accent mx-auto rounded-full mb-6"></div>
           <p className="text-gray-300 text-lg max-w-3xl mx-auto mb-8">
-            Leading cryptocurrency exchanges and DeFi protocols trust BlockLance for their freelance talent needs
+            Leading cryptocurrency exchanges and DeFi protocols trust DeFreelance for their freelance talent needs
           </p>
         </div>
         
@@ -135,17 +136,21 @@ const CryptoSponsors = () => {
                 )}
               </div>
               
-              <p className="mt-5 text-center text-sm font-semibold text-gray-400 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:text-accent-light transform group-hover:-translate-y-1">{company.name}</p>
+              <p className="mt-5 text-center text-sm font-semibold text-white-400 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:text-white-light transform group-hover:-translate-y-1">{company.name}</p>
             </div>
           ))}
         </div>
 
         <div className={`text-center mt-16 transition-opacity duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-          <div className="inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium rounded-full group bg-gradient-to-r from-accent-light via-accent to-accent-light">
+          <button
+            className="inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium rounded-full group bg-gradient-to-r from-accent-light via-accent to-accent-light shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl active:scale-95 active:shadow-inner"
+            onClick={() => navigate("/contact")}
+            type="button"
+          >
             <span className="px-8 py-4 transition-all ease-in duration-75 bg-primary rounded-full group-hover:bg-opacity-0 text-white font-medium">
-              Join the leading crypto companies already using BlockLance
+              Join the leading crypto companies already using DeFreelance
             </span>
-          </div>
+          </button>
         </div>
       </div>
     </section>

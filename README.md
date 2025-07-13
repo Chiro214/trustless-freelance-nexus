@@ -18,7 +18,7 @@ A decentralized freelancing marketplace built on blockchain technology, enabling
 
 ## About
 
-**Trustless Freelance Nexus** (sometimes referred to as DeFreelance or BlockLance in UI) aims to revolutionize the freelancing industry by removing intermediaries and enabling direct, secure, and transparent transactions through blockchain technology.
+**Trustless Freelance Nexus** (sometimes referred to as DeFreelance or DeFreelance in UI) aims to revolutionize the freelancing industry by removing intermediaries and enabling direct, secure, and transparent transactions through blockchain technology.
 
 Traditional freelancing platforms charge high fees, control payment flows, and often have opaque dispute resolution processes. This project changes that by providing:
 - Automated smart contracts that enforce payment terms.

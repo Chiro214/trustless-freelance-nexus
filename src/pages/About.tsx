@@ -50,13 +50,13 @@ const teamMembers = [
 const About = () => {
   const navigate = useNavigate();
 
-  const handleStartUsingBlockLance = () => {
+  const handleStartUsingDeFreelance = () => {
     navigate('/jobs');
   };
 
   const handleJoinCommunity = () => {
     // Open Discord or community link
-    window.open('https://discord.gg/blocklance', '_blank');
+    window.open('https://discord.gg/DeFreelance', '_blank');
   };
 
   return (
@@ -66,7 +66,7 @@ const About = () => {
       <div className="pt-24 pb-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">About <span className="text-accent-light">BlockLance</span></h1>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">About <span className="text-accent-light">DeFreelance</span></h1>
             <p className="text-gray-300 max-w-3xl mx-auto">
               We're building the future of freelancing by leveraging blockchain technology to create a trustless, transparent, and efficient marketplace.
             </p>
@@ -86,7 +86,7 @@ const About = () => {
                   <div className="lg:w-1/2">
                     <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">Our Mission</h2>
                     <p className="text-gray-300 mb-4 text-lg">
-                      BlockLance aims to revolutionize the freelancing industry by removing intermediaries and enabling direct, secure, and transparent transactions between clients and freelancers through blockchain technology.
+                      DeFreelance aims to revolutionize the freelancing industry by removing intermediaries and enabling direct, secure, and transparent transactions between clients and freelancers through blockchain technology.
                     </p>
                   </div>
                 </div>
@@ -178,9 +178,9 @@ const About = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 className="bg-accent-light text-primary hover:bg-accent hover:text-white"
-                onClick={handleStartUsingBlockLance}
+                onClick={handleStartUsingDeFreelance}
               >
-                Start Using BlockLance
+                Start Using DeFreelance
               </Button>
               <Button 
                 variant="outline" 

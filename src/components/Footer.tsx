@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           <div>
             <h3 className="text-xl font-bold mb-4">
-              <span className="text-accent">Def</span>reelance
+              <span className="text-accent">De</span>Freelance
             </h3>
             <p className="text-gray-300">
               A decentralized freelancing platform leveraging blockchain technology for secure, 
@@ -51,7 +51,7 @@ const Footer = () => {
         <div className="border-t border-gray-700 pt-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm mb-4 md:mb-0">
-              © {currentYear} Defreelance. All rights reserved.
+              © {currentYear} DeFreelance. All rights reserved.
             </p>
             <div className="flex space-x-6">
               <Link to="/terms" className="text-gray-400 hover:text-accent text-sm transition-colors">Terms of Service</Link>

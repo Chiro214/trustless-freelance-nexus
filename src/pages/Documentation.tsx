@@ -15,7 +15,7 @@ const Documentation = () => {
               <span className="text-accent-light">Developer</span> Documentation
             </h1>
             <p className="text-gray-300 text-lg max-w-3xl mx-auto">
-              Everything you need to integrate with BlockLance's decentralized freelancing platform
+              Everything you need to integrate with DeFreelance's decentralized freelancing platform
             </p>
           </div>
 

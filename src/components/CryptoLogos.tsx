@@ -9,7 +9,7 @@ const CryptoLogos = () => {
             Supported <span className="text-accent">Networks</span>
           </h2>
           <p className="text-gray-300 max-w-2xl mx-auto">
-            Defreelance supports multiple blockchain networks for maximum flexibility and low transaction costs.
+            DeFreelance supports multiple blockchain networks for maximum flexibility and low transaction costs.
           </p>
         </div>
         
@@ -71,7 +71,7 @@ const CryptoLogos = () => {
 
         <div className="text-center mt-12">
           <p className="text-gray-400">
-            More networks coming soon. Defreelance is constantly expanding to support new blockchain ecosystems.
+            More networks coming soon. DeFreelance is constantly expanding to support new blockchain ecosystems.
           </p>
         </div>
       </div>

@@ -13,7 +13,7 @@ const Support = () => {
 
   const faqs = [
     {
-      question: "How do I get started on BlockLance?",
+      question: "How do I get started on DeFreelance?",
       answer: "Connect your wallet, complete your profile, and start browsing jobs or posting your own."
     },
     {
@@ -45,7 +45,7 @@ const Support = () => {
               How Can We <span className="text-accent-light">Help?</span>
             </h1>
             <p className="text-gray-300 text-lg max-w-3xl mx-auto">
-              Get the support you need to succeed on BlockLance. We're here to help 24/7.
+              Get the support you need to succeed on DeFreelance. We're here to help 24/7.
             </p>
           </div>
 
@@ -120,7 +120,7 @@ const Support = () => {
                   <Mail className="w-6 h-6 text-blue-400" />
                   <h3 className="text-lg font-bold text-white">Email Support</h3>
                 </div>
-                <p className="text-gray-300 text-sm mb-2">support@blocklance.io</p>
+                <p className="text-gray-300 text-sm mb-2">support@DeFreelance.io</p>
                 <p className="text-gray-400 text-xs">Response within 24 hours</p>
               </div>
 

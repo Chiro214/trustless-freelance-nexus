@@ -14,7 +14,7 @@ const Partnerships = () => {
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Partner With <span className="text-accent-light">BlockLance</span>
+              Partner With <span className="text-accent-light">DeFreelance</span>
             </h1>
             <p className="text-gray-300 text-lg max-w-3xl mx-auto">
               Join forces with the leading decentralized freelancing platform and unlock new opportunities for growth

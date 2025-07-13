@@ -41,7 +41,7 @@ const Features = () => {
 			<div className="container mx-auto">
 				<div className="text-center mb-16">
 					<h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-						How <span>Defreelance</span> Works
+						How <span>DeFreelance</span> Works
 					</h2>
 					<p className="text-gray-300 max-w-2xl mx-auto">
 						Our platform leverages blockchain technology to create a trustless
@@ -74,11 +74,21 @@ const Features = () => {
 				</div>
 
 				<div className="mt-16 text-center">
-					<div className="inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-r from-accent to-blue-500">
-						<span className="px-5 py-2.5 transition-all ease-in duration-75 bg-primary rounded-md group-hover:bg-opacity-0 text-white">
-							Learn More About How It Works
-						</span>
-					</div>
+					<button
+						className="inline-flex items-center justify-center px-6 py-3 font-semibold rounded-lg border-2 border-white bg-black text-white shadow-lg transition-all duration-300
+             hover:text-white hover:border-accent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 active:scale-95"
+						type="button"
+						onClick={() => {
+							const section = document.getElementById("how-it-works");
+							if (section) {
+								section.scrollIntoView({ behavior: "smooth" });
+							} else {
+								window.location.href = "how-it-works";
+							}
+						}}
+					>
+						Learn More About How It Works
+					</button>
 				</div>
 			</div>
 		</section>
