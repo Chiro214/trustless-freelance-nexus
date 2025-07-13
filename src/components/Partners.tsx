@@ -1,17 +1,18 @@
 import { useEffect, useState, useRef } from 'react';
+import { useNavigate } from "react-router-dom";
 
 const partners = [
   {
     name: "Polygon",
-    logo: "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/color/matic.svg",
+    logo: "/assets/networks/polygon.png",
     fallback: "⬟",
-    color: "from-purple-500 to-pink-500"
+    color: "from-white-500 to-white-500"
   },
   {
     name: "Chainlink",
-    logo: "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/color/link.svg",
+    logo: "/assets/networks/chainlink.png",
     fallback: "🔗",
-    color: "from-blue-500 to-cyan-500"
+    color: "from-white-500 to-white-500"
   },
   {
     name: "IPFS",
@@ -21,7 +22,7 @@ const partners = [
   },
   {
     name: "Alchemy",
-    logo: "https://www.alchemy.com/hubfs/alchemy-logo-blue.svg",
+    logo: "/assets/networks/alchemy.png",
     fallback: "⚗️",
     color: "from-indigo-500 to-purple-500"
   },
@@ -33,25 +34,26 @@ const partners = [
   },
   {
     name: "Arbitrum",
-    logo: "https://bridge.arbitrum.io/logo.png",
+    logo: "/assets/networks/arbitrum.png",
     fallback: "🏛️",
     color: "from-blue-500 to-cyan-400"
   },
   {
     name: "Optimism",
-    logo: "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/color/op.svg",
+    logo: "/assets/networks/optimism.png",
     fallback: "⚡",
     color: "from-red-500 to-pink-500"
   },
   {
     name: "Solana",
-    logo: "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/color/sol.svg",
+    logo: "/assets/networks/solana.png", // Use your PNG path here
     fallback: "◎",
     color: "from-purple-400 to-pink-400"
   }
 ];
 
 const Partners = () => {
+  const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [imageErrors, setImageErrors] = useState<{[key: string]: boolean}>({});
@@ -97,7 +99,7 @@ const Partners = () => {
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
             Powered by <span className="bg-gradient-to-r from-accent to-blue-500 bg-clip-text text-transparent">Blockchain Infrastructure</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-accent to-blue-500 mx-auto rounded-full mb-6"></div>
+          <div className="w-32 h-1 bg-gradient-to-r from-accent to-blue-500 mx-auto rounded-full mb-6"></div>
           <p className="text-gray-300 text-lg max-w-3xl mx-auto">
             Built on the most trusted and innovative blockchain technologies in the industry
           </p>
@@ -118,31 +120,40 @@ const Partners = () => {
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-accent/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 
                 {imageErrors[partner.name] ? (
-                  <div className={`w-16 h-16 bg-gradient-to-br ${partner.color} rounded-xl flex items-center justify-center text-white font-bold text-2xl relative z-10 shadow-lg`}>
+                  <div className={`w-20 h-20 bg-gradient-to-br ${partner.color} rounded-xl flex items-center justify-center text-white font-bold text-2xl relative z-10 shadow-lg`}>
                     {partner.fallback}
                   </div>
                 ) : (
                   <img 
                     src={partner.logo} 
                     alt={`${partner.name} logo`} 
-                    className="max-h-12 max-w-full object-contain filter brightness-100 hover:brightness-110 transition-all duration-500 hover:scale-110 relative z-10"
+                    className="max-h-20 max-w-full object-contain filter brightness-100 hover:brightness-110 transition-all duration-500 hover:scale-110 relative z-10"
                     onError={() => handleImageError(partner.name)}
                     loading="lazy"
                   />
                 )}
               </div>
               
-              <p className="mt-4 text-center text-sm font-medium text-gray-400 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:text-accent">{partner.name}</p>
+              <p className="mt-4 text-center text-sm font-medium 
+                text-white
+                opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:text-white-400">
+                {partner.name}
+              </p>
             </div>
           ))}
         </div>
 
         <div className={`text-center mt-16 transition-opacity duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-          <div className="inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium rounded-full group bg-gradient-to-r from-accent to-blue-500">
-            <span className="px-6 py-3 transition-all ease-in duration-75 bg-primary rounded-full group-hover:bg-opacity-0 text-white">
+          <button
+            className="inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium rounded-full group bg-gradient-to-r from-accent to-blue-500 cursor-pointer shadow-lg transition-all duration-300
+              hover:scale-105 hover:shadow-2xl active:scale-95 active:shadow-inner"
+            onClick={() => navigate("/jobs")}
+            type="button"
+          >
+            <span className="px-6 py-3 transition-all ease-in duration-200 bg-primary rounded-full group-hover:bg-gradient-to-r group-hover:from-accent group-hover:to-blue-500 group-hover:text-white group-hover:scale-105 group-active:scale-95">
               Secure • Scalable • Decentralized
             </span>
-          </div>
+          </button>
         </div>
       </div>
     </section>

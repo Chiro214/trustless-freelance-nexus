@@ -49,19 +49,19 @@ const CallToAction = () => {
 
           {/* Trust Indicators */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <div className="flex flex-col items-center p-6 bg-white/5 backdrop-blur-lg rounded-xl border border-white/10 hover:border-accent/30 transition-all duration-300 group">
+            <div className="flex flex-col items-center p-6 bg-white/5 backdrop-blur-lg rounded-xl border-4 border-white/20 hover:border-green-400/40 transition-all duration-300 group">
               <Shield className="w-8 h-8 text-green-400 mb-3 group-hover:scale-110 transition-transform duration-300" />
               <h3 className="text-lg font-semibold text-white mb-2">100% Secure</h3>
               <p className="text-gray-300 text-sm text-center">Smart contracts ensure your funds are always protected</p>
             </div>
             
-            <div className="flex flex-col items-center p-6 bg-white/5 backdrop-blur-lg rounded-xl border border-white/10 hover:border-blue-400/30 transition-all duration-300 group">
+            <div className="flex flex-col items-center p-6 bg-white/5 backdrop-blur-lg rounded-xl border-4 border-white/20 hover:border-blue-400/40 transition-all duration-300 group">
               <Globe className="w-8 h-8 text-blue-400 mb-3 group-hover:scale-110 transition-transform duration-300" />
               <h3 className="text-lg font-semibold text-white mb-2">Global Access</h3>
               <p className="text-gray-300 text-sm text-center">Work with clients from anywhere in the world</p>
             </div>
             
-            <div className="flex flex-col items-center p-6 bg-white/5 backdrop-blur-lg rounded-xl border border-white/10 hover:border-green-400/30 transition-all duration-300 group">
+            <div className="flex flex-col items-center p-6 bg-white/5 backdrop-blur-lg rounded-xl border-4 border-white/20 hover:border-accent/40 transition-all duration-300 group">
               <CheckCircle className="w-8 h-8 text-accent mb-3 group-hover:scale-110 transition-transform duration-300" />
               <h3 className="text-lg font-semibold text-white mb-2">Instant Payments</h3>
               <p className="text-gray-300 text-sm text-center">Get paid immediately when work is completed</p>

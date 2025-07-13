@@ -28,7 +28,7 @@ const cryptoGiants = [
   },
   {
     name: "Crypto.com",
-    logo: "/assets/sponsors/cryptocom.png",
+    logo: "/assets/sponsors/crypto.png",
     fallback: "YB",
     color: "from-blue-600 to-purple-700"
   },
