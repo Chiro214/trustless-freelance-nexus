@@ -127,6 +127,12 @@ export default {
 						transform: 'scale(1.02)'
 					}
 				},
+				'spin-pulse': {
+					'0%': { transform: 'rotate(0deg) scale(1)' },
+					'50%': { transform: 'rotate(180deg) scale(1.03)' },
+					'100%': { transform: 'rotate(360deg) scale(1)' },
+				},
+
 				'gradient-shift': {
 					'0%, 100%': { 
 						backgroundPosition: '0% 50%'
@@ -196,6 +202,7 @@ export default {
 				'float': 'float 6s ease-in-out infinite',
 				'float-slow': 'float-slow 8s ease-in-out infinite',
 				'glow-pulse': 'glow-pulse 4s ease-in-out infinite',
+				'spin-pulse': 'spin-pulse 40s linear infinite',
 				'gradient-shift': 'gradient-shift 8s ease-in-out infinite',
 				'spin-slow': 'spin-slow 20s linear infinite',
 				'slide-up': 'slide-up 0.8s ease-out',

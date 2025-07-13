@@ -21,9 +21,15 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary via-secondary to-primary">
-      {/* Futuristic 3D Background */}
-      <FuturisticBackground />
+    <div
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      style={{
+        backgroundImage: `linear-gradient(to bottom right, rgba(44, 20, 60, 0.7), rgba(10, 10, 30, 0.6)), url('/glowing-hex.png')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
       
       {/* Overlay for better text readability */}
       <div className="absolute inset-0 bg-gradient-to-b from-primary/40 via-transparent to-primary/60"></div>

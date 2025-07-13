@@ -17,55 +17,55 @@ const CryptoLogos = () => {
           {/* Ethereum */}
           <div className="flex flex-col items-center p-6 bg-primary rounded-xl hover:scale-105 transition-transform duration-300">
             <div className="w-16 h-16 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center mb-3">
-              <span className="text-white font-bold text-2xl">Ξ</span>
+              <img src="/assets/networks/ethereum.png" alt="Ethereum Logo" className="h-10 w-10 object-contain" />
             </div>
             <span className="text-white font-semibold">Ethereum</span>
-            <span className="text-gray-400 text-sm">ETH</span>
+            <span className="text-white-400 text-sm">ETH</span>
           </div>
 
           {/* Bitcoin */}
           <div className="flex flex-col items-center p-6 bg-primary rounded-xl hover:scale-105 transition-transform duration-300">
             <div className="w-16 h-16 bg-gradient-to-r from-orange-400 to-yellow-500 rounded-full flex items-center justify-center mb-3">
-              <Bitcoin className="h-8 w-8 text-white" />
+              <img src="/assets/networks/bitcoin.png" alt="Bitcoin Logo" className="h-10 w-10 object-contain" />
             </div>
             <span className="text-white font-semibold">Bitcoin</span>
-            <span className="text-gray-400 text-sm">BTC</span>
+            <span className="text-white-400 text-sm">BTC</span>
           </div>
 
           {/* Polygon */}
           <div className="flex flex-col items-center p-6 bg-primary rounded-xl hover:scale-105 transition-transform duration-300">
-            <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mb-3">
-              <span className="text-white font-bold text-2xl">⬟</span>
+            <div className="w-16 h-16 bg-gradient-to-r from-white-500 to-grey-500 rounded-full flex items-center justify-center mb-3">
+              <img src="/assets/networks/polygon.png" alt="Polygon Logo" className="h-10 w-10 object-contain" />
             </div>
             <span className="text-white font-semibold">Polygon</span>
-            <span className="text-gray-400 text-sm">MATIC</span>
+            <span className="text-white-400 text-sm">MATIC</span>
           </div>
 
           {/* Binance Smart Chain */}
           <div className="flex flex-col items-center p-6 bg-primary rounded-xl hover:scale-105 transition-transform duration-300">
             <div className="w-16 h-16 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mb-3">
-              <span className="text-white font-bold text-xl">BSC</span>
+              <img src="/assets/networks/bnb.png" alt="BSC Logo" className="h-10 w-10 object-contain" />
             </div>
             <span className="text-white font-semibold">BSC</span>
-            <span className="text-gray-400 text-sm">BNB</span>
+            <span className="text-white-400 text-sm">BNB</span>
           </div>
 
           {/* Arbitrum */}
           <div className="flex flex-col items-center p-6 bg-primary rounded-xl hover:scale-105 transition-transform duration-300">
             <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mb-3">
-              <span className="text-white font-bold text-xl">ARB</span>
+              <img src="/assets/networks/arbitrum.png" alt="Arbitrum Logo" className="h-10 w-10 object-contain" />
             </div>
             <span className="text-white font-semibold">Arbitrum</span>
-            <span className="text-gray-400 text-sm">ARB</span>
+            <span className="text-white-400 text-sm">ARB</span>
           </div>
 
           {/* Optimism */}
           <div className="flex flex-col items-center p-6 bg-primary rounded-xl hover:scale-105 transition-transform duration-300">
-            <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-pink-500 rounded-full flex items-center justify-center mb-3">
-              <Zap className="h-8 w-8 text-white" />
+            <div className="w-16 h-16 bg-gradient-to-r from-grey-500 to-grey-500 rounded-full flex items-center justify-center mb-3">
+              <img src="/assets/networks/tron.png" alt="tron Logo" className="h-10 w-10 object-contain" />
             </div>
-            <span className="text-white font-semibold">Optimism</span>
-            <span className="text-gray-400 text-sm">OP</span>
+            <span className="text-white font-semibold">Tron</span>
+            <span className="text-white-400 text-sm">TRX</span>
           </div>
         </div>
 
