@@ -9,41 +9,41 @@ const teamMembers = [
     id: 1,
     name: "Chirag Shukla",
     role: "Lead Developer",
-    description: "Blockchain architect with 8+ years in smart contract development and DeFi protocols.",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face",
+    description: "Blockchain architect with 5+ years in smart contract development and DeFi protocols.",
+    image: "assets/Team/chirag.jpg",
     twitter: "#",
     github: "#",
-    linkedin: "#"
+    linkedin: "https://www.linkedin.com/in/chirag-shukla24/"
   },
   {
     id: 2,
-    name: "Sarah JohnsonYash",
+    name: "Rakshan Shetty",
     role: "Product Manager",
     description: "Product strategist specializing in Web3 platforms and decentralized applications.",
-    image: "https://images.unsplash.com/photo-1494790108755-2616b2e0db99?w=300&h=300&fit=crop&crop=face",
+    image: "/assets/Team/rakshan.jpg",
     twitter: "#",
     github: "#",
-    linkedin: "#"
+    linkedin: "https://www.linkedin.com/in/rakshan-shetty-57292a2ba/"
   },
   {
     id: 3,
-    name: "Marcus Rodriguez",
-    role: "Frontend Engineer",
-    description: "React and Web3 integration specialist with expertise in wallet connectivity.",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face",
+    name: "Yash Sharma",
+    role: "Blockchain Engineer",
+    description: "Blockchain and Web3 integration specialist with expertise in wallet connectivity.",
+    image: "/assets/Team/yash.jpeg",
     twitter: "#",
     github: "#",
-    linkedin: "#"
+    linkedin: "https://www.linkedin.com/in/yash-sharma-7b688a19b/"
   },
   {
     id: 4,
-    name: "Emily Davis",
+    name: "Nitesh Vishwakarma",
     role: "Security Auditor",
     description: "Smart contract security expert ensuring platform safety and user fund protection.",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop&crop=face",
+    image: "/assets/Team/nitesh.jpeg",
     twitter: "#",
     github: "#",
-    linkedin: "#"
+    linkedin: "https://www.linkedin.com/in/niteshvishwakarma07/"
   }
 ];
 
@@ -60,10 +60,10 @@ const About = () => {
   };
 
   return (
-    <div className="min-h-screen bg-primary">
+    <div className="min-h-screen bg-black">
       <Navbar />
       
-      <div className="pt-24 pb-20">
+      <div className="pt-36 pb-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">About <span className="text-accent-light">DeFreelance</span></h1>
@@ -177,14 +177,14 @@ const About = () => {
             <h2 className="text-3xl font-bold text-white mb-8">Join Our Journey</h2>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
-                className="bg-accent-light text-primary hover:bg-accent hover:text-white"
+                className="bg-accent-light text-white hover:bg-accent hover:text-white"
                 onClick={handleStartUsingDeFreelance}
               >
                 Start Using DeFreelance
               </Button>
               <Button 
                 variant="outline" 
-                className="border-accent-light text-accent-light hover:bg-accent-light hover:text-primary"
+                className="border-accent-light text-accent-light hover:bg-white hover:border-accent-light hover:text-primary"
                 onClick={handleJoinCommunity}
               >
                 Join Our Community

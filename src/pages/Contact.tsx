@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -8,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, MessageCircle, Github, Twitter } from "lucide-react";
 import { useCreativeToast } from "@/hooks/use-creative-toast";
+import emailjs from "emailjs-com";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -30,67 +30,33 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!formData.firstName || !formData.lastName || !formData.email || !formData.subject || !formData.message) {
-      showToast({
-        type: 'error',
-        title: 'Missing Information',
-        description: 'Please fill in all fields'
-      });
-      return;
-    }
-
-    if (!formData.email.includes("@")) {
-      showToast({
-        type: 'error',
-        title: 'Invalid Email',
-        description: 'Please enter a valid email address'
-      });
-      return;
-    }
-
     setIsSubmitting(true);
 
     try {
-      // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      console.log("Contact form submitted:", {
-        ...formData,
-        timestamp: new Date(),
-        recipientEmail: "chiragshukla236@gmail.com"
-      });
-
-      showToast({
-        type: 'success',
-        title: 'Message Sent! 🚀',
-        description: "We'll get back to you soon!"
-      });
-      
-      // Reset form
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        subject: "",
-        message: ""
-      });
+      await emailjs.send(
+        "service_712xk8o",
+        "Ckip3gOA7JnHhIkDc",
+        {
+          from_name: "Test User",
+          from_email: "test@example.com",
+          subject: "Test Subject",
+          message: "Test message"
+        },
+        "Ckip3gOA7JnHhIkDc"
+      );
+      alert("Success!");
     } catch (error) {
-      console.error("Error sending message:", error);
-      showToast({
-        type: 'error',
-        title: 'Send Failed',
-        description: 'Please try again'
-      });
+      alert("Error: " + JSON.stringify(error));
+      console.error(error);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="bg-primary min-h-screen">
+    <div className="bg-black min-h-screen">
       <Navbar />
-      <div className="pt-20 pb-12 px-4">
+      <div className="pt-36 pb-12 px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
@@ -176,7 +142,7 @@ const Contact = () => {
                   <Button 
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-accent hover:bg-accent-light text-primary font-semibold py-3"
+                    className="w-full bg-accent hover:bg-black text-white font-semibold py-3"
                   >
                     {isSubmitting ? "Sending..." : "Send Message"}
                   </Button>

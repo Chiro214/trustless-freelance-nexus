@@ -13,7 +13,7 @@ import { useCreativeToast } from "@/hooks/use-creative-toast";
 
 const PostJob = () => {
   const { account } = useWallet();
-  const { addPostedJob, postedJobs, setPostedJobs } = useJobs();
+  const { addPostedJob, postedJobs } = useJobs();
   const { showToast } = useCreativeToast();
   
   const [formData, setFormData] = useState({
@@ -128,11 +128,8 @@ const PostJob = () => {
 
   const handleWithdrawJob = (jobIndex: number) => {
     setWithdrawnJobs(prev => [...prev, jobIndex]);
-    // Remove job from postedJobs and context
-    const updatedJobs = postedJobs.filter((_, idx) => idx !== jobIndex);
-    if (typeof setPostedJobs === "function") {
-      setPostedJobs(updatedJobs);
-    }
+    // Optionally, you can implement job removal logic in the context if needed.
+    // For now, just mark the job as withdrawn locally.
   };
 
   return (

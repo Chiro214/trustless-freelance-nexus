@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Play, Shield, Globe, Zap, TrendingUp, Users, Star, CheckCircle } from "lucide-react";
@@ -49,9 +48,9 @@ const Hero = () => {
               </div>
 
               {/* Main Heading */}
-              <div className="space-y-6">
+              <div className="space-y-10">
                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
-                  <span className="text-white block mb-2 mt-12">The Future of</span>
+                  <span className="text-white block mb-2 mt-16">The Future of</span>
                   <span className="block bg-gradient-to-r from-accent via-accent-light to-accent-dark bg-clip-text text-transparent bg-300% animate-gradient-shift">
                     Decentralized
                   </span>
@@ -131,7 +130,7 @@ const Hero = () => {
               </div>
 
               {/* Trust Indicators */}
-              <div className="flex items-center space-x-8 pt-6">
+              <div className="flex items-center space-x-8 pt-20">
                 <div className="text-center">
                   <div className="text-3xl font-bold bg-gradient-to-r from-accent to-accent-light bg-clip-text text-transparent">50K+</div>
                   <div className="text-sm text-gray-400">Active Users</div>
@@ -242,14 +241,14 @@ const Hero = () => {
                 </div>
 
                 {/* Floating Info Cards */}
-                <div className="absolute -top-8 -left-8 bg-white/10 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-white/20 animate-float">
+                <div className="absolute -top-4 -right-4 bg-white/10 backdrop-blur-sm rounded-xl shadow-lg p-6 border border-white/20 animate-float">
                   <div className="flex items-center space-x-2">
                     <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
                     <span className="text-sm font-medium text-white">Secure Payments</span>
                   </div>
                 </div>
 
-                <div className="absolute -bottom-8 -right-8 bg-white/10 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-white/20 animate-float" style={{ animationDelay: '1s' }}>
+                <div className="absolute -bottom-4 -left-8 bg-white/10 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-white/20 animate-float" style={{ animationDelay: '1s' }}>
                   <div className="flex items-center space-x-2">
                     <Users className="w-4 h-4 text-accent" />
                     <span className="text-sm font-medium text-white">Global Network</span>

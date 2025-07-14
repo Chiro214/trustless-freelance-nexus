@@ -4,9 +4,9 @@ import Footer from "@/components/Footer";
 
 const Terms = () => {
   return (
-    <div className="bg-primary min-h-screen">
+    <div className="bg-black min-h-screen">
       <Navbar />
-      <div className="pt-20 pb-12 px-4">
+      <div className="pt-36 pb-12 px-4">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">

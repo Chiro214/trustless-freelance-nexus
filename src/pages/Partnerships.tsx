@@ -1,4 +1,3 @@
-
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -8,9 +7,9 @@ import { Handshake, Users, Globe, Zap, Shield, TrendingUp } from "lucide-react";
 
 const Partnerships = () => {
   return (
-    <div className="bg-primary min-h-screen">
+    <div className="bg-black min-h-screen">
       <Navbar />
-      <div className="pt-20 pb-12 px-4">
+      <div className="pt-36 pb-12 px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
@@ -115,28 +114,28 @@ const Partnerships = () => {
             <h2 className="text-2xl font-bold text-white mb-6 text-center">Current Partners</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               <div className="text-center opacity-60 hover:opacity-100 transition-opacity duration-300">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-400 to-purple-400 rounded-lg mx-auto mb-2 flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">CC</span>
+                <div className="w-16 h-16 mx-auto mb-2 flex items-center justify-center rounded-lg from-blue-400 to-white-400 overflow-hidden"> 
+                  <img src="/assets/partners/metam.png" alt="CryptoChain Logo" className="w-16 h-16 object-contain" />
                 </div>
-                <p className="text-gray-300 text-sm">CryptoChain</p>
+                <p className="text-gray-300 text-sm">Metamask</p>
               </div>
               <div className="text-center opacity-60 hover:opacity-100 transition-opacity duration-300">
-                <div className="w-16 h-16 bg-gradient-to-r from-green-400 to-blue-400 rounded-lg mx-auto mb-2 flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">DW</span>
+                <div className="w-16 h-16 mx-auto mb-2 flex items-center justify-center rounded-lg from-green-400 to-blue-400 overflow-hidden">
+                  <img src="/assets/partners/trust.png" alt="Trust Wallet Logo" className="w-16 h-16 object-contain" />
                 </div>
-                <p className="text-gray-300 text-sm">DefiWallet</p>
+                <p className="text-gray-300 text-sm">Trust Wallet</p>
               </div>
               <div className="text-center opacity-60 hover:opacity-100 transition-opacity duration-300">
-                <div className="w-16 h-16 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-lg mx-auto mb-2 flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">BP</span>
+                <div className="w-16 h-16 mx-auto mb-2 flex items-center justify-center rounded-lg from-yellow-400 to-orange-400 overflow-hidden">
+                  <img src="/assets/partners/blockpay.png" alt="BlockPay Logo" className="w-16 h-16 object-contain" />
                 </div>
                 <p className="text-gray-300 text-sm">BlockPay</p>
               </div>
               <div className="text-center opacity-60 hover:opacity-100 transition-opacity duration-300">
-                <div className="w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-400 rounded-lg mx-auto mb-2 flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">SM</span>
+                <div className="w-16 h-16 mx-auto mb-2 flex items-center justify-center rounded-lg from-purple-400 to-pink-400 overflow-hidden">
+                  <img src="/assets/partners/electrum.png" alt="Electrum Logo" className="w-16 h-16 object-contain" />
                 </div>
-                <p className="text-gray-300 text-sm">SmartMeta</p>
+                <p className="text-gray-300 text-sm">Electrum</p>
               </div>
             </div>
             <div className="text-center mt-8">

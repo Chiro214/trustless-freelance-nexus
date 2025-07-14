@@ -36,9 +36,9 @@ const Support = () => {
   );
 
   return (
-    <div className="bg-primary min-h-screen">
+    <div className="bg-black min-h-screen">
       <Navbar />
-      <div className="pt-20 pb-12 px-4">
+      <div className="pt-36 pb-12 px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
@@ -94,7 +94,7 @@ const Support = () => {
                     />
                   </div>
 
-                  <Button className="w-full bg-gradient-to-r from-accent-light to-yellow-400 text-primary hover:from-accent hover:to-orange-500">
+                  <Button className="w-full text-white">
                     Submit Ticket
                   </Button>
                 </form>
@@ -110,7 +110,7 @@ const Support = () => {
                 <p className="text-gray-300 text-sm mb-4">
                   Get instant help from our support team.
                 </p>
-                <Button className="w-full bg-gradient-to-r from-accent-light to-yellow-400 text-primary">
+                <Button className="w-full text-white">
                   Start Chat
                 </Button>
               </div>

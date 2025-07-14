@@ -6,9 +6,9 @@ import { Users, MessageCircle, Heart, Trophy, Zap, Globe } from "lucide-react";
 
 const Community = () => {
   return (
-    <div className="bg-primary min-h-screen">
+    <div className="bg-black min-h-screen">
       <Navbar />
-      <div className="pt-20 pb-12 px-4">
+      <div className="pt-36 pb-12 px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
@@ -32,7 +32,7 @@ const Community = () => {
                 <span className="text-sm text-gray-400">15K+ Members</span>
                 <span className="text-sm text-green-400">🟢 Active</span>
               </div>
-              <Button className="w-full bg-gradient-to-r from-accent-light to-yellow-400 text-primary hover:from-accent hover:to-orange-500">
+              <Button variant="outline" className="w-full border-accent-light/30 from-black to-black text-primary hover:from-accent hover:to-accent-500">
                 Join Discord
               </Button>
             </div>
@@ -49,7 +49,7 @@ const Community = () => {
                 <span className="text-sm text-gray-400">50K+ Followers</span>
                 <span className="text-sm text-blue-400">📈 Growing</span>
               </div>
-              <Button variant="outline" className="w-full border-blue-400/30 text-blue-400 hover:bg-blue-400 hover:text-primary">
+              <Button variant="outline" className="w-full border-blue-400/30 text-blue-400 hover:bg-blue-400 hover:text-white">
                 Follow @DeFreelance
               </Button>
             </div>
@@ -66,7 +66,7 @@ const Community = () => {
                 <span className="text-sm text-gray-400">2K+ Contributors</span>
                 <span className="text-sm text-purple-400">⭐ Open Source</span>
               </div>
-              <Button variant="outline" className="w-full border-purple-400/30 text-purple-400 hover:bg-purple-400 hover:text-primary">
+              <Button variant="outline" className="w-full border-purple-400/30 text-purple-400 hover:bg-purple-400 hover:text-white">
                 View on GitHub
               </Button>
             </div>

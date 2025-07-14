@@ -6,9 +6,9 @@ import { Book, Code, Zap, Shield, Globe, ArrowRight } from "lucide-react";
 
 const Documentation = () => {
   return (
-    <div className="bg-primary min-h-screen">
+    <div className="bg-black min-h-screen">
       <Navbar />
-      <div className="pt-20 pb-12 px-4">
+      <div className="pt-36 pb-12 px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
@@ -101,7 +101,7 @@ const Documentation = () => {
                 <p className="text-gray-300 text-sm mb-4">
                   Best practices for secure integration with our platform.
                 </p>
-                <Button size="sm" className="w-full bg-gradient-to-r from-accent-light to-yellow-400 text-primary">
+                <Button size="sm" className="w-full bg-gradient-to-r from-accent-light to-yellow-400 hover:from-yellow-400 hover:to-accent-light text-white">
                   Security Guide
                 </Button>
               </div>
