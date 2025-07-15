@@ -183,6 +183,7 @@ export default {
 						transform: 'scale(1.05)'
 					}
 				},
+				
 				'bounce-gentle': {
 					'0%, 100%': {
 						transform: 'translateY(0)',
@@ -192,7 +193,14 @@ export default {
 						transform: 'translateY(-10px)',
 						animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)'
 					}
-				}
+				},
+				neonFlicker: {
+					'0%, 100%': { opacity: '1', filter: 'drop-shadow(0 0 8px #ffffffff)' },
+					'10%': { opacity: '0.8', filter: 'drop-shadow(0 0 16px #ffffffff)' },
+					'20%': { opacity: '1', filter: 'drop-shadow(0 0 12px #ffffffff)' },
+					'30%': { opacity: '0.7', filter: 'drop-shadow(0 0 20px #ffffffff)' },
+					'40%': { opacity: '1', filter: 'drop-shadow(0 0 8px #ffffffff)' },
+				},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -209,7 +217,8 @@ export default {
 				'morph': 'morph 10s ease-in-out infinite',
 				'text-shimmer': 'text-shimmer 3s ease-in-out infinite',
 				'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
-				'bounce-gentle': 'bounce-gentle 2s infinite'
+				'bounce-gentle': 'bounce-gentle 2s infinite',
+				neonFlicker: 'neonFlicker 2s infinite',
 			},
 			backgroundSize: {
 				'300%': '300%'

@@ -17,13 +17,13 @@ const teamMembers = [
   },
   {
     id: 2,
-    name: "Rakshan Shetty",
+    name: "Alankrita Das",
     role: "Product Manager",
     description: "Product strategist specializing in Web3 platforms and decentralized applications.",
-    image: "/assets/Team/rakshan.jpg",
+    image: "/assets/Team/alankrita.jpeg",
     twitter: "#",
     github: "#",
-    linkedin: "https://www.linkedin.com/in/rakshan-shetty-57292a2ba/"
+    linkedin: "https://www.linkedin.com/in/alankrita-das-27a24235a/"
   },
   {
     id: 3,

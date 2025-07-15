@@ -7,6 +7,7 @@ import CryptoPayment from "./CryptoPayment";
 import { toast } from "sonner";
 import { ExternalLink, Users, CheckCircle, Clock, DollarSign, User } from "lucide-react";
 
+// Add the onApply prop to JobCardProps
 type JobCardProps = {
   id: number;
   title: string;
@@ -15,7 +16,8 @@ type JobCardProps = {
   category: string;
   deadline: string;
   clientName: string;
-}
+  onApply?: () => void; 
+};
 
 const JobCard = ({
   id,
@@ -24,7 +26,8 @@ const JobCard = ({
   price,
   category,
   deadline,
-  clientName
+  clientName,
+  onApply,
 }: JobCardProps) => {
   const { account } = useWallet();
   const { user } = useAuth();
@@ -42,34 +45,28 @@ const JobCard = ({
   const isClientView = false; // We'll implement this when we have real job data
 
   const handleApply = async () => {
-    if (!user) {
-      toast.error("Please sign in to apply for jobs");
-      return;
-    }
-    
     if (!account) {
       toast.error("Please connect your wallet to apply");
       return;
     }
-    
+
     if (hasApplied) {
       toast.info("You have already applied for this job");
       return;
     }
 
     setIsLoading(true);
-    
+
     try {
-      // Create a proposal in the database
       const proposalData = {
         job_id: id.toString(),
         proposed_rate: parseFloat(price),
         cover_letter: `I am interested in working on this ${category.toLowerCase()} project: ${title}`,
         estimated_duration: deadline
       };
-      
+
       const result = await createProposal(proposalData);
-      
+
       if (result) {
         toast.success("Application submitted successfully!");
       }
@@ -80,6 +77,7 @@ const JobCard = ({
       setIsLoading(false);
     }
   };
+
 
   const handleReleasePayment = async () => {
     if (!account) {
@@ -239,7 +237,7 @@ const JobCard = ({
             <Button 
               className="bg-gradient-to-r from-green-500 to-emerald-500 text-white hover:from-green-600 hover:to-emerald-600 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
               onClick={handleReleasePayment}
-              disabled={isLoading}
+              disabled={isLoading || proposalLoading}
             >
               {isLoading ? (
                 <div className="flex items-center gap-2">
@@ -263,8 +261,8 @@ const JobCard = ({
           ) : (
             <Button 
               className="bg-gradient-to-r from-accent-light to-yellow-400 text-primary hover:from-accent hover:to-orange-500 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 font-semibold"
-              onClick={handleApply}
-              disabled={!user || isLoading || proposalLoading}
+              onClick={onApply ? onApply : handleApply}
+              disabled={!account || isLoading || proposalLoading} // Only require wallet connection
             >
               {isLoading ? (
                 <div className="flex items-center gap-2">

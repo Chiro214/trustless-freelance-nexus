@@ -37,7 +37,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete, duration = 30
   return (
     <div className={`
       fixed inset-0 z-50 flex items-center justify-center
-      bg-gradient-to-br from-black via-primary to-purple-900
+      bg-gradient-to-br from-purple-900 via-black to-purple-900
       transition-all duration-1000 ease-out
       ${fadeOut ? 'opacity-0 scale-110 blur-sm' : 'opacity-100 scale-100'}
     `}>
@@ -105,12 +105,15 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete, duration = 30
                 DeFreelance
               </h1>
               <p className="
-                text-gray-300 text-xl font-medium 
-                animate-fade-in opacity-80
-              " style={{ animationDelay: '0.5s' }}>
+                mt-4 text-xl md:text-2xl font-semibold
+                bg-gradient-to-r from-gray-200 to-gray-200 bg-clip-text text-transparent
+                drop-shadow-[0_2px_16px_rgba(168,139,250,0.65)]
+                animate-[neonFlicker_2s_infinite]
+                tracking-wide
+              ">
                 Decentralized Freelancing Platform
               </p>
-              <div className="mt-2 flex justify-center">
+              <div className="mt-6 flex justify-center">
                 <div className="w-24 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"></div>
               </div>
             </div>
